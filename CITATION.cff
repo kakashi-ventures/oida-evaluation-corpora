@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+title: "OIDA Evaluation Corpora"
+message: "If you use these corpora, please cite our paper."
+type: dataset
+authors:
+  - family-names: Bottino
+    given-names: Federico
+    affiliation: "Kakashi Ventures Accelerator (KVA)"
+  - family-names: Ferrero
+    given-names: Carlo
+    affiliation: "Kakashi Ventures Accelerator (KVA)"
+  - family-names: Dosio
+    given-names: Nicholas
+    affiliation: "Kakashi Ventures Accelerator (KVA)"
+  - family-names: Beneventano
+    given-names: Pierfrancesco
+    affiliation: "Massachusetts Institute of Technology"
+license: CC-BY-4.0
+repository-code: "https://github.com/kakashi-ventures/oida-evaluation-corpora"
+keywords:
+  - epistemic-infrastructure
+  - knowledge-objects
+  - organizational-ai
+  - RAG-evaluation
+  - knowledge-management

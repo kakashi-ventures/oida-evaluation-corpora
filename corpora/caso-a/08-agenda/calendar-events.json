@@ -1,0 +1,282 @@
+[
+  {
+    "id": "evt-001",
+    "summary": "Project Kickoff Meeting",
+    "start": "2025-09-08T10:00:00+02:00",
+    "end": "2025-09-08T11:30:00+02:00",
+    "location": "ClearPath Florence Office",
+    "attendees": ["marcus.webb@meridian-labs.com", "nora.chen@meridian-labs.com", "yuki.tanaka@meridian-labs.com", "t.reed@clearpath-solutions.com", "p.anand@clearpath-solutions.com", "d.park@clearpath-solutions.com"],
+    "description": "Formal engagement kickoff with full team and client sponsors",
+    "status": "confirmed"
+  },
+  {
+    "id": "evt-002",
+    "summary": "Meridian Team Sync",
+    "start": "2025-09-09T14:00:00+02:00",
+    "end": "2025-09-09T14:30:00+02:00",
+    "location": "Video call",
+    "attendees": ["marcus.webb@meridian-labs.com", "nora.chen@meridian-labs.com", "yuki.tanaka@meridian-labs.com"],
+    "description": "Internal team debrief post-kickoff",
+    "status": "confirmed"
+  },
+  {
+    "id": "evt-003",
+    "summary": "On-site Observation: Operations Morning Session",
+    "start": "2025-09-15T09:00:00+02:00",
+    "end": "2025-09-15T10:30:00+02:00",
+    "location": "ClearPath Florence Office",
+    "attendees": ["marcus.webb@meridian-labs.com", "nora.chen@meridian-labs.com", "p.anand@clearpath-solutions.com"],
+    "description": "Shadow operations team morning workflows",
+    "status": "confirmed"
+  },
+  {
+    "id": "evt-004",
+    "summary": "On-site Observation: Operations Afternoon Session",
+    "start": "2025-09-15T14:00:00+02:00",
+    "end": "2025-09-15T15:45:00+02:00",
+    "location": "ClearPath Florence Office",
+    "attendees": ["marcus.webb@meridian-labs.com", "yuki.tanaka@meridian-labs.com", "p.anand@clearpath-solutions.com"],
+    "description": "Observe afternoon ops processes and team interactions",
+    "status": "confirmed"
+  },
+  {
+    "id": "evt-005",
+    "summary": "Stakeholder Interview: CTO Technical Vision",
+    "start": "2025-09-17T11:00:00+02:00",
+    "end": "2025-09-17T12:00:00+02:00",
+    "location": "ClearPath Florence Office",
+    "attendees": ["marcus.webb@meridian-labs.com", "d.park@clearpath-solutions.com"],
+    "description": "Deep dive on technical infrastructure and modernization priorities",
+    "status": "confirmed"
+  },
+  {
+    "id": "evt-006",
+    "summary": "Weekly Progress Call",
+    "start": "2025-09-19T15:30:00+02:00",
+    "end": "2025-09-19T16:00:00+02:00",
+    "location": "Video call",
+    "attendees": ["marcus.webb@meridian-labs.com", "p.anand@clearpath-solutions.com"],
+    "description": "Weekly sync on engagement progress and observations",
+    "status": "confirmed"
+  },
+  {
+    "id": "evt-007",
+    "summary": "On-site Observation: Finance Process Review",
+    "start": "2025-09-22T10:00:00+02:00",
+    "end": "2025-09-22T11:45:00+02:00",
+    "location": "ClearPath Florence Office",
+    "attendees": ["nora.chen@meridian-labs.com", "yuki.tanaka@meridian-labs.com", "p.anand@clearpath-solutions.com"],
+    "description": "Observe finance reconciliation and approval workflows",
+    "status": "confirmed"
+  },
+  {
+    "id": "evt-008",
+    "summary": "Discovery Session: Operations Processes",
+    "start": "2025-09-22T14:00:00+02:00",
+    "end": "2025-09-22T15:30:00+02:00",
+    "location": "ClearPath Florence Office",
+    "attendees": ["marcus.webb@meridian-labs.com", "nora.chen@meridian-labs.com", "yuki.tanaka@meridian-labs.com", "p.anand@clearpath-solutions.com"],
+    "description": "Formal discovery workshop on current-state operations",
+    "status": "confirmed"
+  },
+  {
+    "id": "evt-009",
+    "summary": "Meridian Internal Working Session",
+    "start": "2025-09-24T09:00:00+02:00",
+    "end": "2025-09-24T11:00:00+02:00",
+    "location": "Video call",
+    "attendees": ["marcus.webb@meridian-labs.com", "nora.chen@meridian-labs.com"],
+    "description": "Synthesis of week 1-2 observations and findings",
+    "status": "confirmed"
+  },
+  {
+    "id": "evt-010",
+    "summary": "Weekly Progress Call",
+    "start": "2025-09-26T15:30:00+02:00",
+    "end": "2025-09-26T16:00:00+02:00",
+    "location": "Video call",
+    "attendees": ["marcus.webb@meridian-labs.com", "p.anand@clearpath-solutions.com"],
+    "description": "Weekly sync on engagement progress",
+    "status": "confirmed"
+  },
+  {
+    "id": "evt-011",
+    "summary": "On-site Observation: Customer Engagement Flow",
+    "start": "2025-09-29T09:30:00+02:00",
+    "end": "2025-09-29T11:15:00+02:00",
+    "location": "ClearPath Florence Office",
+    "attendees": ["marcus.webb@meridian-labs.com", "nora.chen@meridian-labs.com", "p.anand@clearpath-solutions.com"],
+    "description": "Observe customer onboarding and engagement processes",
+    "status": "confirmed"
+  },
+  {
+    "id": "evt-012",
+    "summary": "Stakeholder Interview: CEO Strategic Priorities",
+    "start": "2025-10-01T10:00:00+02:00",
+    "end": "2025-10-01T11:00:00+02:00",
+    "location": "ClearPath Florence Office",
+    "attendees": ["marcus.webb@meridian-labs.com", "t.reed@clearpath-solutions.com"],
+    "description": "Executive conversation on business strategy and process pain points",
+    "status": "confirmed"
+  },
+  {
+    "id": "evt-013",
+    "summary": "Weekly Progress Call",
+    "start": "2025-10-03T15:30:00+02:00",
+    "end": "2025-10-03T16:00:00+02:00",
+    "location": "Video call",
+    "attendees": ["marcus.webb@meridian-labs.com", "p.anand@clearpath-solutions.com"],
+    "description": "Weekly sync — review of week 3 field observations",
+    "status": "confirmed"
+  },
+  {
+    "id": "evt-014",
+    "summary": "On-site Observation: Supply Chain & Logistics",
+    "start": "2025-10-06T14:00:00+02:00",
+    "end": "2025-10-06T15:45:00+02:00",
+    "location": "ClearPath Florence Office",
+    "attendees": ["yuki.tanaka@meridian-labs.com", "nora.chen@meridian-labs.com", "p.anand@clearpath-solutions.com"],
+    "description": "Observe supply chain operations and inventory management",
+    "status": "confirmed"
+  },
+  {
+    "id": "evt-015",
+    "summary": "Weekly Progress Call — Rescheduled",
+    "start": "2025-10-09T15:30:00+02:00",
+    "end": "2025-10-09T16:00:00+02:00",
+    "location": "Video call",
+    "attendees": ["marcus.webb@meridian-labs.com", "p.anand@clearpath-solutions.com"],
+    "description": "Rescheduled from Oct 6 — David unavailable",
+    "status": "confirmed"
+  },
+  {
+    "id": "evt-016",
+    "summary": "Meridian Internal Working Session",
+    "start": "2025-10-08T10:00:00+02:00",
+    "end": "2025-10-08T12:00:00+02:00",
+    "location": "Video call",
+    "attendees": ["marcus.webb@meridian-labs.com", "nora.chen@meridian-labs.com", "yuki.tanaka@meridian-labs.com"],
+    "description": "Pattern analysis and hypothesis development from weeks 2-4 observations",
+    "status": "confirmed"
+  },
+  {
+    "id": "evt-017",
+    "summary": "On-site Observation: Cross-functional Coordination",
+    "start": "2025-10-07T11:00:00+02:00",
+    "end": "2025-10-07T12:30:00+02:00",
+    "location": "ClearPath Florence Office",
+    "attendees": ["marcus.webb@meridian-labs.com", "nora.chen@meridian-labs.com", "p.anand@clearpath-solutions.com", "d.park@clearpath-solutions.com"],
+    "description": "Observe inter-departmental handoff meetings and coordination gaps",
+    "status": "confirmed"
+  },
+  {
+    "id": "evt-018",
+    "summary": "Interim Review Meeting",
+    "start": "2025-10-15T10:00:00+02:00",
+    "end": "2025-10-15T12:00:00+02:00",
+    "location": "ClearPath Florence Office",
+    "attendees": ["marcus.webb@meridian-labs.com", "nora.chen@meridian-labs.com", "yuki.tanaka@meridian-labs.com", "t.reed@clearpath-solutions.com", "p.anand@clearpath-solutions.com", "d.park@clearpath-solutions.com"],
+    "description": "Interim findings presentation and Q&A with client team",
+    "status": "confirmed"
+  },
+  {
+    "id": "evt-019",
+    "summary": "Stakeholder Interview: Ops Head Detailed Review",
+    "start": "2025-10-17T14:00:00+02:00",
+    "end": "2025-10-17T15:00:00+02:00",
+    "location": "ClearPath Florence Office",
+    "attendees": ["nora.chen@meridian-labs.com", "p.anand@clearpath-solutions.com"],
+    "description": "Deep dive on operational metrics, bottlenecks, and team dynamics",
+    "status": "confirmed"
+  },
+  {
+    "id": "evt-020",
+    "summary": "Weekly Progress Call",
+    "start": "2025-10-17T15:30:00+02:00",
+    "end": "2025-10-17T16:00:00+02:00",
+    "location": "Video call",
+    "attendees": ["marcus.webb@meridian-labs.com", "p.anand@clearpath-solutions.com"],
+    "description": "Weekly sync",
+    "status": "confirmed"
+  },
+  {
+    "id": "evt-021",
+    "summary": "Process Optimization Workshop",
+    "start": "2025-10-28T09:00:00+02:00",
+    "end": "2025-10-28T12:00:00+02:00",
+    "location": "ClearPath Florence Office",
+    "attendees": ["marcus.webb@meridian-labs.com", "nora.chen@meridian-labs.com", "yuki.tanaka@meridian-labs.com", "t.reed@clearpath-solutions.com", "p.anand@clearpath-solutions.com", "d.park@clearpath-solutions.com"],
+    "description": "Interactive workshop on potential process improvements and redesign options",
+    "status": "confirmed"
+  },
+  {
+    "id": "evt-022",
+    "summary": "Weekly Progress Call",
+    "start": "2025-10-24T15:30:00+02:00",
+    "end": "2025-10-24T16:00:00+02:00",
+    "location": "Video call",
+    "attendees": ["marcus.webb@meridian-labs.com", "p.anand@clearpath-solutions.com"],
+    "description": "Weekly sync",
+    "status": "confirmed"
+  },
+  {
+    "id": "evt-023",
+    "summary": "Weekly Progress Call",
+    "start": "2025-10-31T15:30:00+02:00",
+    "end": "2025-10-31T16:00:00+02:00",
+    "location": "Video call",
+    "attendees": ["marcus.webb@meridian-labs.com", "p.anand@clearpath-solutions.com"],
+    "description": "Weekly sync — observations phase close-out",
+    "status": "confirmed"
+  },
+  {
+    "id": "evt-024",
+    "summary": "Meridian Internal: Findings Synthesis",
+    "start": "2025-11-03T09:00:00+01:00",
+    "end": "2025-11-03T11:00:00+01:00",
+    "location": "Video call",
+    "attendees": ["marcus.webb@meridian-labs.com", "nora.chen@meridian-labs.com", "yuki.tanaka@meridian-labs.com"],
+    "description": "Synthesize all observations and draft recommendations",
+    "status": "confirmed"
+  },
+  {
+    "id": "evt-025",
+    "summary": "Weekly Progress Call — Cancelled",
+    "start": "2025-11-07T15:30:00+01:00",
+    "end": "2025-11-07T16:00:00+01:00",
+    "location": "Video call",
+    "attendees": ["marcus.webb@meridian-labs.com", "p.anand@clearpath-solutions.com"],
+    "description": "Cancelled — client team focused on operational transition",
+    "status": "cancelled"
+  },
+  {
+    "id": "evt-026",
+    "summary": "Final Presentation Preparation",
+    "start": "2025-11-17T10:00:00+01:00",
+    "end": "2025-11-17T12:00:00+01:00",
+    "location": "Video call",
+    "attendees": ["marcus.webb@meridian-labs.com", "nora.chen@meridian-labs.com", "yuki.tanaka@meridian-labs.com"],
+    "description": "Final review of presentation deck and Q&A prep",
+    "status": "confirmed"
+  },
+  {
+    "id": "evt-027",
+    "summary": "Final Presentation & Recommendations",
+    "start": "2025-11-21T10:00:00+01:00",
+    "end": "2025-11-21T12:00:00+01:00",
+    "location": "ClearPath Florence Office",
+    "attendees": ["marcus.webb@meridian-labs.com", "nora.chen@meridian-labs.com", "yuki.tanaka@meridian-labs.com", "t.reed@clearpath-solutions.com", "p.anand@clearpath-solutions.com", "d.park@clearpath-solutions.com"],
+    "description": "Final engagement presentation with strategic recommendations and implementation roadmap",
+    "status": "confirmed"
+  },
+  {
+    "id": "evt-028",
+    "summary": "Engagement Closure & Knowledge Transfer",
+    "start": "2025-11-28T14:00:00+01:00",
+    "end": "2025-11-28T15:30:00+01:00",
+    "location": "ClearPath Florence Office",
+    "attendees": ["marcus.webb@meridian-labs.com", "nora.chen@meridian-labs.com", "yuki.tanaka@meridian-labs.com", "t.reed@clearpath-solutions.com", "p.anand@clearpath-solutions.com"],
+    "description": "Final documentation review and knowledge transfer to internal team",
+    "status": "confirmed"
+  }
+]

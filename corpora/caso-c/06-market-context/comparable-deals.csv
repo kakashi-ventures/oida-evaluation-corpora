@@ -1,0 +1,23 @@
+Company,Sector,Stage,Round_Size_EUR,Pre_Money_EUR,Lead_Investor,Date,Country,Notes
+TechDocum,Regulatory Documentation,Seed,1.5M,1.2M,Forward Ventures,2024-06-15,Germany,CPR compliance automation; similar regulatory focus to NovaTech AI
+BuildCore,Construction SaaS,Seed,1.8M,1.4M,Lakestar,2024-03-22,Germany,Construction documentation and workflows; comparable tech stack
+ReguliFlow,FinTech Compliance,Seed,2.0M,1.8M,Earlybird VC,2024-08-10,Germany,Regulatory documentation for financial services; slightly higher pre-money
+DocuScale,RegTech,Series A,4.5M,2.8M,Accel Partners,2024-01-12,UK,Document automation platform; Series A valuation for comparison
+ConstructTech,Construction Materials,Seed,1.2M,0.95M,Berlin Venture Partners,2024-05-08,Germany,Material sourcing and supply chain; lower pre-money (less traction)
+MaterialHub,Circular Economy B2B,Seed,2.2M,1.9M,Speedinvest,2024-07-20,Austria,Materials marketplace; comparable TAM and network effects challenges
+WasteFlow,Waste Management SaaS,Seed,1.6M,1.3M,Khosla Ventures Europe,2024-09-01,Netherlands,Waste tracking and compliance; adjacent market segment
+EcoTrade,Circular Economy Platform,Series A,5.5M,3.2M,Plural Partners,2024-02-14,France,Broader circular economy play; Series A premium valuation
+EngageCore,Employee Engagement SaaS,Seed,1.4M,1.1M,Forward Ventures,2024-04-18,UK,HR analytics and pulse surveys; similar product/market complexity
+PulseAI,HR Analytics,Seed,1.7M,1.45M,Lakestar,2024-06-25,Germany,Employee engagement with AI; comparable segment and stage
+TeamVibe,Employee Engagement,Seed,1.3M,1.0M,Index Ventures,2024-05-30,Netherlands,Team dynamics and engagement; lower pre-money (earlier)
+RetentionTech,Predictive HR,Series A,6.0M,3.5M,Insight Partners,2024-03-05,UK,Churn prediction and retention; Series A comparable
+DataTrack,E-Commerce Analytics,Seed,1.9M,1.6M,Accel Partners,2024-08-12,UK,Behavioral analytics for e-commerce; post-purchase focus
+ConversionFlow,Analytics SaaS,Seed,1.5M,1.25M,Speedinvest,2024-07-08,Germany,A/B testing and conversion optimization; lower valuation (more commoditized)
+SessionInsight,Behavioral Analytics,Seed,2.1M,1.75M,Lakestar,2024-09-20,France,Session recording and user journey; comparable analytics product
+AnalyticsOS,Analytics Platform,Series A,7.2M,4.1M,Plural Partners,2024-01-28,UK,Advanced analytics platform; Series A stage shows elevated pre-money
+DeliveryOptix,Micro-Logistics,Seed,1.8M,1.55M,Khosla Ventures Europe,2024-06-10,Netherlands,Route optimization and last-mile delivery; comparable logistics focus
+LogisticFlow,Urban Delivery,Seed,1.4M,1.15M,Berlin Venture Partners,2024-04-22,Germany,Last-mile delivery coordination; lower pre-money (execution risk)
+FreightAI,Logistics Optimization,Series A,5.8M,3.4M,Forward Ventures,2024-02-08,France,AI-driven logistics; Series A premium for proven traction
+MicroHub,Urban Logistics,Seed,2.0M,1.7M,Speedinvest,2024-08-05,Germany,Micro-fulfillment centers; comparable market and growth stage
+RouteOptim,Delivery SaaS,Seed,1.6M,1.35M,Lakestar,2024-05-15,Netherlands,Route planning software; straightforward SaaS product
+SustainDeliver,Green Logistics,Seed,2.3M,1.95M,EIC Accelerator (EU),2024-09-10,Austria,Electric delivery vehicle optimization; sustainability premium

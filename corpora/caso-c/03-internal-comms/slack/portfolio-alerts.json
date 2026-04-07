@@ -1,0 +1,142 @@
+[
+  {
+    "timestamp": "2025-10-22T07:15:00Z",
+    "user": "portfolio-monitor-bot",
+    "text": "📊 [ALERT] NestEase MRR update: €8,450 (Oct). Growth: +12% vs Sep. 48 active customers, churn: 3.2%.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-10-29T07:30:00Z",
+    "user": "portfolio-monitor-bot",
+    "text": "📊 [ALERT] NestEase MRR update: €9,120 (Oct final). YoY: +67%. Retention cohort 90d holding at 76%.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-11-01T08:00:00Z",
+    "user": "portfolio-monitor-bot",
+    "text": "⚠️ [ALERT] FitBrew CAC spike detected. October CAC: €48 (vs €34 baseline). Spend increased but conversion rates flat.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-11-01T09:20:00Z",
+    "user": "daniel.reeves",
+    "text": "Let me check in with their growth lead. This might be a timing thing.",
+    "thread_ts": "2025-11-01T08:00:00Z",
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-11-02T16:45:00Z",
+    "user": "portfolio-monitor-bot",
+    "text": "⚠️ [ALERT] FitBrew burn rate update: €118k/month (Oct). Runway: 5.8 months (vs projected 7.2). Cohort churn accelerating.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-11-02T16:50:00Z",
+    "user": "ava.lindstrom",
+    "text": "That's not good. Daniel, we need to talk about this.",
+    "thread_ts": "2025-11-02T16:45:00Z",
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-11-03T10:30:00Z",
+    "user": "daniel.reeves",
+    "text": "Spoke to the founder. They're adjusting spend, tightening ops. CAC is likely temporary from a misaligned campaign. Let's give them one more quarter to stabilize.",
+    "thread_ts": "2025-11-02T16:45:00Z",
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-11-03T10:45:00Z",
+    "user": "ava.lindstrom",
+    "text": "One more quarter at this burn rate means they have 4 months of runway left. We need to talk to the founder about either raising or cutting harder. This isn't sustainable.",
+    "thread_ts": "2025-11-02T16:45:00Z",
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-11-04T08:15:00Z",
+    "user": "tomas.herrera",
+    "text": "FitBrew 90-day retention cohort: Sep launch = 68% → Oct follow = 52% 30d churn up from 18% to 24%. This is the real problem.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-11-04T08:30:00Z",
+    "user": "daniel.reeves",
+    "text": "Okay, that's material. I'll schedule a deeper conversation with their leadership. This is a product issue, not a spend issue.",
+    "thread_ts": "2025-11-04T08:15:00Z",
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-11-05T11:40:00Z",
+    "user": "tomas.herrera",
+    "text": "https://www.axios.com/articles/2025-11/d2c-economics-reset this is basically us with FitBrew",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-11-05T14:22:00Z",
+    "user": "ava.lindstrom",
+    "text": "has anyone thought about adding DualCore to the monitoring dashboard? they've been ramping fast",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-11-05T14:35:00Z",
+    "user": "daniel.reeves",
+    "text": "probably worth it. i'll sync with them first to make sure they're ready for the transparency",
+    "thread_ts": "2025-11-05T14:22:00Z",
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-11-06T07:00:00Z",
+    "user": "portfolio-monitor-bot",
+    "text": "📊 [ALERT] NestEase milestone: 50+ customers achieved. MRR: €9,340. Gross margin: 71%.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-11-10T15:20:00Z",
+    "user": "portfolio-monitor-bot",
+    "text": "⚠️ [ALERT] FitBrew gross margin compression: 38% (Nov, preliminary). Previously 45%. Unit economics at risk.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-11-10T15:30:00Z",
+    "user": "ava.lindstrom",
+    "text": "This is accelerating downward. We need the founder call this week, not next.",
+    "thread_ts": "2025-11-10T15:20:00Z",
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-11-12T13:15:00Z",
+    "user": "daniel.reeves",
+    "text": "did we ever get the NestEase investor update they promised?",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-11-12T16:00:00Z",
+    "user": "daniel.reeves",
+    "text": "FitBrew founder call scheduled Nov 18. Going to be a tough conversation. They need to either stabilize or raise.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-11-14T07:30:00Z",
+    "user": "portfolio-monitor-bot",
+    "text": "📊 [ALERT] NestEase expanding to new cohort. Pilot: 8 enterprise accounts. ACV: €12k+. Strong signals on expansion.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-11-14T12:50:00Z",
+    "user": "tomas.herrera",
+    "text": "oops wrong channel",
+    "thread_ts": null,
+    "reactions": []
+  }
+]

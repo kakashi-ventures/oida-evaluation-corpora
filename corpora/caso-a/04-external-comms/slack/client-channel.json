@@ -1,0 +1,233 @@
+[
+  {
+    "timestamp": "2025-09-08T09:15:00Z",
+    "user": "marcus_webb_meridian",
+    "text": "Good morning, all. Thank you for the productive kickoff meeting this morning. We're excited to begin the engagement. I'll be sending a formal follow-up email within the hour with our data requests and immediate next steps.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-09-08T14:30:00Z",
+    "user": "priya_anand_clearpath",
+    "text": "Hi Marcus, thanks for leading such a clear discussion. We appreciate the structured approach. I'll coordinate with the team on those data requests—some items will take a bit of time to compile, but we're committed to the timeline.",
+    "thread_ts": null,
+    "reactions": ["👍"]
+  },
+  {
+    "timestamp": "2025-09-09T08:45:00Z",
+    "user": "yuki_tanaka_meridian",
+    "text": "Hi Priya—following up on the interview scheduling. I'll be sending a formal request with dates/times this week. Thinking weeks 2-4 for the main interviews. Does that window work for your team?",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-09-09T11:20:00Z",
+    "user": "priya_anand_clearpath",
+    "text": "Yes, weeks 2-4 looks feasible. We can work around holidays and key project dates. I'll send you our calendar constraints by end of this week.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-09-10T10:00:00Z",
+    "user": "nora_chen_meridian",
+    "text": "Quick note: we've drafted the observation session plan for weeks 3-5. Marcus will send that over tomorrow with access requirements.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-09-12T16:45:00Z",
+    "user": "priya_anand_clearpath",
+    "text": "Got it. One quick question on scope—does the review cover the Florence office only, or should we also include the Milan satellite? Hadn't come up in the SOW, but want to clarify early.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-09-15T09:30:00Z",
+    "user": "marcus_webb_meridian",
+    "text": "Priya, good question. Let's discuss scope in an email thread so there's a clear record. I'll address that in a follow-up this week.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-09-16T13:15:00Z",
+    "user": "david_park_clearpath",
+    "text": "Marcus—still reviewing your technical requirements document. I'll have comments by Friday.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-09-17T15:45:00Z",
+    "user": "marcus_webb_meridian",
+    "text": "Thanks David. Looking forward to your feedback.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-09-22T10:10:00Z",
+    "user": "marcus_webb_meridian",
+    "text": "Hi David—gentle follow-up on the technical requirements doc. No rush, but would be helpful to get your thoughts so we can finalize next week.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-09-26T14:20:00Z",
+    "user": "david_park_clearpath",
+    "text": "Apologies for the delay. Just circulated comments to you and Nora. A few clarifications needed on the data extraction scope.",
+    "thread_ts": null,
+    "reactions": ["👍"]
+  },
+  {
+    "timestamp": "2025-09-27T09:00:00Z",
+    "user": "nora_chen_meridian",
+    "text": "Thanks David. We'll incorporate those and send back a revised version.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-09-29T11:30:00Z",
+    "user": "yuki_tanaka_meridian",
+    "text": "Interview scheduling is confirmed: 6 interviews across weeks 2-4. Calendar invite sent to all participants. Let me know if there are any conflicts.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-10-01T08:45:00Z",
+    "user": "priya_anand_clearpath",
+    "text": "Excellent. Interviews are on everyone's calendar. Quick housekeeping item: apologies for the delay on the audit data—we're pulling it together now. Should have it to you by Wednesday.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-10-01T16:30:00Z",
+    "user": "marcus_webb_meridian",
+    "text": "No problem at all, Priya. We understand these things take time. Wednesday works perfectly for our schedule.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-10-05T09:15:00Z",
+    "user": "priya_anand_clearpath",
+    "text": "Audit data bundle is in your shared folder. Also confirmed access credentials for Marcus and team for the observation sessions starting next week.",
+    "thread_ts": null,
+    "reactions": ["✅"]
+  },
+  {
+    "timestamp": "2025-10-06T10:00:00Z",
+    "user": "marcus_webb_meridian",
+    "text": "Received, thank you. We'll be on-site starting October 13. Looking forward to seeing operations firsthand.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-10-13T14:30:00Z",
+    "user": "nora_chen_meridian",
+    "text": "Day 1 of observations complete. Team is oriented and impressed by how well-organized your operation is. See you tomorrow.",
+    "thread_ts": null,
+    "reactions": ["👍"]
+  },
+  {
+    "timestamp": "2025-10-20T11:45:00Z",
+    "user": "yuki_tanaka_meridian",
+    "text": "Observation sessions wrapping up. We've covered all planned areas across weeks 3-5. Appreciate the access and the hospitality of your team.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-10-25T09:30:00Z",
+    "user": "thomas_reed_clearpath",
+    "text": "Marcus—quick question. When can we expect the final deliverable? We have a board meeting in December where we'll want to present initial findings.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-10-25T10:15:00Z",
+    "user": "marcus_webb_meridian",
+    "text": "Thomas—good timing. I'll send a formal update later today with deliverable dates and a preview of key themes. Should address the board timeline.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-10-28T13:00:00Z",
+    "user": "nora_chen_meridian",
+    "text": "Quick status: we're in the analysis phase now. Interim report on track for mid-November. Final report still targeting early December.",
+    "thread_ts": null,
+    "reactions": ["👍"]
+  },
+  {
+    "timestamp": "2025-11-03T15:30:00Z",
+    "user": "priya_anand_clearpath",
+    "text": "One housekeeping note—Thomas mentioned in a separate conversation that he'd like us to consider including our Milan satellite office operations in the review. He feels this is important for a complete picture. I know it's a late addition, but wanted to flag it to you directly.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-11-03T16:45:00Z",
+    "user": "marcus_webb_meridian",
+    "text": "Thanks for the heads-up, Priya. I'll get back to you on how we can accommodate that. Let's discuss in an email so we have clear documentation.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-11-10T09:00:00Z",
+    "user": "david_park_clearpath",
+    "text": "Following up: have you extracted the Milan office IT infrastructure data yet? Thomas asked me to check.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-11-10T14:20:00Z",
+    "user": "marcus_webb_meridian",
+    "text": "David—we're working through how Milan fits into the assessment. I've proposed a light-touch review for the appendix. Waiting on confirmation from Priya and Thomas on scope.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-11-15T10:30:00Z",
+    "user": "priya_anand_clearpath",
+    "text": "Got Marcus's proposal on Milan. Thomas is comfortable with the light-touch approach. Let's proceed with that.",
+    "thread_ts": null,
+    "reactions": ["✅"]
+  },
+  {
+    "timestamp": "2025-11-18T11:00:00Z",
+    "user": "nora_chen_meridian",
+    "text": "Interim findings are ready for review. We'll send a summary to Thomas and Priya this week. Final report is on track for December 1st delivery.",
+    "thread_ts": null,
+    "reactions": ["👍"]
+  },
+  {
+    "timestamp": "2025-11-22T09:45:00Z",
+    "user": "marcus_webb_meridian",
+    "text": "Sending final deliverable timeline and a preview of key themes now. Everything is on schedule for your board meeting in December.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-11-25T14:15:00Z",
+    "user": "thomas_reed_clearpath",
+    "text": "Excellent. Thanks for the communication and the structured approach. Excited to see the final report.",
+    "thread_ts": null,
+    "reactions": ["👍"]
+  },
+  {
+    "timestamp": "2025-11-30T16:30:00Z",
+    "user": "priya_anand_clearpath",
+    "text": "Final report arrived this morning. Team is reviewing now. Appreciate the thoroughness and timeliness throughout this engagement.",
+    "thread_ts": null,
+    "reactions": ["✅"]
+  },
+  {
+    "timestamp": "2025-12-01T10:00:00Z",
+    "user": "marcus_webb_meridian",
+    "text": "Thank you, Priya. It's been a pleasure working with your team. We're available for any follow-up questions ahead of your board meeting. Best of luck with the presentation.",
+    "thread_ts": null,
+    "reactions": ["🙌"]
+  },
+  {
+    "timestamp": "2025-12-02T15:45:00Z",
+    "user": "thomas_reed_clearpath",
+    "text": "Thank you to Marcus, Nora, and Yuki. Your team delivered professional, actionable insights. We'll be in touch about next steps.",
+    "thread_ts": null,
+    "reactions": ["👍"]
+  }
+]

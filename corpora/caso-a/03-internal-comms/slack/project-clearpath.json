@@ -1,0 +1,422 @@
+[
+  {
+    "timestamp": "2025-09-08T09:15:00+02:00",
+    "user": "marcus.webb",
+    "text": "Good morning everyone. We're live with ClearPath Solutions as of this morning. Kickoff was solid — Thomas Reed, Priya Anand, and the team were organized. I'll share a full summary this afternoon. For now, let's plan our first week observation schedule.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-09-08T10:22:00+02:00",
+    "user": "nora.chen",
+    "text": "Got it. Noticed they're requesting we sign a revised data access addendum before we can pull logs. May slow initial work. FYI.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-09-08T11:45:00+02:00",
+    "user": "yuki.tanaka",
+    "text": "• Compliance doc review team available Mon-Wed\n• Audit trail analysis starting Sept 15\n• ClearPath IT will provide system access tomorrow",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-09-08T14:30:00+02:00",
+    "user": "marcus.webb",
+    "text": "Full kickoff summary: ClearPath Solutions, Florence office, ~78 staff. CEO Thomas Reed chairs. Key contacts: Priya Anand (Ops) is our main liaison—very responsive. David Park (CTO) seemed stretched but cooperative. Team leads (Marco, Laura, Riccardo, Chiara) will support. Scope confirmed: 12-week process review across compliance documentation workflows, with emphasis on audit readiness and risk mitigation. Budget and timeline locked. I'm flagging one item: the data access clause in our SOW may be tested early if we need historical logs going back more than 6 months. Nora caught this this morning. We should clarify scope boundaries on that.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-09-08T15:02:00+02:00",
+    "user": "nora.chen",
+    "text": "Re: kickoff summary—agreed on the data access risk. I'll email them today with specific language. Also: Thomas mentioned their compliance database got migrated last year. That might explain why some historical stuff is patchy.",
+    "thread_ts": "2025-09-08T14:30:00+02:00",
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-09-08T16:15:00+02:00",
+    "user": "yuki.tanaka",
+    "text": "Database migration could complicate our audit trail tracing. Should we request a schema doc from David Park before we start pulling?",
+    "thread_ts": "2025-09-08T14:30:00+02:00",
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-09-08T17:30:00+02:00",
+    "user": "marcus.webb",
+    "text": "Good catch, Yuki. Yes, let's ask David for schema and any migration notes. Nora, can you loop that into your data access email?",
+    "thread_ts": "2025-09-08T14:30:00+02:00",
+    "reactions": ["thumbsup"]
+  },
+  {
+    "timestamp": "2025-09-10T09:00:00+02:00",
+    "user": "nora.chen",
+    "text": "Data access email sent. Also flagging: Priya told me they're planning a team off-site next month. Don't think it'll impact us, but good to know.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-09-12T13:45:00+02:00",
+    "user": "yuki.tanaka",
+    "text": "Week 1 observation schedule locked:\n• Sept 15-17: Compliance doc workflow (Marco's team)\n• Sept 18: Audit trail review intro\n• Sept 19: Risk register deep-dive",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-09-15T11:00:00+02:00",
+    "user": "yuki.tanaka",
+    "text": "ok noted",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-09-15T11:20:00+02:00",
+    "user": "marcus.webb",
+    "text": "First observations from Marco's team are interesting. Their intake process is heavily manual. Lots of email handoffs. This might be a bigger bottleneck than initially flagged in the scope.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-09-15T13:10:00+02:00",
+    "user": "nora.chen",
+    "text": "How much worse? This could change our analysis priorities.",
+    "thread_ts": "2025-09-15T11:20:00+02:00",
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-09-15T15:00:00+02:00",
+    "user": "marcus.webb",
+    "text": "Initial read: intake is probably 2-3 days slower than it should be. We're collecting data this week, but I think it'll be a major finding. Could affect recommendations on process automation.",
+    "thread_ts": "2025-09-15T11:20:00+02:00",
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-09-18T09:30:00+02:00",
+    "user": "yuki.tanaka",
+    "text": "Trying to schedule time with David Park for system architecture overview. He's been hard to pin down—bouncing meeting requests. Priya says he's in meetings most days. This is the usual wave2 problem we saw at the last engagement.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-09-18T10:15:00+02:00",
+    "user": "marcus.webb",
+    "text": "Have Nora reach out directly. Sometimes a co-lead message lands different. David might just need a clearer ask on timing.",
+    "thread_ts": "2025-09-18T09:30:00+02:00",
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-09-22T14:00:00+02:00",
+    "user": "nora.chen",
+    "text": "Week 3 note: David Park is still hard to schedule. We've got a 30-min slot with him on Oct 2, but Priya's flagging that he may have to reschedule. I've sent him a prep doc anyway so we can make the most of it if it happens. 😬",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-09-25T10:30:00+02:00",
+    "user": "marcus.webb",
+    "text": "How should we approach the next observation session? Should we shadow individual consultants or observe team meetings?",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-09-25T11:15:00+02:00",
+    "user": "nora.chen",
+    "text": "I'd suggest shadowing first, then team meetings. You get better individual context before group dynamics.",
+    "thread_ts": "2025-09-25T10:30:00+02:00",
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-09-25T11:45:00+02:00",
+    "user": "yuki.tanaka",
+    "text": "Just to confirm — are we documenting in real-time or writing up after?",
+    "thread_ts": "2025-09-25T10:30:00+02:00",
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-09-25T13:00:00+02:00",
+    "user": "marcus.webb",
+    "text": "Real-time notes where possible, but write-ups same day. Keeps detail fresh. Nora's right on the shadowing approach—individual first, then groups.",
+    "thread_ts": "2025-09-25T10:30:00+02:00",
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-09-25T14:30:00+02:00",
+    "user": "nora.chen",
+    "text": "One more practical point: block Wednesday afternoons for observation. Team's usually less in meetings then.",
+    "thread_ts": "2025-09-25T10:30:00+02:00",
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-09-25T15:00:00+02:00",
+    "user": "yuki.tanaka",
+    "text": "👍",
+    "thread_ts": "2025-09-25T10:30:00+02:00",
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-09-24T16:45:00+02:00",
+    "user": "marcus.webb",
+    "text": "Preliminary findings from first three weeks are coming together. The intake process issue is confirmed and worse than initially thought. We're also seeing gaps in their documentation standards across teams. I'm drafting a memo for Nora and Yuki tomorrow outlining what we're seeing.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-09-29T08:30:00+02:00",
+    "user": "yuki.tanaka",
+    "text": "Quick update: audit trail analysis is running into data gaps. Their system logs don't go back cleanly past the database migration in Q3 2024. We can work around it, but it means some of our audit samples will be smaller than planned.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-09-29T10:00:00+02:00",
+    "user": "nora.chen",
+    "text": "Understood. Flag that in your next update to Marcus. We may need to adjust our audit sample methodology.",
+    "thread_ts": "2025-09-29T08:30:00+02:00",
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-09-29T11:15:00+02:00",
+    "user": "yuki.tanaka",
+    "text": "Already on Marcus's desk. Also, I sent a note asking Priya if they have migration documentation that could help us validate a sample of older transactions. Waiting to hear back.",
+    "thread_ts": "2025-09-29T08:30:00+02:00",
+    "reactions": ["thumbsup"]
+  },
+  {
+    "timestamp": "2025-10-06T12:20:00+02:00",
+    "user": "marcus.webb",
+    "text": "Priya mentioned in our weekly check-in that their next board review is early December. Thomas Reed wants to present our findings by then. That's tight given where we are in the analysis. Timing noted.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-10-06T13:45:00+02:00",
+    "user": "nora.chen",
+    "text": "Dec board meeting. Got it. So we have until end of Nov to wrap. That's only 8 weeks from now. I'll factor that into scheduling the final deliverable workshops.",
+    "thread_ts": "2025-10-06T12:20:00+02:00",
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-10-08T15:30:00+02:00",
+    "user": "marcus.webb",
+    "text": "on it",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-10-08T16:00:00+02:00",
+    "user": "yuki.tanaka",
+    "text": "Come per il G3 approach, we're blocking intake process analysis (week 6-7), audit findings (week 8), and then synthesis/recommendations (week 9-10). That leaves reporting and board prep for the final stretch.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-10-13T09:00:00+02:00",
+    "user": "nora.chen",
+    "text": "Intake process draft analysis is solid. Marcus did strong work on the bottleneck mapping. I'm adding regulatory context this week. Then we'll have something to walk through with Marco's team by EOW.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-10-17T14:15:00+02:00",
+    "user": "marcus.webb",
+    "text": "Midpoint snapshot: we're on track on intake analysis and risk register review. Audit analysis is tracking about one week behind due to data availability from ClearPath. Not critical yet, but it's on my watch list. I'm sending a more detailed status memo to everyone today.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-10-20T16:30:00+02:00",
+    "user": "yuki.tanaka",
+    "text": "Priya still hasn't sent the operational data promised two weeks ago. This is becoming a real blocker.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-10-20T17:00:00+02:00",
+    "user": "marcus.webb",
+    "text": "Let's give it until Friday before we escalate. Priya's usually responsive.",
+    "thread_ts": "2025-10-20T16:30:00+02:00",
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-10-20T17:45:00+02:00",
+    "user": "nora.chen",
+    "text": "We can estimate from the interview data if needed. That's a workable workaround.",
+    "thread_ts": "2025-10-20T16:30:00+02:00",
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-10-21T08:30:00+02:00",
+    "user": "yuki.tanaka",
+    "text": "Found some partial data in the observation notes. Not complete, but it gives us something to work with.",
+    "thread_ts": "2025-10-20T16:30:00+02:00",
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-10-22T10:00:00+02:00",
+    "user": "marcus.webb",
+    "text": "Any word yet from Priya on the full dataset?",
+    "thread_ts": "2025-10-20T16:30:00+02:00",
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-10-22T11:15:00+02:00",
+    "user": "yuki.tanaka",
+    "text": "Still nothing from ClearPath side. Radio silence.",
+    "thread_ts": "2025-10-20T16:30:00+02:00",
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-10-22T12:45:00+02:00",
+    "user": "marcus.webb",
+    "text": "I'll message Thomas directly",
+    "thread_ts": "2025-10-20T16:30:00+02:00",
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-10-28T14:20:00+02:00",
+    "user": "nora.chen",
+    "text": "call in 5?",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-10-29T09:15:00+02:00",
+    "user": "yuki.tanaka",
+    "text": "Week 9 update: we got the missing transaction logs from Priya finally (came through yesterday). Audit sample is now complete. I'm running the full analysis this week and should have draft findings by Friday.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-10-29T10:45:00+02:00",
+    "user": "marcus.webb",
+    "text": "Excellent. That's the unlock we needed. Yuki, once you have draft audit findings, send them to Nora and me. We'll iterate and have something to present by early Nov.",
+    "thread_ts": "2025-10-29T09:15:00+02:00",
+    "reactions": ["thumbsup"]
+  },
+  {
+    "timestamp": "2025-11-03T13:20:00+02:00",
+    "user": "yuki.tanaka",
+    "text": "Audit findings draft is ready. I'm attaching the full bottleneck analysis spreadsheet (allegato: bottleneck-analysis-v3.xlsx) and summary doc. Fair warning: I'm not fully confident in 2 of the severity ratings because of incomplete data, so those need a second read from Marcus and Nora.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-11-03T14:00:00+02:00",
+    "user": "nora.chen",
+    "text": "Got it. I'll review tonight and send feedback. Which two are you least confident on?",
+    "thread_ts": "2025-11-03T13:20:00+02:00",
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-11-03T15:30:00+02:00",
+    "user": "yuki.tanaka",
+    "text": "The two on documentation standards (risks 7 and 9). The data samples are smaller due to the migration gap, so the severity assessment is more inferential. I flagged them in red in the spreadsheet.",
+    "thread_ts": "2025-11-03T13:20:00+02:00",
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-11-05T10:00:00+02:00",
+    "user": "marcus.webb",
+    "text": "k",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-11-05T10:30:00+02:00",
+    "user": "marcus.webb",
+    "text": "Yuki's audit findings are solid. We've reviewed the severity questions and I'm comfortable with her ratings, even on the two with smaller samples. The analysis is defensible. Let's now focus on synthesizing this into recommendations that ClearPath can actually act on.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-11-07T09:30:00+02:00",
+    "user": "nora.chen",
+    "text": "Recommendations draft is outlined. Three main areas: (1) intake process redesign, (2) audit trail infrastructure improvements, (3) documentation standardization framework. I'm writing these up in detail this week. We'll have something to walk through with the leadership team by Nov 12.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-11-10T16:45:00+02:00",
+    "user": "nora.chen",
+    "text": "see draft: [link removed — internal]",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-11-10T17:30:00+02:00",
+    "user": "marcus.webb",
+    "text": "Reviewed the draft. Three structured points: (1) The intake analysis is thorough and the bottleneck evidence is strong. I'd tighten the language around the 2-3 day delay—be specific about transaction volumes. (2) On audit infrastructure, the migration gap explanation is clear but make sure we emphasize this is a medium-term fix, not quick-win territory. (3) Documentation standardization needs more emphasis on the cultural/change management side, not just the standard itself.",
+    "thread_ts": "2025-11-10T16:45:00+02:00",
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-11-10T18:15:00+02:00",
+    "user": "yuki.tanaka",
+    "text": "I'm flagging a data inconsistency in section 3. The sample sizes don't align with what we discussed in the audit findings. Need to reconcile those numbers before we send this to ClearPath.",
+    "thread_ts": "2025-11-10T16:45:00+02:00",
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-11-10T19:00:00+02:00",
+    "user": "nora.chen",
+    "text": "Good catch, Yuki. I'll fix that tonight and resync the sample numbers. Thanks.",
+    "thread_ts": "2025-11-10T16:45:00+02:00",
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-11-10T19:45:00+02:00",
+    "user": "marcus.webb",
+    "text": "Looks good otherwise. Let's send preview to Thomas.",
+    "thread_ts": "2025-11-10T16:45:00+02:00",
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-11-10T20:15:00+02:00",
+    "user": "yuki.tanaka",
+    "text": "fixed, thanks",
+    "thread_ts": "2025-11-10T16:45:00+02:00",
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-11-12T11:00:00+02:00",
+    "user": "yuki.tanaka",
+    "text": "Marcus's presentation memo landed. I see what he's doing—leading with the wins, middle-grounding the infrastructure work, and flagging documentation as a longer-term cultural initiative. Makes sense for a board audience. I'm ready to support the presentation prep.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-11-14T14:30:00+02:00",
+    "user": "nora.chen",
+    "text": "One final note before we wrap: Priya mentioned that ClearPath is pretty happy with how things are going. Thomas has been in a few of our check-in calls and seems engaged. That's always nice to hear. We've earned our fee.",
+    "thread_ts": null,
+    "reactions": ["thumbsup", "tada"]
+  },
+  {
+    "timestamp": "2025-11-18T09:15:00+02:00",
+    "user": "marcus.webb",
+    "text": "Final week push. Presentation materials are locked. We're delivering findings to ClearPath leadership on Nov 28 (our agreed-upon final delivery date). After that, any follow-up work is out of scope. I want everyone to review the deck one more time this week for quality.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-11-21T10:30:00+02:00",
+    "user": "yuki.tanaka",
+    "text": "Deck looks great. All findings are well-supported, recommendations are clear and actionable. I'm confident in what we're handing over.",
+    "thread_ts": null,
+    "reactions": ["thumbsup"]
+  },
+  {
+    "timestamp": "2025-11-25T15:00:00+02:00",
+    "user": "marcus.webb",
+    "text": "Final presentation is tomorrow (Nov 28). Thomas, Priya, and the team leads will be there. We're presenting findings, walking through recommendations, and leaving them with an implementation roadmap. This has been a solid engagement. Thanks to Nora and Yuki for the thorough work.",
+    "thread_ts": null,
+    "reactions": ["tada"]
+  },
+  {
+    "timestamp": "2025-11-28T17:45:00+02:00",
+    "user": "nora.chen",
+    "text": "Presentation went well. ClearPath was receptive. Thomas asked good follow-up questions. No major pushback on findings or recommendations. They're planning an implementation kickoff in January. We're off the project as of today.",
+    "thread_ts": null,
+    "reactions": ["tada", "thumbsup"]
+  }
+]

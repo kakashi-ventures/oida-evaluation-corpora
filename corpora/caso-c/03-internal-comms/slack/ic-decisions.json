@@ -1,0 +1,408 @@
+[
+  {
+    "timestamp": "2025-10-20T09:15:00Z",
+    "user": "daniel.reeves",
+    "text": "Morning both. Let's kick off the Demo Day Alpha selection process. I've been reviewing the pipeline spreadsheet and we have roughly 30 applications across SaaS, marketplace, and deeptech buckets. First screening calls start this week.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-10-20T09:42:00Z",
+    "user": "ava.lindstrom",
+    "text": "Good. Let's aim for 5 final companies by end of next week. Timeline is tight but doable.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-10-20T10:30:00Z",
+    "user": "tomas.herrera",
+    "text": "anyone know if the Nespresso machine on 3rd floor is working? ours is dead again",
+    "thread_ts": null,
+    "reactions": [
+      {"emoji": "crying", "users": ["ava.lindstrom"]}
+    ]
+  },
+  {
+    "timestamp": "2025-10-20T14:30:00Z",
+    "user": "tomas.herrera",
+    "text": "📋 Screening schedule posted. 11 calls booked Oct 21–30. Notes template in Notion.\n• Daniel: 4 deeptech, 2 marketplace\n• Ava: 3 SaaS\n• Tomás: 3 mixed + note-taking duties\n→ Daily debriefs at 4pm",
+    "thread_ts": null,
+    "reactions": [
+      {"emoji": "eyes", "users": ["daniel.reeves"]}
+    ]
+  },
+  {
+    "timestamp": "2025-10-20T17:45:00Z",
+    "user": "ava.lindstrom",
+    "text": "https://techcrunch.com/2025/10/the-future-of-nlp-infrastructure/",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-10-20T17:47:00Z",
+    "user": "ava.lindstrom",
+    "text": "interesting",
+    "thread_ts": "2025-10-20T17:45:00Z",
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-10-21T16:05:00Z",
+    "user": "daniel.reeves",
+    "text": "First call with NovaTech went really well. Founder is sharp, product is genuinely interesting. NLP infrastructure for enterprise. Strong reference from their previous exit. Early traction in pilot stage.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-10-21T16:25:00Z",
+    "user": "ava.lindstrom",
+    "text": "Valuation expectations?",
+    "thread_ts": "2025-10-21T16:05:00Z",
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-10-21T16:31:00Z",
+    "user": "daniel.reeves",
+    "text": "€2.3M pre-money. I flagged that we'd need to see more traction before committing to that number, but they're in conversation with other investors so they're not desperate to move.",
+    "thread_ts": "2025-10-21T16:05:00Z",
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-10-21T16:35:00Z",
+    "user": "ava.lindstrom",
+    "text": "€3.6K MRR?",
+    "thread_ts": "2025-10-21T16:05:00Z",
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-10-21T16:37:00Z",
+    "user": "daniel.reeves",
+    "text": "Yes. Early pilots generating that. I think we track them.",
+    "thread_ts": "2025-10-21T16:05:00Z",
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-10-22T10:20:00Z",
+    "user": "daniel.reeves",
+    "text": "running 15 late to the 4pm, sorry",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-10-22T15:50:00Z",
+    "user": "tomas.herrera",
+    "text": "UrbanFlow onboarding call done.\n✓ Founder + COO both sharp, strong operational mindset\n✓ 12-month waitlist in their city (primary market signal)\n✗ Only 18 months of runway, tight burn\n→ Worth advancing to pitch day",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-10-23T09:45:00Z",
+    "user": "daniel.reeves",
+    "text": "Did DataPulse mention the customer concentration issue in your call, Ava?",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-10-23T09:53:00Z",
+    "user": "ava.lindstrom",
+    "text": "Top 3 customers = 71% ARR. They're aware and diversifying but it's the il test del martedì for me. One bad week and they're scrambling.",
+    "thread_ts": "2025-10-23T09:45:00Z",
+    "reactions": [
+      {"emoji": "grimacing", "users": ["daniel.reeves", "tomas.herrera"]}
+    ]
+  },
+  {
+    "timestamp": "2025-10-23T10:02:00Z",
+    "user": "daniel.reeves",
+    "text": "Yeah, I hear you. Though if their unit economics are good and they have a credible plan... let me review the notes.",
+    "thread_ts": "2025-10-23T09:45:00Z",
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-10-24T11:30:00Z",
+    "user": "tomas.herrera",
+    "text": "Red flag livello Fit— ok you know what I mean 😅 same pattern. Not going back there.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-10-25T13:15:00Z",
+    "user": "daniel.reeves",
+    "text": "GreenLoop call wrapped. Founder is mission-driven, team is solid, but the unit economics don't work at their current burn rate. CAC is too high relative to LTV. Pass.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-10-26T09:00:00Z",
+    "user": "tomas.herrera",
+    "text": "MindBridge screening call completed. Interesting tech stack, addressing real pain point. Early metrics are noisy but could work. Not ready to commit yet. Needs another conversation.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-10-27T08:15:00Z",
+    "user": "daniel.reeves",
+    "text": "End of Week 1 debrief: we've talked to 6 companies. 3 are moving forward (NovaTech, UrbanFlow, DataPulse). 2 more screening calls this week. The deeptech space is quiet but when there's signal, it's strong.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-10-27T16:30:00Z",
+    "user": "ava.lindstrom",
+    "text": "btw Tomás are you going to the Web Summit thing next month? they're asking if we want a booth",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-10-27T16:45:00Z",
+    "user": "tomas.herrera",
+    "text": "might be. depends on diary. let me check and get back to you",
+    "thread_ts": "2025-10-27T16:30:00Z",
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-10-28T14:20:00Z",
+    "user": "ava.lindstrom",
+    "text": "Screening call with a deeptech applicant was uninspiring. Founder kept pivoting the narrative. Passed.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-10-29T10:05:00Z",
+    "user": "tomas.herrera",
+    "text": "Two more calls scheduled:\n• Oct 30: A logistics-focused marketplace (marketplace angle)\n• Oct 31: MindBridge (follow-up deep dive on metrics)\n\nThen we decide. My take: we have 3 strong contenders already. These two are wildcards.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-10-30T15:45:00Z",
+    "user": "daniel.reeves",
+    "text": "Logistics marketplace pitch showed an impressive founder but the network isn't differentiated enough. Too many competitors doing the same thing better funded. Passed.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-10-31T11:30:00Z",
+    "user": "tomas.herrera",
+    "text": "[photo of office catering]",
+    "thread_ts": null,
+    "reactions": [
+      {"emoji": "nauseated_face", "users": ["ava.lindstrom", "daniel.reeves"]}
+    ]
+  },
+  {
+    "timestamp": "2025-10-31T17:00:00Z",
+    "user": "tomas.herrera",
+    "text": "MindBridge second call wrapped. Founder clarified the metrics issue from last time. CAC passes the 3x. Revenue ramp is credible. Founder is thoughtful. I think we have 5 candidates for pitch day.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-10-31T17:35:00Z",
+    "user": "ava.lindstrom",
+    "text": "So our five are: NovaTech, UrbanFlow, DataPulse, MindBridge, and?",
+    "thread_ts": "2025-10-31T17:00:00Z",
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-10-31T17:42:00Z",
+    "user": "tomas.herrera",
+    "text": "GreenLoop. Wait, no—we passed on them. I meant... actually we have exactly five without GreenLoop. Let me recount: NovaTech, UrbanFlow, DataPulse, MindBridge... who's the fifth?",
+    "thread_ts": "2025-10-31T17:00:00Z",
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-10-31T18:05:00Z",
+    "user": "daniel.reeves",
+    "text": "We're only at four right now. Let me look through the list again. Unless we want to revisit someone or we're counting a late-stage screen I don't remember.",
+    "thread_ts": "2025-10-31T17:00:00Z",
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-11-01T09:00:00Z",
+    "user": "ava.lindstrom",
+    "text": "Let me clarify. As of Friday we have: NovaTech (invest-ready), UrbanFlow (strong), DataPulse (flag on concentration but otherwise solid), MindBridge (metrics now clear). That's four. We're good with four.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-11-01T09:30:00Z",
+    "user": "daniel.reeves",
+    "text": "I can live with four. Let me review comparative notes. We pitch day Nov 12. That gives us a week to calibrate our scoring rubric and prep diligence questions.",
+    "thread_ts": "2025-11-01T09:00:00Z",
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-11-03T09:20:00Z",
+    "user": "ava.lindstrom",
+    "text": "Scoring rubric: traction (3), team (2), market (2), defensibility (1), growth potential (2). Weights sum to 10. Scale 1–10 per dimension.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-11-03T09:45:00Z",
+    "user": "daniel.reeves",
+    "text": "Good. I'd weight team higher in the deeptech cases (NovaTech). The regulatory/moat landscape matters more there. But let's not over-customize; baseline makes sense.",
+    "thread_ts": "2025-11-03T09:20:00Z",
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-11-03T10:15:00Z",
+    "user": "tomas.herrera",
+    "text": "Added baseline rubric to Notion. We'll score live during pitch day and discuss + consensus after each company. Deliberation meeting scheduled Nov 13 morning.",
+    "thread_ts": "2025-11-03T09:20:00Z",
+    "reactions": [
+      {"emoji": "thumbsup", "users": ["ava.lindstrom", "daniel.reeves"]}
+    ]
+  },
+  {
+    "timestamp": "2025-11-04T14:30:00Z",
+    "user": "daniel.reeves",
+    "text": "I want to deep-dive NovaTech CTO reference before Nov 12. Tomás, did you follow up on that contact they gave us? I want to understand technical depth and execution velocity in person—that's a differentiator here.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-11-04T14:35:00Z",
+    "user": "tomas.herrera",
+    "text": "[no reply]",
+    "thread_ts": "2025-11-04T14:30:00Z",
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-11-05T16:20:00Z",
+    "user": "daniel.reeves",
+    "text": "Venue locked. Nov 12, 10am–4pm. Catering sorted. AV is being tested tomorrow. Runsheet is in Google Drive.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-11-06T11:50:00Z",
+    "user": "ava.lindstrom",
+    "text": "Can someone confirm attendance? Do we have Investor Group signed up?",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-11-06T12:15:00Z",
+    "user": "tomas.herrera",
+    "text": "12 investor confirmations in. 5 more pending. Should have full list by end of week. Venue capacity is 50 so we're good.",
+    "thread_ts": "2025-11-06T11:50:00Z",
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-11-07T09:05:00Z",
+    "user": "daniel.reeves",
+    "text": "This is crunch time. Let me outline the mental model for deliberation: we're looking to write checks to 2–3 companies from this cohort. That's our capacity. NovaTech and UrbanFlow feel strongest to me right now but I want to see them live.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-11-07T09:30:00Z",
+    "user": "ava.lindstrom",
+    "text": "Agreed on capacity. I'd add: we're not obligated to invest in all 4. We can pass on everyone if the fit isn't right. Demo day is brand-building too.",
+    "thread_ts": "2025-11-07T09:05:00Z",
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-11-07T10:00:00Z",
+    "user": "tomas.herrera",
+    "text": "✓ Runsheet finalized\n✓ Pitch order: NovaTech, UrbanFlow, DataPulse, MindBridge (staggered 45min slots)\n✓ Diligence question bank compiled\n✓ Investor comms sent\n→ Ready to go",
+    "thread_ts": "2025-11-07T09:05:00Z",
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-11-08T08:30:00Z",
+    "user": "daniel.reeves",
+    "text": "One more thing: are we aligned on how we handle a tie between two companies during deliberation? I.e., both score 7/10. Do we lean toward writing the check or pass?",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-11-08T08:45:00Z",
+    "user": "ava.lindstrom",
+    "text": "My preference: if it's a genuine tie and we have supply constraints, we write the check only if we both feel confident. Ambiguity is a signal.",
+    "thread_ts": "2025-11-08T08:30:00Z",
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-11-08T09:15:00Z",
+    "user": "daniel.reeves",
+    "text": "I can agree with that. Confidence > optimization. Let's go tomorrow with that rule.",
+    "thread_ts": "2025-11-08T08:30:00Z",
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-11-09T14:00:00Z",
+    "user": "ava.lindstrom",
+    "text": "we should probably also talk about the follow-on reserve policy at some point",
+    "thread_ts": null,
+    "reactions": [
+      {"emoji": "eyes", "users": ["ava.lindstrom"]}
+    ]
+  },
+  {
+    "timestamp": "2025-11-10T10:00:00Z",
+    "user": "tomas.herrera",
+    "text": "Demo Day Alpha logistics final check:\n• Catering: ✓ 40 pax\n• AV: ✓ tested 2x\n• Runsheet printed\n• Founder welcome packet ready\n• Insurance: ✓ covered\n→ All systems go 🚀",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-11-10T15:30:00Z",
+    "user": "daniel.reeves",
+    "text": "Reminder: tomorrow is long but focused. We're going to be in decision mode by afternoon, so let's stay sharp. Breaks scheduled in the runsheet. We deliberate Nov 13, not tomorrow.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-11-10T16:00:00Z",
+    "user": "ava.lindstrom",
+    "text": "See you both at 9:30am for a coffee before the doors open.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-11-12T18:20:00Z",
+    "user": "daniel.reeves",
+    "text": "Good energy tonight. NovaTech and UrbanFlow stood out. DataPulse was... interesting. The metrics they cited—something felt off there. MindBridge was solid but I want to think on it. We need to circle back on DataPulse before we commit. Tomorrow 9am let's deliberate properly.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-11-12T19:00:00Z",
+    "user": "ava.lindstrom",
+    "text": "Agreed on the energy. NovaTech's live demo was slick. I flagged the DataPulse metrics concern with their founder after their pitch. They're going to send clarification. Let's see it before we vote.",
+    "thread_ts": "2025-11-12T18:20:00Z",
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-11-12T19:15:00Z",
+    "user": "tomas.herrera",
+    "text": "Raw scores logged. Rubric data in Notion. Deliberation dossier prepped for tomorrow. I'll order breakfast for 9am.",
+    "thread_ts": "2025-11-12T18:20:00Z",
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-11-13T11:00:00Z",
+    "user": "daniel.reeves",
+    "text": "Deliberation concluded. Decisions: NovaTech AI INVEST, UrbanFlow INVEST, MindBridge CONDITIONAL (strong potential but needs deeper diligence on paying customer reference and GDPR audit), DataPulse PASS (metrics inconsistency + customer concentration risk), GreenLoop PASS (unit economics don't work at current burn). Term sheets going out for the INVESTs.",
+    "thread_ts": null,
+    "reactions": [
+      {"emoji": "eyes", "users": ["ava.lindstrom"]}
+    ]
+  },
+  {
+    "timestamp": "2025-11-14T09:30:00Z",
+    "user": "tomas.herrera",
+    "text": "Decision summary posted. NovaTech and UrbanFlow getting term sheets drafted. MindBridge getting conditional outreach for additional diligence round. Founder communications going out today.",
+    "thread_ts": null,
+    "reactions": []
+  },
+  {
+    "timestamp": "2025-11-14T16:00:00Z",
+    "user": "ava.lindstrom",
+    "text": "Final decision tally for the record: 2 INVEST (NovaTech AI, UrbanFlow), 1 CONDITIONAL (MindBridge), 2 PASS (GreenLoop, DataPulse).",
+    "thread_ts": null,
+    "reactions": []
+  }
+]
