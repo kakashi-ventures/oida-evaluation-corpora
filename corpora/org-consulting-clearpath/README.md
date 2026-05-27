@@ -1,7 +1,7 @@
 # org-consulting-clearpath — Dataset Card
 
 **Family:** organizational · **Domain:** Consulting / Operational process review
-**Primary evaluation corpus** for the paper (Section 4.2, Brook vs. Cowork comparison).
+**Primary evaluation corpus** for the paper (Section 4.2).
 
 ## Scenario
 

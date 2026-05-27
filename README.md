@@ -25,7 +25,7 @@ Following [BEIR](https://github.com/beir-cellar/beir), every dataset is a siblin
 | [`org-vc-vertexminds`](corpora/org-vc-vertexminds) | organizational | Venture capital | 77 | 20 | 89 | 572 KB |
 | [`inv-mystery-redhood`](corpora/inv-mystery-redhood) | investigative | Multi-source reasoning | 30 | 8 | 51 | 120 KB |
 
-`org-consulting-clearpath` ("ClearPath") is the primary corpus referenced in the paper's Brook vs. Cowork comparison (Section 4.2).
+`org-consulting-clearpath` ("ClearPath") is the primary corpus referenced in the paper (Section 4.2).
 
 ## Format
 
@@ -47,10 +47,11 @@ corpora/<dataset-id>/
 
 ## Quick start
 
+The scripts use only the Python standard library — no install needed:
+
 ```bash
 git clone https://github.com/kakashi-ventures/oida-benchmark-corpora.git
 cd oida-benchmark-corpora
-pip install -r evaluation/requirements.txt
 
 # Inspect any corpus (BEIR-shaped dicts: corpus / queries / qrels)
 python scripts/load_example.py corpora/org-consulting-clearpath
@@ -62,7 +63,7 @@ python scripts/build_corpus.py
 python scripts/validate.py
 ```
 
-Loading is BEIR-native:
+Loading is BEIR-native (`pip install beir` for the helper below, optional):
 
 ```python
 from beir.datasets.data_loader import GenericDataLoader
@@ -100,11 +101,6 @@ scripts/
   build_corpus.py             # raw → corpus.jsonl (deterministic normalizer)
   validate.py                 # schema + qrels/epistemic integrity checks
   load_example.py             # minimal BEIR-compatible loader
-evaluation/
-  README.md                   # EQS scoring protocol pointer
-  eqs_scorer.py
-  question_analysis.py
-  requirements.txt
 ```
 
 ## Citation
