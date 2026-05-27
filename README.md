@@ -7,8 +7,6 @@ Companion data for the paper:
 > **Retrieval Is Not Enough: Why Organizational AI Needs Epistemic Infrastructure**
 >
 > Federico Bottino, Carlo Ferrero, Nicholas Dosio, Pierfrancesco Beneventano
->
-> [arXiv:XXXX.XXXXX](https://arxiv.org/abs/XXXX.XXXXX)
 
 ## Abstract
 
@@ -106,16 +104,16 @@ scripts/
 ## Citation
 
 ```bibtex
-@article{bottino2026retrieval,
+@unpublished{bottino2026retrieval,
   title={Retrieval Is Not Enough: Why Organizational AI Needs Epistemic Infrastructure},
   author={Bottino, Federico and Ferrero, Carlo and Dosio, Nicholas and Beneventano, Pierfrancesco},
-  journal={arXiv preprint arXiv:XXXX.XXXXX},
-  year={2026}
+  year={2026},
+  note={Preprint in preparation}
 }
 ```
 
-## License & acknowledgements
+## License
 
 Licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) — share and adapt with attribution. See [`LICENSE`](LICENSE).
 
-Developed within the research infrastructure of PoggioAI. We thank Alberto Trivero and Tommaso Portaluri for discussion on AI, statistical, and informatics matters. All organizational corpora are synthetic; any resemblance to real companies is coincidental. The investigative corpus (`inv-mystery-redhood`) is a fictional scenario.
+All organizational corpora are synthetic; any resemblance to real companies is coincidental. The investigative corpus (`inv-mystery-redhood`) is a fictional scenario.
