@@ -2,6 +2,13 @@
 
 Scripts to reproduce the evaluation results reported in the paper.
 
+For the benchmark format (corpus / queries / qrels / epistemic) see
+[`../docs/format.md`](../docs/format.md); for how relevance grades were assigned
+see [`../docs/relevance-guidelines.md`](../docs/relevance-guidelines.md). Standard
+retrieval metrics (nDCG@k, Recall@k, MAP) can be computed directly from each
+corpus's `qrels/test.tsv` with any BEIR-compatible evaluator; the scripts below
+compute the paper's epistemic-quality metrics on top of system responses.
+
 ## Prerequisites
 
 ```bash

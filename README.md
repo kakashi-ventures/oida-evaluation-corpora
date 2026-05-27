@@ -1,4 +1,6 @@
-# OIDA Evaluation Corpora
+# OIDA Benchmark Corpora
+
+**A Resource for Evaluating Epistemic Retrieval in Organizations**
 
 Companion data for the paper:
 
@@ -8,51 +10,102 @@ Companion data for the paper:
 >
 > [arXiv:XXXX.XXXXX](https://arxiv.org/abs/XXXX.XXXXX)
 
-## Overview
+## Abstract
 
-This repository contains the three evaluation corpora used to develop and test the OIDA framework — an epistemic infrastructure for organizational AI that structures knowledge as typed Knowledge Objects with class-specific decay, signed contradiction propagation, and modeled ignorance.
+Most retrieval benchmarks reward *topical* relevance: did the system find documents about the right subject? Organizational knowledge work needs more. It needs **epistemic** retrieval — distinguishing a binding decision from a discarded hypothesis, surfacing the contradiction between two teams' assessments, and recognizing which questions are still open. The OIDA Benchmark Corpora is a heterogeneous, BEIR-style retrieval benchmark built to measure exactly this. Four corpora — three synthetic-but-realistic organizational knowledge bases and one investigative multi-source reasoning case — share one uniform `corpus / queries / qrels` layout, plus an OIDA-specific **epistemic gold layer** (typed knowledge objects and signed edges) that turns each dataset from a document dump into a test of epistemic structure.
 
-Each corpus is a synthetic but structurally realistic organizational knowledge base, designed to span diverse epistemic situations: binding decisions, open questions, contested hypotheses, contradictory evidence, and evolving plans.
+## Datasets
 
-## Corpora
+Following [BEIR](https://github.com/beir-cellar/beir), every dataset is a sibling folder under `corpora/` with an identical shape. The family is encoded in the slug prefix (`org-*`, `inv-*`).
 
-| Corpus | Domain | Description | Files | Size |
-|---|---|---|---|---|
-| **Caso A** | Consulting / Operations | Process review engagement for a compliance firm (ClearPath Solutions) | 46 | 318 KB |
-| **Caso B** | IoT / Product Development | Cloud platform build for a smart fire-resistant window manufacturer (FireGlass) | 47 | 566 KB |
-| **Caso C** | Venture Capital | Investment committee deliberation for a demo day event (Vertex Minds) | 77 | 376 KB |
+| Dataset | Family | Domain | Docs | Queries | Qrels | Raw size |
+|---|---|---|---|---|---|---|
+| [`org-consulting-clearpath`](corpora/org-consulting-clearpath) | organizational | Consulting / Operations | 46 | 26 | 107 | 420 KB |
+| [`org-iot-fireglass`](corpora/org-iot-fireglass) | organizational | IoT / Product development | 47 | 20 | 82 | 672 KB |
+| [`org-vc-vertexminds`](corpora/org-vc-vertexminds) | organizational | Venture capital | 77 | 20 | 89 | 572 KB |
+| [`inv-mystery-redhood`](corpora/inv-mystery-redhood) | investigative | Multi-source reasoning | 30 | 8 | 51 | 120 KB |
 
-Caso A ("ClearPath") is the primary evaluation corpus referenced in the paper's Brook vs. Cowork comparison (Section 4.2).
+`org-consulting-clearpath` ("ClearPath") is the primary corpus referenced in the paper's Brook vs. Cowork comparison (Section 4.2).
 
-## Document Categories
+## Format
 
-Each corpus is organized into eight categories reflecting typical organizational knowledge sources:
+Every corpus is identical in shape — the full contract is in [`docs/format.md`](docs/format.md):
 
-| # | Category | Content |
-|---|---|---|
-| 01 | `scope` | Project briefs, requirements, statements of work |
-| 02 | `subject` | Domain observations, process maps, technical documentation |
-| 03 | `internal-comms` | Internal emails and Slack channels |
-| 04 | `external-comms` | Client-facing emails and Slack channels |
-| 05 | `meetings` | Meeting notes, reviews, workshops |
-| 06 | `market-context` | Industry reports, competitive analysis, market data |
-| 07 | `documents` | Formal deliverables, proposals, reports |
-| 08 | `agenda` | Calendar events, sprint timelines, schedules |
+```
+corpora/<dataset-id>/
+├── corpus.jsonl              # documents to retrieve over          (BEIR core)
+├── queries.jsonl             # evaluation queries                  (BEIR core)
+├── qrels/test.tsv            # graded relevance judgments (0–3)     (BEIR core)
+├── epistemic/                # OIDA epistemic gold layer
+│   ├── knowledge-objects.jsonl
+│   └── edges.jsonl
+├── raw/                      # untouched source documents (provenance)
+└── README.md                 # dataset card
+```
 
-## File Formats
+`corpus.jsonl` is BEIR-compatible: `{"_id", "title", "text", "metadata"}`, one JSON object per line. It is **derived** from `raw/` by `scripts/build_corpus.py`, so the pipeline is reproducible and the source of truth is preserved. No gold or epistemic labels live in `corpus.jsonl` — retrieval cannot cheat.
 
-- `.md` — Markdown documents (emails, meeting notes, reports, briefs)
-- `.json` — Structured data (Slack channel exports, calendar events)
-- `.jsonl` — Line-delimited JSON (daily calendar snapshots)
-- `.csv` — Tabular data (bottleneck analyses, sprint timelines, schedules)
+## Quick start
 
-## Usage
+```bash
+git clone https://github.com/kakashi-ventures/oida-benchmark-corpora.git
+cd oida-benchmark-corpora
+pip install -r evaluation/requirements.txt
 
-These corpora can be used to:
+# Inspect any corpus (BEIR-shaped dicts: corpus / queries / qrels)
+python scripts/load_example.py corpora/org-consulting-clearpath
 
-1. **Reproduce paper results** — Ingest into OIDA (or any knowledge system) and run the EQS evaluation protocol described in Section 4.1
-2. **Benchmark epistemic systems** — Test whether your system can distinguish decisions from hypotheses, surface contradictions, and model organizational ignorance
-3. **Compare RAG approaches** — Use as input corpora for GraphRAG, LightRAG, or other retrieval-augmented generation systems
+# Rebuild corpus.jsonl from raw sources (deterministic)
+python scripts/build_corpus.py
+
+# Validate schema + qrels/epistemic integrity (CI gate)
+python scripts/validate.py
+```
+
+Loading is BEIR-native:
+
+```python
+from beir.datasets.data_loader import GenericDataLoader
+corpus, queries, qrels = GenericDataLoader(
+    corpus_file="corpora/org-consulting-clearpath/corpus.jsonl",
+    query_file="corpora/org-consulting-clearpath/queries.jsonl",
+    qrels_file="corpora/org-consulting-clearpath/qrels/test.tsv",
+).load_custom()
+```
+
+## What makes it *epistemic*
+
+A topical retriever asks "is this document about bottlenecks?" An epistemic retriever must answer harder questions:
+
+- **Evolving decisions** — the onboarding target moves 6wk → 3wk → 7wk → 4wk → 3–4wk across the engagement; which document holds the *binding* version?
+- **Contradictions** — two IC members disagree on NovaTech's investment amount (€320K vs €200K); a field-test report says one thing internally and another to the client.
+- **Open questions** — an audit-workflow bottleneck whose true cause is never measured; a vendor's firmware docs that never arrive.
+- **Refuted hypotheses** — a rumor-driven suspect with motive but no evidence.
+
+Each `queries.jsonl` query is tagged with the `epistemic_type` it probes (`DECISION`, `CONTRADICTION`, `QUESTION`, `HYPOTHESIS`, …). The `epistemic/` layer ships the gold answer: typed **knowledge objects** and signed **edges** (`SUPPORTS`, `CONTRADICTS`, `SUPERSEDES`, `IMPLEMENTS`, …) following the 9-class / 10-edge taxonomy in [`docs/epistemic-taxonomy.md`](docs/epistemic-taxonomy.md). Relevance grades were assigned with the rubric in [`docs/relevance-guidelines.md`](docs/relevance-guidelines.md).
+
+## Repository layout
+
+```
+README.md                     # this file
+LICENSE                       # CC BY 4.0
+CITATION.cff
+CHANGELOG.md                  # dataset versioning (v1.0.0 = first public release)
+docs/
+  format.md                   # the corpus/queries/qrels/epistemic contract
+  epistemic-taxonomy.md       # 9 knowledge-object classes + 10 edge types
+  relevance-guidelines.md     # how qrels grades were assigned
+corpora/                      # the four datasets (see table above)
+scripts/
+  build_corpus.py             # raw → corpus.jsonl (deterministic normalizer)
+  validate.py                 # schema + qrels/epistemic integrity checks
+  load_example.py             # minimal BEIR-compatible loader
+evaluation/
+  README.md                   # EQS scoring protocol pointer
+  eqs_scorer.py
+  question_analysis.py
+  requirements.txt
+```
 
 ## Citation
 
@@ -65,10 +118,8 @@ These corpora can be used to:
 }
 ```
 
-## License
+## License & acknowledgements
 
-This work is licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). You are free to share and adapt the material with appropriate attribution.
+Licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) — share and adapt with attribution. See [`LICENSE`](LICENSE).
 
-## Acknowledgements
-
-This work was developed within the research infrastructure of PoggioAI. We thank Alberto Trivero and Tommaso Portaluri for discussion on AI, statistical, and informatics matters.
+Developed within the research infrastructure of PoggioAI. We thank Alberto Trivero and Tommaso Portaluri for discussion on AI, statistical, and informatics matters. All organizational corpora are synthetic; any resemblance to real companies is coincidental. The investigative corpus (`inv-mystery-redhood`) is a fictional scenario.

@@ -1,7 +1,9 @@
 cff-version: 1.2.0
-title: "OIDA Evaluation Corpora"
+title: "OIDA Benchmark Corpora: A Resource for Evaluating Epistemic Retrieval in Organizations"
 message: "If you use these corpora, please cite our paper."
 type: dataset
+version: 1.0.0
+date-released: 2026-05-27
 authors:
   - family-names: Bottino
     given-names: Federico
@@ -16,10 +18,12 @@ authors:
     given-names: Pierfrancesco
     affiliation: "Massachusetts Institute of Technology"
 license: CC-BY-4.0
-repository-code: "https://github.com/kakashi-ventures/oida-evaluation-corpora"
+repository-code: "https://github.com/kakashi-ventures/oida-benchmark-corpora"
 keywords:
   - epistemic-infrastructure
   - knowledge-objects
   - organizational-ai
   - RAG-evaluation
+  - retrieval-benchmark
+  - BEIR
   - knowledge-management
