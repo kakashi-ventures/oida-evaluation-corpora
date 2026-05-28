@@ -33,7 +33,7 @@ One JSON object per line:
 | `_id` | Stable, unique. Derived from the source path under `raw/` **without extension**, preserving provenance. |
 | `title` | H1 / subject line / source short-name. |
 | `text` | Full normalized plaintext. Structured sources (Slack `.json`, calendar `.json`/`.jsonl`, tabular `.csv`) are flattened to readable text by `build_corpus.py`; the original stays in `raw/`. |
-| `metadata` | Free-form. `category`, `format`, `source_path` always present; `created` when a date is recoverable from the source. **No gold labels here** — `corpus.jsonl` stays neutral so retrieval cannot cheat. |
+| `metadata` | Free-form. `category`, `format`, `source_path` always present; `created` is the document's **narrative event time** (when the document was authored/sent/captured in the world of the corpus) when extractable, in ISO-8601. **No gold labels here** — `corpus.jsonl` stays neutral so retrieval cannot cheat. |
 
 `corpus.jsonl` is **derived** from `raw/`. Regenerate it deterministically with
 `python scripts/build_corpus.py corpora/<dataset-id>`.
@@ -52,6 +52,7 @@ One JSON object per line:
 | `text` | Natural-language evaluation question. |
 | `metadata.tests` | Short slug naming the situation under test. |
 | `metadata.difficulty` | `easy` / `medium` / `hard`. |
+| `metadata.query_time` | *Optional.* ISO-8601 date. The narrative time at which the query is asked — used for time-aware evaluation. When absent, evaluators should treat the query as asked after all documents in the corpus exist (end-of-corpus). |
 
 ---
 
@@ -71,6 +72,22 @@ q01	02-subject/observation-001-onboarding	2
   support, 1 = weak/contextual, 0 = explicitly judged non-relevant). The full
   rubric is in [`relevance-guidelines.md`](relevance-guidelines.md).
 - Single `test` split: this is an evaluation-only resource, no train/dev.
+
+### Time-aware evaluation (optional)
+
+For evaluations that exercise temporal reasoning, additional time-sliced qrels
+files of the form `qrels/test_t<TAG>.tsv` may sit alongside `qrels/test.tsv`,
+where `<TAG>` is a slug describing the cutoff (`test_t2025-09-30.tsv`,
+`test_t_pitchday.tsv`, etc.). Each slice carries the same schema as
+`qrels/test.tsv` but reflects the binding state of relevance *at that cutoff*
+— an earlier-binding document scored 3 at one cutoff may be re-graded 2 (or 0)
+at a later cutoff once it has been superseded. Pair time-sliced qrels with the
+`metadata.query_time` field on each query so the evaluator knows which slice
+to use.
+
+The utility `scripts/temporal_slice.py` derives a corpus + queries slice at a
+given cutoff by filtering on `metadata.created` (docs) and `metadata.query_time`
+(queries) — see that script for usage.
 
 ---
 

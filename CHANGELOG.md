@@ -5,6 +5,28 @@ version tracks the benchmark contents, not code. Versions follow
 [Semantic Versioning](https://semver.org/): a MAJOR bump signals a
 backward-incompatible change to ids, schema, or judgments.
 
+## [2.1.0] — 2026-05-28
+
+Additive release. Introduces optional temporal metadata and a slicer utility,
+enabling time-aware evaluation of retrieval systems on the same corpora.
+
+### Added
+- `queries.jsonl[].metadata.query_time` — optional ISO-8601 field, the
+  narrative time at which the query is asked. Documented in `docs/format.md`.
+- `scripts/temporal_slice.py` — produces a time-sliced view of a corpus at a
+  given cutoff, filtering documents by `metadata.created` and queries by
+  `metadata.query_time`. Writes to `corpora/<id>/slices/t_<cutoff>/`
+  (gitignored).
+- Time-sliced qrels convention: `qrels/test_t<TAG>.tsv` may sit alongside
+  `qrels/test.tsv` to encode binding relevance at a specific cutoff.
+
+### Changed
+- `scripts/build_corpus.py` extracts `metadata.created` more robustly: label-
+  aware (`Date:`, `Sent:`, `Captured:`, `Timestamp:`, `When:`, `Last Updated:`),
+  handles ISO + human-readable formats (`October 5, 2025`, `5 October 2025`),
+  and falls back to month-only labels (`October 2025` → first of month). Date
+  coverage rose materially: ClearPath 3/46 → 45/46, VertexMinds 40/77 → 65/77.
+
 ## [2.0.0] — 2026-05-28
 
 **Breaking change.** The benchmark is now a pure BEIR-compatible retrieval

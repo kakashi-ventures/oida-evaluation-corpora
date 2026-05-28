@@ -2,7 +2,7 @@ cff-version: 1.2.0
 title: "OIDA Benchmark Corpora: A Resource for Evaluating Epistemic Retrieval in Organizations"
 message: "If you use these corpora, please cite our paper."
 type: dataset
-version: 2.0.0
+version: 2.1.0
 date-released: 2026-05-28
 authors:
   - family-names: Bottino
