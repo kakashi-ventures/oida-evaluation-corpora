@@ -1,0 +1,14 @@
+query_id	document_id	relevance
+q01	source_003_smiths_tap_statement	1
+q01	source_004_coroner_report_reyes	1
+q01	source_008_lantern_bartender_statement	1
+q01	source_009_culvert_discovery_report	1
+q01	source_019_sweeney_case_note	1
+q01	source_023_marsh_discovery_report	1
+q02	source_019_sweeney_case_note	1
+q02	source_021_hoyts_deli_receipt	1
+q02	source_024_marsh_coroner_report	1
+q03	source_005_track_inspector_note	1
+q03	source_015_halbert_alibi_statement	1
+q04	source_026_sentinel_article	0
+q05	source_026_sentinel_article	0
