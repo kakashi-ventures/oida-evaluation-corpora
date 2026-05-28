@@ -8,7 +8,7 @@ Vertex Minds LLC is an early-stage VC fund in Milan, Italy, running its inaugura
 
 It is the largest corpus (77 docs) and the temporally densest — daily calendar snapshots span the evaluation period.
 
-## Why it is epistemically interesting
+## Why it is challenging
 
 - **Decisions that evolve.** NovaTech: invite → pitch → INVEST → term sheet. UrbanFlow: ask negotiated €250K → €180K. MindBridge: PASS → CONDITIONAL.
 - **Load-bearing contradictions across documents.**
@@ -26,20 +26,12 @@ It is the largest corpus (77 docs) and the temporally densest — daily calendar
 | Documents | 77 (52 Markdown, 18 JSONL, 4 JSON, 3 CSV) |
 | Queries | 20 (11 medium, 6 hard, 3 easy) |
 | Qrels | 89 graded judgments (0–3) |
-| Knowledge objects | 23 |
-| Edges | 24 |
 | Raw size | 572 KB |
-
-**Query epistemic types:** CONTRADICTION 6 · DECISION 4 · QUESTION 2 · EVALUATION 2 · PLAN 2 · CONSTRAINT 1 · HYPOTHESIS 1 · NARRATIVE 1 · OBSERVATION 1.
-
-**Knowledge-object classes:** DECISION 8 · EVIDENCE 4 · EVALUATION 3 · CONSTRAINT 2 · QUESTION 2 · OBSERVATION 2 · HYPOTHESIS 1 · PLAN 1.
-
-**Edge types:** BASED_ON 5 · CONTRADICTS 4 · IMPLEMENTS 3 · SUPPORTS 3 · BLOCKS 3 · DERIVES_FROM 2 · SUPERSEDES 1 · ENABLES 1 · PRECEDES 1 · REFINES 1.
 
 ## Example queries
 
-- **q06** (CONTRADICTION, hard) — NovaTech amount/instrument disagreement → `04-external-comms/email/founders/email-ext-009-termsheet-novatech` (3), `02-subject/term-sheet-draft-novatech` (3), `07-documents/ic-memo-final` (2).
-- **q03** (DECISION) — why PASS on DataPulse despite liking the product → `05-meetings/meeting-007-ic-deliberation` (3), `07-documents/ic-memo-final` (3).
+- **q06** (hard) — NovaTech amount/instrument disagreement → `04-external-comms/email/founders/email-ext-009-termsheet-novatech` (3), `02-subject/term-sheet-draft-novatech` (3), `07-documents/ic-memo-final` (2).
+- **q03** (medium) — why PASS on DataPulse despite liking the product → `05-meetings/meeting-007-ic-deliberation` (3), `07-documents/ic-memo-final` (3).
 
 ## Provenance & format
 

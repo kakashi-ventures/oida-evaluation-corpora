@@ -1,8 +1,8 @@
-{"_id": "q01", "text": "Who is the most likely culprit behind the attack on Marta Bellandi, and with what confidence?", "metadata": {"epistemic_type": "DECISION", "tests": "culprit_identification", "difficulty": "hard"}}
-{"_id": "q02", "text": "Reconstruct the sequence of events on 13 October 1842 that led to the attack on Marta.", "metadata": {"epistemic_type": "NARRATIVE", "tests": "timeline_reconstruction", "difficulty": "hard"}}
-{"_id": "q03", "text": "What evidence connects the animal-like subject (Subject B) to Marta's cottage and the attack?", "metadata": {"epistemic_type": "EVIDENCE", "tests": "evidence_grounding", "difficulty": "medium"}}
-{"_id": "q04", "text": "Which sources contradict each other about the timing of events, and how should their reliability be weighed?", "metadata": {"epistemic_type": "CONTRADICTION", "tests": "contradiction_detection", "difficulty": "hard"}}
-{"_id": "q05", "text": "Is Rinaldo Marchi the culprit? Separate motive from actual evidence.", "metadata": {"epistemic_type": "HYPOTHESIS", "tests": "false_lead_rejection", "difficulty": "medium"}}
-{"_id": "q06", "text": "Which mentions across the sources refer to the same entity as 'Subject B', and what aliases are used?", "metadata": {"epistemic_type": "EVALUATION", "tests": "entity_linking", "difficulty": "medium"}}
-{"_id": "q07", "text": "Which sources are irrelevant noise that should be excluded from the investigation?", "metadata": {"epistemic_type": "OBSERVATION", "tests": "noise_rejection", "difficulty": "easy"}}
-{"_id": "q08", "text": "Why does Clara's encounter at the birch crossing matter causally to the attack on Marta?", "metadata": {"epistemic_type": "QUESTION", "tests": "causal_reasoning", "difficulty": "hard"}}
+{"_id": "q01", "text": "Who is the most likely culprit behind the attack on Marta Bellandi, and with what confidence?", "metadata": {"tests": "culprit_identification", "difficulty": "hard"}}
+{"_id": "q02", "text": "Reconstruct the sequence of events on 13 October 1842 that led to the attack on Marta.", "metadata": {"tests": "timeline_reconstruction", "difficulty": "hard"}}
+{"_id": "q03", "text": "What evidence connects the animal-like subject (Subject B) to Marta's cottage and the attack?", "metadata": {"tests": "evidence_grounding", "difficulty": "medium"}}
+{"_id": "q04", "text": "Which sources contradict each other about the timing of events, and how should their reliability be weighed?", "metadata": {"tests": "contradiction_detection", "difficulty": "hard"}}
+{"_id": "q05", "text": "Is Rinaldo Marchi the culprit? Separate motive from actual evidence.", "metadata": {"tests": "false_lead_rejection", "difficulty": "medium"}}
+{"_id": "q06", "text": "Which mentions across the sources refer to the same entity as 'Subject B', and what aliases are used?", "metadata": {"tests": "entity_linking", "difficulty": "medium"}}
+{"_id": "q07", "text": "Which sources are irrelevant noise that should be excluded from the investigation?", "metadata": {"tests": "noise_rejection", "difficulty": "easy"}}
+{"_id": "q08", "text": "Why does Clara's encounter at the birch crossing matter causally to the attack on Marta?", "metadata": {"tests": "causal_reasoning", "difficulty": "hard"}}

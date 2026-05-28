@@ -1,29 +1,26 @@
-# Ashford County Epistemic Benchmark — Clean Scenario v0.1
+# inv-ashford-mystery — Dataset Card
 
-A multi-source investigative corpus designed to test whether a knowledge-extraction system can perform **cross-incident pattern clustering** while correctly isolating an outlier event that superficially appears to belong to the cluster.
+**Family:** investigative · **Domain:** Multi-source reasoning / cross-incident pattern clustering
 
-This benchmark is structurally a sibling of the Red Hood Epistemic Benchmark, but addresses a gap in Red Hood's design: Red Hood tests single-incident culprit identification with a single causal chain. This benchmark tests **comparative reasoning across four distinct incidents** — three of which share a hidden signature and one of which does not.
+## Scenario
 
----
-
-## The puzzle
+A multi-source investigative corpus designed to test whether a retrieval system can perform **cross-incident pattern clustering** while correctly isolating an outlier event that superficially appears to belong to the cluster.
 
 Four young men died in Ashford between July 1988 and October 1990. The corpus contains thirty heterogeneous sources distributed across the four cases plus three cross-cutting documents (a newspaper article, a false-lead clearance, and a noise document) and one false-lead witness statement.
 
-The tested system must, using only the sources:
+A system reading the corpus must:
 
 1. Identify the three deaths that share a recurring offender signature.
 2. Identify the one death that does not.
-3. Identify the most likely killer of the outlier, distinct from the serial offender.
-4. Resist a high-circulation newspaper article that misframes all four as a single pattern.
-5. Resist a witness statement that places the serial offender's description near the outlier scene (the witness's own dating is internally contradicted).
-6. Resist a "photographer suspect" false lead with a verified alibi.
+3. Resist a high-circulation newspaper article that misframes all four as a single pattern.
+4. Resist a witness statement that places the serial offender's description near the outlier scene (the witness's own dating is internally contradicted).
+5. Resist a "photographer suspect" false lead with a verified alibi.
 
 The system must not name the serial offender personally — the corpus does not contain enough to do so. A well-calibrated answer says the offender is an unidentified male matching a recurring description.
 
----
+## Why it is challenging
 
-## What the benchmark exercises
+This corpus is a sibling of `inv-mystery-redhood` but addresses a different reasoning gap: Red Hood tests single-incident culprit identification with a single causal chain; Ashford tests **comparative reasoning across four distinct incidents** — three of which share a hidden signature and one of which does not.
 
 | Capability | How |
 |---|---|
@@ -33,27 +30,18 @@ The system must not name the serial offender personally — the corpus does not 
 | Contradiction handling | Direct contradiction between two witnesses' accounts of the same alibi (Vail says ~6 hours at friend's place; friend says ~2 hours) |
 | False-lead resistance | Three deliberate false leads with different failure modes: misframing (newspaper), surface match with verified alibi (Pelham), surface match with self-contradicting witness (Kell) |
 | Noise rejection | A high-reliability county-fair bulletin with zero relevance to any case |
-| Bounded inference | The strongest physical link to the serial offender (a pawned camera under a fake ID) has its photocopy of the ID lost in a 1991 flood — system should treat as strong but not conclusive |
+| Bounded inference | The strongest physical link to the serial offender (a pawned camera under a fake ID) has its photocopy of the ID lost in a 1991 flood — the system should treat it as strong but not conclusive |
 
----
+## Contents
 
-## Structure
+| | |
+|---|---|
+| Documents | 30 (all Markdown) |
+| Queries | 6 (3 hard, 3 medium) |
+| Qrels | 13 graded judgments (0–3) |
+| Raw size | 120 KB |
 
-```
-ashford_benchmark/
-  README.md                                # this file
-  ground_truth/
-    ground_truth.md                        # NOT to be shown to tested systems
-  corpus/
-    clean/
-      source_001_missing_persons_reyes.md
-      ...
-      source_030_county_fair_bulletin.md   # 30 source files
-  metadata/
-    source_metadata_clean.json             # per-source roles, reliability, expected salience
-```
-
-Every source carries the canonical header:
+Each source carries a canonical header:
 
 ```
 SOURCE_ID:
@@ -66,17 +54,11 @@ RELIABILITY_PRIOR:
 TEXT:
 ```
 
----
-
 ## Notes on design
 
-This corpus was built in response to a critique of an earlier four-file version of the same case: the original version concentrated every signature element into one of four files, which meant a reader who noticed any one dimension was most of the way to the answer. That structure measures pattern recognition, not epistemic reconstruction.
+The signature here is distributed across at least six sources per dimension. The outlier case's anti-signature is also distributed (scene report, autopsy, detective's case note). A model that "solves" the puzzle by activating a serial-killer schema rather than by reasoning from the sources should fail to cite the specific evidential chain a well-grounded answer requires.
 
-The signature here is distributed across at least six sources per dimension. The outlier case's anti-signature is also distributed (scene report, autopsy, detective's case note). A model that "solves" the puzzle by activating a serial-killer schema rather than by reasoning from the sources should fail to cite the specific evidential chain the gold answer requires.
-
-The benchmark deliberately does not include enough to identify the serial offender personally. A model that names a specific real or fictional individual is over-reaching the evidence.
-
----
+The corpus deliberately does not include enough to identify the serial offender personally. A system that names a specific real or fictional individual is over-reaching the evidence.
 
 ## Recognition-confound risk
 
@@ -85,4 +67,8 @@ The Subject P signature in this corpus (Midwestern industrial setting, gay-bar l
 - Comparing model citations against the actual source distribution. A model reasoning from the corpus will cite specific source IDs and chain them through specific pattern dimensions. A model schema-activating will produce a fluent narrative that does not map back to source IDs.
 - Inverting one of the pattern markers in an ablation (e.g., swap rum-and-coke for whiskey-sour) and checking whether the model still produces the same identification — a model reasoning from corpus will update; a model schema-activating may not.
 
-This recognition-confound risk is the principal known weakness of this benchmark and should be foregrounded when reporting results.
+This recognition-confound risk is the principal known weakness of this corpus and should be foregrounded when reporting results.
+
+## Provenance & format
+
+The 30 sources live in `raw/` as `source_*.md`; `corpus.jsonl` is generated by `scripts/build_corpus.py`. See [`../../docs/format.md`](../../docs/format.md) and [`../../docs/relevance-guidelines.md`](../../docs/relevance-guidelines.md). This is a fictional scenario.

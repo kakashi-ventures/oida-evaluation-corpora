@@ -8,7 +8,7 @@ Innovative Windows LLC (40 employees, Verona, Italy) manufactures smart fire-res
 
 The corpus covers the build across internal engineering channels, client-facing communications, sprint reviews, and formal deliverables.
 
-## Why it is epistemically interesting
+## Why it is challenging
 
 - **An evolving architecture decision.** A hybrid MQTT-backend + WebSocket-frontend design is chosen over direct browser-to-MQTT, with an engineer's pushback overruled on RBAC/audit grounds.
 - **Internal-vs-client contradictions.** The timeline is framed internally as "lost ~2 sprints, 7 weeks left, tight" but to the client as a "potential 1–2 week slip, modules on track"; Milan field testing is reported bluntly internally (Unit C drops, no offline sensor logging) and softened to the client.
@@ -22,20 +22,12 @@ The corpus covers the build across internal engineering channels, client-facing 
 | Documents | 47 (41 Markdown, 4 JSON, 2 CSV) |
 | Queries | 20 (12 medium, 5 hard, 3 easy) |
 | Qrels | 82 graded judgments (0–3) |
-| Knowledge objects | 24 |
-| Edges | 24 |
 | Raw size | 672 KB |
-
-**Query epistemic types:** CONTRADICTION 4 · DECISION 3 · QUESTION 3 · CONSTRAINT 3 · EVIDENCE 2 · OBSERVATION 2 · HYPOTHESIS 1 · PLAN 1 · NARRATIVE 1.
-
-**Knowledge-object classes:** DECISION 4 · QUESTION 4 · CONSTRAINT 4 · EVALUATION 4 · EVIDENCE 3 · OBSERVATION 3 · PLAN 1 · HYPOTHESIS 1.
-
-**Edge types:** BASED_ON 5 · CONTRADICTS 4 · DERIVES_FROM 4 · SUPERSEDES 2 · SUPPORTS 2 · PRECEDES 2 · REFINES 2 · BLOCKS 1 · ENABLES 1 · IMPLEMENTS 1.
 
 ## Example queries
 
-- **q03** (CONTRADICTION) — internal vs client timeline → `03-internal-comms/email/budget-timeline-concern` (3), `04-external-comms/email/timeline-update-client` (3).
-- **q12** (EVIDENCE) — FG-001 duplicate-readings bug → `02-subject/known-issues` (3), `03-internal-comms/email/pre-launch-checklist` (2).
+- **q03** (medium) — internal vs client timeline → `03-internal-comms/email/budget-timeline-concern` (3), `04-external-comms/email/timeline-update-client` (3).
+- **q12** (medium) — FG-001 duplicate-readings bug → `02-subject/known-issues` (3), `03-internal-comms/email/pre-launch-checklist` (2).
 
 ## Provenance & format
 

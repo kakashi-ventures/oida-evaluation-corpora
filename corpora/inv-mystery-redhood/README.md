@@ -6,9 +6,9 @@
 
 A fictional 1842 village investigation (the "Red Hood" case). Thirty heterogeneous sources — private letters, witness statements, ranger logs, guard reports, medical reports, receipts, rumors, and irrelevant notices — must be combined to reconstruct what happened to Marta Bellandi and identify the most likely culprit. The case is engineered to test whether a system can do more than summarize: it must reconstruct an event timeline, link entity aliases, ground a conclusion in evidence, detect weak contradictions, reject a rumor-driven false lead, and discard noise.
 
-This is the corpus with the richest *native* ground truth, so its gold layer is derived deterministically rather than hand-authored.
+This is the corpus with the richest *native* ground truth, so its qrels are derived deterministically rather than hand-authored.
 
-## Why it is epistemically interesting
+## Why it is challenging
 
 - **Culprit inference under uncertainty.** The expected answer (Subject B / "Bruno") must be held at calibrated confidence (~0.82), never absolute certainty.
 - **A false lead.** Rinaldo Marchi has motive but no physical evidence; the gold requires separating motive from evidence.
@@ -22,11 +22,9 @@ This is the corpus with the richest *native* ground truth, so its gold layer is 
 | Documents | 30 (all Markdown) |
 | Queries | 8 (4 hard, 3 medium, 1 easy) |
 | Qrels | 51 graded judgments (0–3) |
-| Knowledge objects | 34 |
-| Edges | 40 |
 | Raw size | 120 KB |
 
-**Queries** (one per epistemic task): culprit identification (DECISION), timeline reconstruction (NARRATIVE), evidence grounding (EVIDENCE), contradiction detection (CONTRADICTION), false-lead rejection (HYPOTHESIS), entity linking (EVALUATION), noise rejection (OBSERVATION), causal reasoning (QUESTION).
+The eight queries each target a distinct reasoning task: culprit identification, timeline reconstruction, evidence grounding, contradiction detection, false-lead rejection, entity linking, noise rejection, and causal reasoning.
 
 ## Derivation (reproducible from native ground truth)
 
@@ -34,45 +32,13 @@ The gold layer is mapped deterministically from the case's native ground-truth f
 
 - **`queries.jsonl`** ← the eight `test_question_gold_answers`.
 - **`qrels/test.tsv`** ← `required_sources` → 3, `optional_sources` → 2; timeline query maps gold events to supporting sources (must-include events → 3, others → 2); contradiction query takes all sources involved in each gold contradiction → 3; noise-rejection query takes the gold noise sources → 3.
-- **`epistemic/knowledge-objects.jsonl`** ← `expected_ko_graph` (claim, supporting sources, confidence, salience, entities, causal role).
-- **`epistemic/edges.jsonl`** ← `expected_edges` (typed, signed).
 
 Each `corpus.jsonl` `_id` equals the native `source_id` (filename without extension), so the mapping is one-to-one.
 
-## Epistemic vocabulary (native + OIDA mapping)
-
-This corpus uses a richer, domain-specialized class/edge vocabulary than the canonical 9-class / 10-edge OIDA taxonomy. To keep the benchmark uniform, each knowledge object and edge carries **both** its native label and a canonical OIDA mapping (`oida_class` / `oida_type`); the `coefficient` field uses an extended table that includes the four investigative edge types.
-
-**Knowledge-object class mapping** (native → `oida_class`):
-
-| Native class | OIDA class |
-|---|---|
-| `event_claim`, `entity_claim`, `forensic_claim`, `temporal_claim`, `alibi_claim` | EVIDENCE |
-| `contextual_claim` | NARRATIVE |
-| `causal_claim`, `intent_claim`, `false_lead_claim` | HYPOTHESIS |
-| `identity_claim`, `source_reliability_claim` | EVALUATION |
-| `contradiction_claim` | QUESTION |
-| `noise_claim` | OBSERVATION |
-
-**Edge type mapping & coefficients** (native → `oida_type`, coefficient):
-
-| Native edge | OIDA edge | Coefficient |
-|---|---|---|
-| `SUPPORTS` | SUPPORTS | +1.0 |
-| `SOURCE_OF` | BASED_ON | +0.8 |
-| `REFINES` | REFINES | +0.5 |
-| `ENABLES` | ENABLES | +0.4 |
-| `PRECEDES` | PRECEDES | +0.3 |
-| `WEAKENS` | BLOCKS | −0.4 |
-| `ALTERNATIVE_TO` | CONTRADICTS | −0.5 |
-| `CONTRADICTS`, `QUARANTINES` | CONTRADICTS | −0.6 |
-
-After mapping, the **OIDA knowledge-object classes** present are EVIDENCE 19 · HYPOTHESIS 5 · EVALUATION 5 · OBSERVATION 3 · NARRATIVE 1 · QUESTION 1, and the **OIDA edge types** are SUPPORTS 18 · CONTRADICTS 7 · BLOCKS 5 · PRECEDES 4 · REFINES 3 · ENABLES 2 · BASED_ON 1.
-
 ## Example query
 
-- **q01** (culprit identification, hard) — top judged docs `source_008_informal_note_clara_birches` (3), `source_010_witness_nino_dark_shape` (3), `source_016_guard_report_first_inspection` (3), `source_017_medical_report_marta` (3).
+- **q01** (hard) — culprit identification → top judged docs `source_008_informal_note_clara_birches` (3), `source_010_witness_nino_dark_shape` (3), `source_016_guard_report_first_inspection` (3), `source_017_medical_report_marta` (3).
 
 ## Provenance & format
 
-The 30 sources live in `raw/` as `source_*.md`; `corpus.jsonl` is generated by `scripts/build_corpus.py`. See [`../../docs/format.md`](../../docs/format.md), [`../../docs/relevance-guidelines.md`](../../docs/relevance-guidelines.md), and the canonical taxonomy in [`../../docs/epistemic-taxonomy.md`](../../docs/epistemic-taxonomy.md). This is a fictional scenario.
+The 30 sources live in `raw/` as `source_*.md`; `corpus.jsonl` is generated by `scripts/build_corpus.py`. See [`../../docs/format.md`](../../docs/format.md) and [`../../docs/relevance-guidelines.md`](../../docs/relevance-guidelines.md). This is a fictional scenario.

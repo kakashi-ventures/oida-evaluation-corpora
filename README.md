@@ -1,6 +1,6 @@
 # OIDA Benchmark Corpora
 
-**A Resource for Evaluating Epistemic Retrieval in Organizations**
+**A Resource for Evaluating Adversarial Retrieval in Organizational Knowledge Work**
 
 Companion data for the paper:
 
@@ -10,7 +10,7 @@ Companion data for the paper:
 
 ## Abstract
 
-Most retrieval benchmarks reward *topical* relevance: did the system find documents about the right subject? Organizational knowledge work needs more. It needs **epistemic** retrieval — distinguishing a binding decision from a discarded hypothesis, surfacing the contradiction between two teams' assessments, and recognizing which questions are still open. The OIDA Benchmark Corpora is a heterogeneous, BEIR-style retrieval benchmark built to measure exactly this. Four corpora — three synthetic-but-realistic organizational knowledge bases and one investigative multi-source reasoning case — share one uniform `corpus / queries / qrels` layout, plus an OIDA-specific **epistemic gold layer** (typed knowledge objects and signed edges) that turns each dataset from a document dump into a test of epistemic structure.
+Most retrieval benchmarks reward *topical* relevance: did the system find documents about the right subject? Organizational knowledge work needs more. It needs the ability to distinguish a binding decision from a discarded hypothesis, surface the contradiction between two teams' assessments, and recognize which questions are still open. The OIDA Benchmark Corpora is a heterogeneous, BEIR-style retrieval benchmark built to measure exactly this. Four corpora — three synthetic-but-realistic organizational knowledge bases and one investigative multi-source reasoning case — share one uniform `corpus / queries / qrels` layout, with queries deliberately constructed around contradictions, evolving decisions, open questions, and topically-similar traps.
 
 ## Datasets
 
@@ -33,23 +33,20 @@ Every corpus is identical in shape — the full contract is in [`docs/format.md`
 corpora/<dataset-id>/
 ├── corpus.jsonl              # documents to retrieve over          (BEIR core)
 ├── queries.jsonl             # evaluation queries                  (BEIR core)
-├── qrels/test.tsv            # graded relevance judgments (0–3)     (BEIR core)
-├── epistemic/                # OIDA epistemic gold layer
-│   ├── knowledge-objects.jsonl
-│   └── edges.jsonl
+├── qrels/test.tsv            # graded relevance judgments (0–3)    (BEIR core)
 ├── raw/                      # untouched source documents (provenance)
 └── README.md                 # dataset card
 ```
 
-`corpus.jsonl` is BEIR-compatible: `{"_id", "title", "text", "metadata"}`, one JSON object per line. It is **derived** from `raw/` by `scripts/build_corpus.py`, so the pipeline is reproducible and the source of truth is preserved. No gold or epistemic labels live in `corpus.jsonl` — retrieval cannot cheat.
+`corpus.jsonl` is BEIR-compatible: `{"_id", "title", "text", "metadata"}`, one JSON object per line. It is **derived** from `raw/` by `scripts/build_corpus.py`, so the pipeline is reproducible and the source of truth is preserved. No gold labels live in `corpus.jsonl` — retrieval cannot cheat.
 
 ## Quick start
 
 The scripts use only the Python standard library — no install needed:
 
 ```bash
-git clone https://github.com/kakashi-ventures/oida-benchmark-corpora.git
-cd oida-benchmark-corpora
+git clone https://github.com/kakashi-ventures/oida-evaluation-corpora.git
+cd oida-evaluation-corpora
 
 # Inspect any corpus (BEIR-shaped dicts: corpus / queries / qrels)
 python scripts/load_example.py corpora/org-consulting-clearpath
@@ -57,7 +54,7 @@ python scripts/load_example.py corpora/org-consulting-clearpath
 # Rebuild corpus.jsonl from raw sources (deterministic)
 python scripts/build_corpus.py
 
-# Validate schema + qrels/epistemic integrity (CI gate)
+# Validate schema + qrels integrity (CI gate)
 python scripts/validate.py
 ```
 
@@ -72,16 +69,16 @@ corpus, queries, qrels = GenericDataLoader(
 ).load_custom()
 ```
 
-## What makes it *epistemic*
+## What makes it adversarial
 
-A topical retriever asks "is this document about bottlenecks?" An epistemic retriever must answer harder questions:
+A topical retriever asks "is this document about bottlenecks?" This benchmark forces harder questions:
 
 - **Evolving decisions** — the onboarding target moves 6wk → 3wk → 7wk → 4wk → 3–4wk across the engagement; which document holds the *binding* version?
 - **Contradictions** — two IC members disagree on NovaTech's investment amount (€320K vs €200K); a field-test report says one thing internally and another to the client.
 - **Open questions** — an audit-workflow bottleneck whose true cause is never measured; a vendor's firmware docs that never arrive.
 - **Refuted hypotheses** — a rumor-driven suspect with motive but no evidence.
 
-Each `queries.jsonl` query is tagged with the `epistemic_type` it probes (`DECISION`, `CONTRADICTION`, `QUESTION`, `HYPOTHESIS`, …). The `epistemic/` layer ships the gold answer: typed **knowledge objects** and signed **edges** (`SUPPORTS`, `CONTRADICTS`, `SUPERSEDES`, `IMPLEMENTS`, …) following the 9-class / 10-edge taxonomy in [`docs/epistemic-taxonomy.md`](docs/epistemic-taxonomy.md). Relevance grades were assigned with the rubric in [`docs/relevance-guidelines.md`](docs/relevance-guidelines.md).
+Relevance grades were assigned with the rubric in [`docs/relevance-guidelines.md`](docs/relevance-guidelines.md): graded 0–3, with *epistemic* primacy over topicality — a binding decision scores 3 even if it is shorter and less keyword-rich than the discursive documents that merely discuss the topic.
 
 ## Repository layout
 
@@ -89,15 +86,14 @@ Each `queries.jsonl` query is tagged with the `epistemic_type` it probes (`DECIS
 README.md                     # this file
 LICENSE                       # CC BY 4.0
 CITATION.cff
-CHANGELOG.md                  # dataset versioning (v1.0.0 = first public release)
+CHANGELOG.md                  # dataset versioning
 docs/
-  format.md                   # the corpus/queries/qrels/epistemic contract
-  epistemic-taxonomy.md       # 9 knowledge-object classes + 10 edge types
+  format.md                   # the corpus/queries/qrels contract
   relevance-guidelines.md     # how qrels grades were assigned
 corpora/                      # the four datasets (see table above)
 scripts/
   build_corpus.py             # raw → corpus.jsonl (deterministic normalizer)
-  validate.py                 # schema + qrels/epistemic integrity checks
+  validate.py                 # schema + qrels integrity checks
   load_example.py             # minimal BEIR-compatible loader
 ```
 
