@@ -7,3 +7,9 @@ __pycache__/
 node_modules/
 docs/oida-core/
 corpora/*/slices/
+
+# Internal experiment harness, build scripts, and working notes.
+# The published dataset is corpora/ + docs/ only — keep everything below off main.
+experiments/
+scripts/
+tobefixed/
