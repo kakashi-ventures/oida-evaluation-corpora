@@ -1,0 +1,98 @@
+{
+  "$schema_version": "2",
+  "corpus_id": "inv-ashford-mystery",
+  "system": "oida",
+  "system_version": "angelica-db@d1cad80b",
+  "run_id": "2026-05-29T09Z",
+  "dataset_version": "v2.1.0",
+  "common_setup": {
+    "embedder": "openai/text-embedding-3-small",
+    "ingest_llm": "(OIDA deployed default)",
+    "stance_judge_llm": null,
+    "top_k_reported": [
+      1,
+      5,
+      10,
+      20
+    ],
+    "retrieve_top_k_used": 20,
+    "retrieve_v0_thresholds": {
+      "tauBind": 0.2,
+      "tauFallback": 0.1
+    }
+  },
+  "layer_1_static_ir": {
+    "ndcg": {
+      "1": 0.2,
+      "5": 0.12704842324789628,
+      "10": 0.11973686489293574,
+      "20": 0.11973686489293574
+    },
+    "recall": {
+      "5": 0.1,
+      "10": 0.1,
+      "100": null
+    },
+    "map": {
+      "10": 0.06666666666666667
+    },
+    "precision": {
+      "1": 0.2,
+      "5": 0.08
+    }
+  },
+  "layer_2_adversarial": {
+    "contradiction_recall_at_10": null,
+    "mean_rank_binding": null,
+    "superseded_above_rate": null,
+    "trap_in_top_5": null,
+    "n_contradiction_queries": 0,
+    "n_supersession_queries": 0,
+    "n_trap_pairs": 0
+  },
+  "layer_3_stance_abstention": {
+    "stance_accuracy": null,
+    "stance_macro_f1": null,
+    "contradiction_recall": null,
+    "stance_coverage": null,
+    "epistemic_abstention_accuracy": null,
+    "false_commitment_rate": null,
+    "false_ignorance_rate": null,
+    "selective_stance_precision": null,
+    "abstention_commitment_balance": null,
+    "epistemic_risk_score": null,
+    "n_gold_nei": 0,
+    "n_false_commitments": 0,
+    "n_false_ignorance": 0,
+    "n_non_neutral_predictions": 0
+  },
+  "layer_4_temporal": {
+    "cutoffs": [],
+    "ndcg_at_10_per_cutoff": [],
+    "current_state_accuracy_at_1": null,
+    "current_state_accuracy_at_5": null,
+    "current_state_accuracy_at_10": null,
+    "superseded_leakage_at_10": null,
+    "temporal_ndcg_at_10": null,
+    "stable_knowledge_retention_at_10": null,
+    "freshness_overbias_rate": null,
+    "lifecycle_ranking_agreement": null,
+    "as_of_accuracy_at_10": null,
+    "decay_sensitivity_pairwise": null,
+    "reinforcement_lift_mean": null,
+    "n_current_state_queries": 0,
+    "n_stable_knowledge_queries": 0
+  },
+  "layer_5_practicality": {
+    "ingest_wall_clock_sec_per_doc_median": 12.763227916992037,
+    "retrieve_latency_ms_p50": 7986.498708021827,
+    "retrieve_latency_ms_p95": null,
+    "retrieve_cost_usd_per_query_median": null,
+    "ingest_cost_usd_total": null
+  },
+  "f_conditions": {},
+  "n_queries_total": 5,
+  "n_queries_with_gold": 5,
+  "n_queries_with_retrieved_docs": 5,
+  "notes": "Layer 1 only. Retrieve run used OIDA v0 (tauBind=0.2, tauFallback=0.1). top_k=20; Recall@100 is null because the run capped at top_k=20. 1 queries returned empty subgraph from OIDA; Phase A coverage was 87% across all corpora (30/230 docs failed ingest, concentrated on dense meeting transcripts that hit the Prisma 5 s commit timeout server-side). See experiments/EXPERIMENT_PLAN.md §10."
+}

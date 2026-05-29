@@ -1,4 +1,4 @@
-query_id	document_id	relevance
+query-id	corpus-id	score
 q01	source_003_smiths_tap_statement	1
 q01	source_004_coroner_report_reyes	1
 q01	source_008_lantern_bartender_statement	1
