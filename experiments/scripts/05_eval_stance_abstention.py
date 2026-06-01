@@ -96,7 +96,7 @@ def _judge(client, query: str, answer: str, cache: dict) -> str:
     resp = client.chat.completions.create(
         model=JUDGE_MODEL,
         temperature=0,
-        max_tokens=4,
+        max_tokens=16,
         messages=[
             {"role": "system", "content": JUDGE_SYSTEM},
             {"role": "user", "content": f"QUESTION:\n{query}\n\nSYSTEM ANSWER:\n{answer}\n\nLabel:"},
