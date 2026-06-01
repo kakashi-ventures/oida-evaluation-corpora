@@ -1,0 +1,162 @@
+{
+  "$schema_version": "2",
+  "corpus_id": "inv-ashford-mystery",
+  "system": "oida-core",
+  "system_version": "oida-core@4d2fc49a",
+  "run_id": "2026-06-01T10Z",
+  "dataset_version": "v2.1.0",
+  "common_setup": {
+    "embedder": "openai/text-embedding-3-small",
+    "ingest_llm": "(OIDA deployed default)",
+    "stance_judge_llm": null,
+    "top_k_reported": [
+      1,
+      5,
+      10,
+      20
+    ],
+    "retrieve_top_k_used": 100,
+    "retrieve_v0_thresholds": {
+      "tauBind": 0.2,
+      "tauFallback": 0.1
+    }
+  },
+  "layer_1_static_ir": {
+    "ndcg": {
+      "1": 0.2,
+      "5": 0.1303814150646621,
+      "10": 0.1981922214094278,
+      "20": 0.23239883822297144
+    },
+    "recall": {
+      "5": 0.13333333333333333,
+      "10": 0.3,
+      "100": 0.4
+    },
+    "map": {
+      "10": 0.10345238095238093
+    },
+    "precision": {
+      "1": 0.2,
+      "5": 0.12000000000000002
+    }
+  },
+  "layer_2_adversarial": {
+    "contradiction_recall_at_10": null,
+    "mean_rank_binding": null,
+    "superseded_above_rate": null,
+    "trap_in_top_5": 0.0,
+    "n_contradiction_queries": 0,
+    "n_supersession_queries": 0,
+    "n_trap_pairs": 2
+  },
+  "layer_3_stance_abstention": {
+    "stance_accuracy": 0.0,
+    "stance_macro_f1": 0.0,
+    "contradiction_recall": 0.0,
+    "stance_coverage": 1.0,
+    "epistemic_abstention_accuracy": null,
+    "false_commitment_rate": null,
+    "false_ignorance_rate": 1.0,
+    "selective_stance_precision": null,
+    "abstention_commitment_balance": null,
+    "epistemic_risk_score": null,
+    "n_gold_nei": 0,
+    "n_false_commitments": 0,
+    "n_false_ignorance": 1,
+    "n_non_neutral_predictions": 0
+  },
+  "layer_4_temporal": {
+    "cutoffs": [],
+    "ndcg_at_10_per_cutoff": [],
+    "current_state_accuracy_at_1": null,
+    "current_state_accuracy_at_5": null,
+    "current_state_accuracy_at_10": null,
+    "superseded_leakage_at_10": null,
+    "temporal_ndcg_at_10": null,
+    "stable_knowledge_retention_at_10": null,
+    "freshness_overbias_rate": null,
+    "lifecycle_ranking_agreement": null,
+    "as_of_accuracy_at_10": null,
+    "decay_sensitivity_pairwise": null,
+    "reinforcement_lift_mean": null,
+    "n_current_state_queries": 0,
+    "n_stable_knowledge_queries": 0
+  },
+  "layer_5_practicality": {
+    "ingest_wall_clock_sec_per_doc_median": null,
+    "retrieve_latency_ms_p50": 986.7990000057034,
+    "retrieve_latency_ms_p95": null,
+    "retrieve_cost_usd_per_query_median": 3.2e-07,
+    "ingest_cost_usd_total": null
+  },
+  "f_conditions": {
+    "F-1-PARITY": {
+      "passed": false,
+      "value": 0.0699,
+      "threshold": 0.05,
+      "oida": 0.5073,
+      "max_baseline": 0.5772
+    },
+    "F-2-CONTRA": {
+      "passed": false,
+      "value": 0.0,
+      "threshold": 0.15,
+      "oida": 0.7692,
+      "max_baseline": 0.7692
+    },
+    "F-2-TRAP": {
+      "passed": false,
+      "value": 0.25,
+      "threshold": 0.125,
+      "strictest_baseline": 0.125
+    },
+    "F-2-SUPER": {
+      "passed": false,
+      "value": {
+        "mean_rank_binding": 3.3,
+        "superseded_above_rate": 0.3
+      },
+      "threshold": {
+        "best_baseline_mean_rank": 6.4,
+        "best_baseline_superseded_above": 0.4
+      }
+    },
+    "F-5-LAT": {
+      "passed": true,
+      "value": 2864.5,
+      "threshold": 26652.6,
+      "median_baseline_p95": 8884.2
+    },
+    "F-5-COST": {
+      "passed": true,
+      "value": 0.0,
+      "threshold": 1e-06,
+      "median_baseline_cost": 0.0
+    },
+    "F-ABSTAIN-1": {
+      "passed": true,
+      "value": 0.0,
+      "threshold": 0.1
+    },
+    "F-ABSTAIN-2": {
+      "passed": true,
+      "value": 1.0,
+      "threshold": 0.8
+    },
+    "F-ABSTAIN-3": {
+      "passed": true,
+      "value": 1.0,
+      "threshold": 0.75
+    },
+    "F-ABSTAIN-4": {
+      "passed": false,
+      "value": 0.425,
+      "threshold": 0.2
+    }
+  },
+  "n_queries_total": 5,
+  "n_queries_with_gold": 5,
+  "n_queries_with_retrieved_docs": 5,
+  "notes": "Layer 1 only. Retrieve run used OIDA v0 (tauBind=0.2, tauFallback=0.1). top_k=100; Recall@100 is measurable (run reached top_k>=100). 0 queries returned empty subgraph from OIDA. Remediated run on the oida-core deploy: per-corpus project isolation (each corpus in its own project, not the shared default), widened server-side commit transaction window, and /health warm-up (tobefixed/REMEDIATION.md items A/C/E). This is the fair-conditions OIDA comparison surface; see experiments/EXPERIMENT_PLAN.md §1 (oida-core row)."
+}

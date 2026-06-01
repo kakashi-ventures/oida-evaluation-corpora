@@ -1,6 +1,6 @@
 {
   "$schema_version": "2",
-  "corpus_id": "org-consulting-clearpath",
+  "corpus_id": "inv-mystery-redhood",
   "system": "graphrag",
   "system_version": "graphrag@3.1.0",
   "run_id": "2026-05-29T15Z",
@@ -23,48 +23,48 @@
   },
   "layer_1_static_ir": {
     "ndcg": {
-      "1": 0.0989010989010989,
-      "5": 0.323086553703987,
-      "10": 0.44363888673411966,
-      "20": 0.44363888673411966
+      "1": 0.23214285714285715,
+      "5": 0.25618486308014454,
+      "10": 0.4005999287254213,
+      "20": 0.38918227957459617
     },
     "recall": {
-      "5": 0.43846153846153846,
-      "10": 0.6423076923076921,
+      "5": 0.23749999999999996,
+      "10": 0.5472222222222222,
       "100": null
     },
     "map": {
-      "10": 0.35272512210012213
+      "10": 0.2550664131393298
     },
     "precision": {
-      "1": 0.3076923076923077,
-      "5": 0.3461538461538462
+      "1": 0.375,
+      "5": 0.275
     }
   },
   "layer_2_adversarial": {
-    "contradiction_recall_at_10": null,
+    "contradiction_recall_at_10": 1.0,
     "mean_rank_binding": null,
     "superseded_above_rate": null,
     "trap_in_top_5": null,
-    "n_contradiction_queries": 0,
+    "n_contradiction_queries": 2,
     "n_supersession_queries": 0,
     "n_trap_pairs": 0
   },
   "layer_3_stance_abstention": {
-    "stance_accuracy": null,
-    "stance_macro_f1": null,
-    "contradiction_recall": null,
-    "stance_coverage": null,
+    "stance_accuracy": 0.0,
+    "stance_macro_f1": 0.0,
+    "contradiction_recall": 0.0,
+    "stance_coverage": 0.5,
     "epistemic_abstention_accuracy": null,
     "false_commitment_rate": null,
-    "false_ignorance_rate": null,
-    "selective_stance_precision": null,
-    "abstention_commitment_balance": null,
+    "false_ignorance_rate": 0.0,
+    "selective_stance_precision": 0.0,
+    "abstention_commitment_balance": 0.0,
     "epistemic_risk_score": null,
     "n_gold_nei": 0,
     "n_false_commitments": 0,
     "n_false_ignorance": 0,
-    "n_non_neutral_predictions": 0
+    "n_non_neutral_predictions": 1
   },
   "layer_4_temporal": {
     "cutoffs": [],
@@ -84,15 +84,36 @@
     "n_stable_knowledge_queries": 0
   },
   "layer_5_practicality": {
-    "ingest_wall_clock_sec_per_doc_median": 11.124238374497509,
-    "retrieve_latency_ms_p50": 6115.912334003951,
-    "retrieve_latency_ms_p95": 15399.652916996274,
-    "retrieve_cost_usd_per_query_median": null,
+    "ingest_wall_clock_sec_per_doc_median": null,
+    "retrieve_latency_ms_p50": 5590.309042017907,
+    "retrieve_latency_ms_p95": null,
+    "retrieve_cost_usd_per_query_median": 0.00041929999999999995,
     "ingest_cost_usd_total": null
   },
-  "f_conditions": {},
-  "n_queries_total": 26,
-  "n_queries_with_gold": 26,
-  "n_queries_with_retrieved_docs": 26,
+  "f_conditions": {
+    "F-ABSTAIN-1": {
+      "passed": false,
+      "value": 0.6667,
+      "threshold": 0.1
+    },
+    "F-ABSTAIN-2": {
+      "passed": false,
+      "value": 0.3333,
+      "threshold": 0.8
+    },
+    "F-ABSTAIN-3": {
+      "passed": false,
+      "value": 0.7273,
+      "threshold": 0.75
+    },
+    "F-ABSTAIN-4": {
+      "passed": true,
+      "value": 0.025,
+      "threshold": 0.2
+    }
+  },
+  "n_queries_total": 8,
+  "n_queries_with_gold": 8,
+  "n_queries_with_retrieved_docs": 8,
   "notes": "Layer 1 only. Retrieve run used OIDA v0 (tauBind=0.2, tauFallback=0.1). top_k=20; Recall@100 is null because the run capped at top_k=20. 0 queries returned empty subgraph from OIDA; Phase A coverage was 87% across all corpora (30/230 docs failed ingest, concentrated on dense meeting transcripts that hit the Prisma 5 s commit timeout server-side). See experiments/EXPERIMENT_PLAN.md §10."
 }
