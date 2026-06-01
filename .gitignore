@@ -8,8 +8,19 @@ node_modules/
 docs/oida-core/
 corpora/*/slices/
 
-# Internal experiment harness, build scripts, and working notes.
-# The published dataset is corpora/ + docs/ only — keep everything below off main.
-experiments/
-scripts/
+# Internal experiment harness — narrow-tracked from 2026-06-01 (P0-prep).
+# Track ONLY scripts/ + adapters/; everything else under experiments/ stays OFF git
+# (gold answer-key, run artifacts, working notes). Tracking the Evidence-Bundle dir
+# experiments/output/regression/ is DEFERRED to a later step — the nested
+# experiments/.gitignore also ignores output/, so it cannot be re-included here yet.
+experiments/*
+!experiments/scripts/
+!experiments/adapters/
+experiments/annotations/
+experiments/systems/
+experiments/runs/
+experiments/reports/
+experiments/output/
+experiments/*.md
+/scripts/
 tobefixed/
