@@ -1,0 +1,205 @@
+{
+  "$schema_version": "2",
+  "corpus_id": "org-vc-vertexminds",
+  "system": "oida-core",
+  "system_version": "oida-core@4d2fc49a",
+  "run_id": "2026-06-01T10Z",
+  "dataset_version": "v2.1.0",
+  "common_setup": {
+    "embedder": "openai/text-embedding-3-small",
+    "ingest_llm": "(OIDA deployed default)",
+    "stance_judge_llm": null,
+    "top_k_reported": [
+      1,
+      5,
+      10,
+      20
+    ],
+    "retrieve_top_k_used": 100,
+    "retrieve_v0_thresholds": {
+      "tauBind": 0.2,
+      "tauFallback": 0.1
+    }
+  },
+  "layer_1_static_ir": {
+    "ndcg": {
+      "1": 0.24285714285714288,
+      "5": 0.32384583472876194,
+      "10": 0.4563957906158539,
+      "20": 0.491829624381072
+    },
+    "recall": {
+      "5": 0.3283333333333333,
+      "10": 0.6149999999999999,
+      "100": 0.7283333333333333
+    },
+    "map": {
+      "10": 0.3246041666666667
+    },
+    "precision": {
+      "1": 0.4,
+      "5": 0.2900000000000001
+    }
+  },
+  "layer_2_adversarial": {
+    "contradiction_recall_at_10": 0.75,
+    "mean_rank_binding": 2.0,
+    "superseded_above_rate": 1.0,
+    "trap_in_top_5": 0.0,
+    "n_contradiction_queries": 4,
+    "n_supersession_queries": 2,
+    "n_trap_pairs": 1
+  },
+  "layer_3_stance_abstention": {
+    "stance_accuracy": 0.15384615384615385,
+    "stance_macro_f1": 0.2333333333333333,
+    "contradiction_recall": 0.0,
+    "stance_coverage": 0.3076923076923077,
+    "epistemic_abstention_accuracy": 1.0,
+    "false_commitment_rate": 0.0,
+    "false_ignorance_rate": 0.16666666666666666,
+    "selective_stance_precision": 1.0,
+    "abstention_commitment_balance": 0.8333333333333334,
+    "epistemic_risk_score": 0.2916666666666667,
+    "n_gold_nei": 1,
+    "n_false_commitments": 0,
+    "n_false_ignorance": 2,
+    "n_non_neutral_predictions": 1
+  },
+  "layer_4_temporal": {
+    "cutoffs": [
+      "2025-10-31",
+      "2025-11-10",
+      "2025-11-20"
+    ],
+    "ndcg_at_10_per_cutoff": [
+      0.8065735963827292,
+      0.38406399203099995,
+      0.449881417586459
+    ],
+    "temporal_ndcg_at_10_b0_similarity": 0.5019847615024239,
+    "temporal_ndcg_at_10_b2_full_oida": 0.4434170226781121,
+    "temporal_ndcg_lift_b2_minus_b0": -0.058567738824311766,
+    "current_state_accuracy_at_1": 0.2727272727272727,
+    "current_state_accuracy_at_5": 0.7272727272727273,
+    "current_state_accuracy_at_10": 1.0,
+    "superseded_leakage_at_10": 0.24,
+    "temporal_ndcg_at_10": 0.4434170226781121,
+    "stable_knowledge_retention_at_10": 1.0,
+    "freshness_overbias_rate": 1.0,
+    "lifecycle_ranking_agreement": 0.5032993401319736,
+    "as_of_accuracy_at_10": null,
+    "decay_sensitivity_pairwise": null,
+    "reinforcement_lift_mean": null,
+    "n_current_state_queries": 11,
+    "n_stable_knowledge_queries": 1
+  },
+  "layer_5_practicality": {
+    "ingest_wall_clock_sec_per_doc_median": 7.596721250010887,
+    "retrieve_latency_ms_p50": 1999.7303750133142,
+    "retrieve_latency_ms_p95": 2864.509916980751,
+    "retrieve_cost_usd_per_query_median": 3.8e-07,
+    "ingest_cost_usd_total": null
+  },
+  "f_conditions": {
+    "F-TEMP-1": {
+      "passed": true,
+      "value": 1.0,
+      "threshold": 0.8
+    },
+    "F-TEMP-2": {
+      "passed": false,
+      "value": 0.24,
+      "threshold": 0.1
+    },
+    "F-TEMP-4": {
+      "passed": true,
+      "value": 1.0,
+      "threshold": 0.75
+    },
+    "F-TEMP-5": {
+      "passed": false,
+      "value": 1.0,
+      "threshold": 0.15
+    },
+    "F-TEMP-6": {
+      "passed": false,
+      "value": 0.5032993401319736,
+      "threshold": 0.7
+    },
+    "F-TEMP-7": {
+      "passed": false,
+      "value": -0.0586,
+      "threshold": 0.1,
+      "b2_full_oida": 0.4434,
+      "b0_similarity": 0.502
+    },
+    "F-1-PARITY": {
+      "passed": false,
+      "value": 0.0699,
+      "threshold": 0.05,
+      "oida": 0.5073,
+      "max_baseline": 0.5772
+    },
+    "F-2-CONTRA": {
+      "passed": false,
+      "value": 0.0,
+      "threshold": 0.15,
+      "oida": 0.7692,
+      "max_baseline": 0.7692
+    },
+    "F-2-TRAP": {
+      "passed": false,
+      "value": 0.25,
+      "threshold": 0.125,
+      "strictest_baseline": 0.125
+    },
+    "F-2-SUPER": {
+      "passed": false,
+      "value": {
+        "mean_rank_binding": 3.3,
+        "superseded_above_rate": 0.3
+      },
+      "threshold": {
+        "best_baseline_mean_rank": 6.4,
+        "best_baseline_superseded_above": 0.4
+      }
+    },
+    "F-5-LAT": {
+      "passed": true,
+      "value": 2864.5,
+      "threshold": 26652.6,
+      "median_baseline_p95": 8884.2
+    },
+    "F-5-COST": {
+      "passed": true,
+      "value": 0.0,
+      "threshold": 1e-06,
+      "median_baseline_cost": 0.0
+    },
+    "F-ABSTAIN-1": {
+      "passed": true,
+      "value": 0.0,
+      "threshold": 0.1
+    },
+    "F-ABSTAIN-2": {
+      "passed": true,
+      "value": 1.0,
+      "threshold": 0.8
+    },
+    "F-ABSTAIN-3": {
+      "passed": true,
+      "value": 1.0,
+      "threshold": 0.75
+    },
+    "F-ABSTAIN-4": {
+      "passed": false,
+      "value": 0.425,
+      "threshold": 0.2
+    }
+  },
+  "n_queries_total": 20,
+  "n_queries_with_gold": 20,
+  "n_queries_with_retrieved_docs": 20,
+  "notes": "Layer 1 only. Retrieve run used OIDA v0 (tauBind=0.2, tauFallback=0.1). top_k=100; Recall@100 is measurable (run reached top_k>=100). 0 queries returned empty subgraph from OIDA. Remediated run on the oida-core deploy: per-corpus project isolation (each corpus in its own project, not the shared default), widened server-side commit transaction window, and /health warm-up (tobefixed/REMEDIATION.md items A/C/E). This is the fair-conditions OIDA comparison surface; see experiments/EXPERIMENT_PLAN.md §1 (oida-core row). COVERAGE NOTE (oida-core): all gold docs indexed after a chunk-size reduction recovered the 2 dense pitch-day meetings (meeting-002 @700-char, meeting-005 @250-char chunks). Full coverage."
+}

@@ -1,0 +1,162 @@
+{
+  "$schema_version": "2",
+  "corpus_id": "org-iot-fireglass",
+  "system": "lightrag",
+  "system_version": "lightrag-hku@1.5.0+57f9116",
+  "run_id": "2026-05-29T11Z",
+  "dataset_version": "v2.1.0",
+  "common_setup": {
+    "embedder": "openai/text-embedding-3-small",
+    "ingest_llm": "(OIDA deployed default)",
+    "stance_judge_llm": null,
+    "top_k_reported": [
+      1,
+      5,
+      10,
+      20
+    ],
+    "retrieve_top_k_used": 20,
+    "retrieve_v0_thresholds": {
+      "tauBind": 0.2,
+      "tauFallback": 0.1
+    }
+  },
+  "layer_1_static_ir": {
+    "ndcg": {
+      "1": 0.1,
+      "5": 0.2571990227684949,
+      "10": 0.31307528081271163,
+      "20": 0.3748589191402049
+    },
+    "recall": {
+      "5": 0.33999999999999997,
+      "10": 0.4541666666666666,
+      "100": null
+    },
+    "map": {
+      "10": 0.25462599206349207
+    },
+    "precision": {
+      "1": 0.2,
+      "5": 0.27000000000000013
+    }
+  },
+  "layer_2_adversarial": {
+    "contradiction_recall_at_10": 0.3333333333333333,
+    "mean_rank_binding": 16.333333333333332,
+    "superseded_above_rate": 0.3333333333333333,
+    "trap_in_top_5": 0.0,
+    "n_contradiction_queries": 3,
+    "n_supersession_queries": 3,
+    "n_trap_pairs": 2
+  },
+  "layer_3_stance_abstention": {
+    "stance_accuracy": 0.0,
+    "stance_macro_f1": 0.0,
+    "contradiction_recall": 0.0,
+    "stance_coverage": 0.14285714285714285,
+    "epistemic_abstention_accuracy": 0.0,
+    "false_commitment_rate": 0.0,
+    "false_ignorance_rate": 0.15384615384615385,
+    "selective_stance_precision": null,
+    "abstention_commitment_balance": null,
+    "epistemic_risk_score": 0.28846153846153844,
+    "n_gold_nei": 1,
+    "n_false_commitments": 0,
+    "n_false_ignorance": 2,
+    "n_non_neutral_predictions": 0
+  },
+  "layer_4_temporal": {
+    "cutoffs": [
+      "2025-08-31",
+      "2025-09-30",
+      "2025-10-31"
+    ],
+    "ndcg_at_10_per_cutoff": [
+      0.45491035381034917,
+      0.47787612930715456,
+      0.4296818908928126
+    ],
+    "temporal_ndcg_at_10_b0_similarity": null,
+    "temporal_ndcg_at_10_b2_full_oida": null,
+    "temporal_ndcg_lift_b2_minus_b0": null,
+    "current_state_accuracy_at_1": 0.08333333333333333,
+    "current_state_accuracy_at_5": 0.3333333333333333,
+    "current_state_accuracy_at_10": 0.4166666666666667,
+    "superseded_leakage_at_10": 0.16999999999999998,
+    "temporal_ndcg_at_10": 0.30785885429710985,
+    "stable_knowledge_retention_at_10": 0.8571428571428571,
+    "freshness_overbias_rate": 0.14285714285714285,
+    "lifecycle_ranking_agreement": 0.47657213316892727,
+    "as_of_accuracy_at_10": null,
+    "decay_sensitivity_pairwise": null,
+    "reinforcement_lift_mean": null,
+    "n_current_state_queries": 12,
+    "n_stable_knowledge_queries": 7
+  },
+  "layer_5_practicality": {
+    "ingest_wall_clock_sec_per_doc_median": null,
+    "retrieve_latency_ms_p50": 2197.8777080075815,
+    "retrieve_latency_ms_p95": 5297.478625026997,
+    "retrieve_cost_usd_per_query_median": 4.7e-07,
+    "ingest_cost_usd_total": null
+  },
+  "f_conditions": {
+    "F-TEMP-1": {
+      "passed": false,
+      "value": 0.4166666666666667,
+      "threshold": 0.8
+    },
+    "F-TEMP-2": {
+      "passed": false,
+      "value": 0.16999999999999998,
+      "threshold": 0.1
+    },
+    "F-TEMP-4": {
+      "passed": true,
+      "value": 0.8571428571428571,
+      "threshold": 0.75
+    },
+    "F-TEMP-5": {
+      "passed": true,
+      "value": 0.14285714285714285,
+      "threshold": 0.15
+    },
+    "F-TEMP-6": {
+      "passed": false,
+      "value": 0.47657213316892727,
+      "threshold": 0.7
+    },
+    "F-TEMP-7": {
+      "passed": null,
+      "value": null,
+      "threshold": 0.1,
+      "b2_full_oida": null,
+      "b0_similarity": null
+    },
+    "F-ABSTAIN-1": {
+      "passed": true,
+      "value": 0.0,
+      "threshold": 0.1
+    },
+    "F-ABSTAIN-2": {
+      "passed": false,
+      "value": 0.6667,
+      "threshold": 0.8
+    },
+    "F-ABSTAIN-3": {
+      "passed": true,
+      "value": 1.0,
+      "threshold": 0.75
+    },
+    "F-ABSTAIN-4": {
+      "passed": false,
+      "value": 0.325,
+      "threshold": 0.2
+    }
+  },
+  "n_queries_total": 20,
+  "n_queries_with_gold": 20,
+  "n_queries_with_retrieved_docs": 20,
+  "notes": "Layer 1 only. Retrieve run used OIDA v0 (tauBind=0.2, tauFallback=0.1). top_k=20; Recall@100 is null because the run capped at top_k=20. 0 queries returned empty subgraph from OIDA; Phase A coverage was 87% across all corpora (30/230 docs failed ingest, concentrated on dense meeting transcripts that hit the Prisma 5 s commit timeout server-side). See experiments/EXPERIMENT_PLAN.md §10."
+}

@@ -1,9 +1,9 @@
 {
   "$schema_version": "2",
   "corpus_id": "inv-mystery-redhood",
-  "system": "oida",
-  "system_version": "angelica-db@d1cad80b",
-  "run_id": "2026-05-29T09Z",
+  "system": "lightrag",
+  "system_version": "lightrag-hku@1.5.0+57f9116",
+  "run_id": "2026-05-29T11Z",
   "dataset_version": "v2.1.0",
   "common_setup": {
     "embedder": "openai/text-embedding-3-small",
@@ -23,47 +23,47 @@
   },
   "layer_1_static_ir": {
     "ndcg": {
-      "1": 0.625,
-      "5": 0.3287318832616387,
-      "10": 0.3251566973388787,
-      "20": 0.34352670893333975
+      "1": 0.3035714285714286,
+      "5": 0.2636924922294145,
+      "10": 0.3709364712229726,
+      "20": 0.4529693730873404
     },
     "recall": {
-      "5": 0.1840277777777778,
-      "10": 0.2638888888888889,
+      "5": 0.20555555555555555,
+      "10": 0.4868055555555555,
       "100": null
     },
     "map": {
-      "10": 0.20240850970017638
+      "10": 0.20260416666666667
     },
     "precision": {
-      "1": 0.625,
+      "1": 0.375,
       "5": 0.27499999999999997
     }
   },
   "layer_2_adversarial": {
-    "contradiction_recall_at_10": null,
+    "contradiction_recall_at_10": 0.5,
     "mean_rank_binding": null,
     "superseded_above_rate": null,
     "trap_in_top_5": null,
-    "n_contradiction_queries": 0,
+    "n_contradiction_queries": 2,
     "n_supersession_queries": 0,
     "n_trap_pairs": 0
   },
   "layer_3_stance_abstention": {
-    "stance_accuracy": null,
-    "stance_macro_f1": null,
-    "contradiction_recall": null,
-    "stance_coverage": null,
+    "stance_accuracy": 0.0,
+    "stance_macro_f1": 0.0,
+    "contradiction_recall": 0.0,
+    "stance_coverage": 0.5,
     "epistemic_abstention_accuracy": null,
     "false_commitment_rate": null,
-    "false_ignorance_rate": null,
+    "false_ignorance_rate": 0.5,
     "selective_stance_precision": null,
     "abstention_commitment_balance": null,
     "epistemic_risk_score": null,
     "n_gold_nei": 0,
     "n_false_commitments": 0,
-    "n_false_ignorance": 0,
+    "n_false_ignorance": 1,
     "n_non_neutral_predictions": 0
   },
   "layer_4_temporal": {
@@ -84,15 +84,36 @@
     "n_stable_knowledge_queries": 0
   },
   "layer_5_practicality": {
-    "ingest_wall_clock_sec_per_doc_median": 1.2396141250210349,
-    "retrieve_latency_ms_p50": 8075.496250006836,
+    "ingest_wall_clock_sec_per_doc_median": null,
+    "retrieve_latency_ms_p50": 2175.384333007969,
     "retrieve_latency_ms_p95": null,
-    "retrieve_cost_usd_per_query_median": null,
+    "retrieve_cost_usd_per_query_median": 4.0000000000000003e-07,
     "ingest_cost_usd_total": null
   },
-  "f_conditions": {},
+  "f_conditions": {
+    "F-ABSTAIN-1": {
+      "passed": true,
+      "value": 0.0,
+      "threshold": 0.1
+    },
+    "F-ABSTAIN-2": {
+      "passed": false,
+      "value": 0.6667,
+      "threshold": 0.8
+    },
+    "F-ABSTAIN-3": {
+      "passed": true,
+      "value": 1.0,
+      "threshold": 0.75
+    },
+    "F-ABSTAIN-4": {
+      "passed": false,
+      "value": 0.325,
+      "threshold": 0.2
+    }
+  },
   "n_queries_total": 8,
   "n_queries_with_gold": 8,
-  "n_queries_with_retrieved_docs": 7,
-  "notes": "Layer 1 only. Retrieve run used OIDA v0 (tauBind=0.2, tauFallback=0.1). top_k=20; Recall@100 is null because the run capped at top_k=20. 1 queries returned empty subgraph from OIDA; Phase A coverage was 87% across all corpora (30/230 docs failed ingest, concentrated on dense meeting transcripts that hit the Prisma 5 s commit timeout server-side). See experiments/EXPERIMENT_PLAN.md §10."
+  "n_queries_with_retrieved_docs": 8,
+  "notes": "Layer 1 only. Retrieve run used OIDA v0 (tauBind=0.2, tauFallback=0.1). top_k=20; Recall@100 is null because the run capped at top_k=20. 0 queries returned empty subgraph from OIDA; Phase A coverage was 87% across all corpora (30/230 docs failed ingest, concentrated on dense meeting transcripts that hit the Prisma 5 s commit timeout server-side). See experiments/EXPERIMENT_PLAN.md §10."
 }
