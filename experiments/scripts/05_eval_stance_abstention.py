@@ -29,6 +29,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import eval_common as ec  # noqa: E402
+from stance import metric_b_stance_recall as mb  # noqa: E402  (headline metric (b), P0-S5)
 
 JUDGE_MODEL = "gpt-4o"
 ANSWER_CHARS = 2000
@@ -118,6 +119,10 @@ def _metrics(judged: list[tuple[str, str]]) -> dict:
             "stance_accuracy", "stance_macro_f1", "contradiction_recall", "stance_coverage",
             "epistemic_abstention_accuracy", "false_commitment_rate", "false_ignorance_rate",
             "selective_stance_precision", "abstention_commitment_balance", "epistemic_risk_score")} | {
+            # P0-S5: stance_accuracy is RETIRED as the headline (replaced by metric
+            # (b) stance_evidence_recall) but its key stays populated for 08_report
+            # back-compat; this status flag marks it diagnostic-only.
+            "stance_accuracy_status": "retired/diagnostic-only",
             "n_gold_nei": 0, "n_false_commitments": 0, "n_false_ignorance": 0,
             "n_non_neutral_predictions": 0}
 
@@ -168,6 +173,9 @@ def _metrics(judged: list[tuple[str, str]]) -> dict:
 
     return {
         "stance_accuracy": n_correct / n,
+        # P0-S5: RETIRED as headline (see metric (b) stance_evidence_recall); key
+        # kept populated for 08_report back-compat, flagged diagnostic-only.
+        "stance_accuracy_status": "retired/diagnostic-only",
         "stance_macro_f1": macro_f1,
         "contradiction_recall": contra_recall,
         "stance_coverage": coverage,
@@ -223,13 +231,38 @@ def main(argv: list[str]) -> int:
                      if g.get("stance_evaluable") and g.get("gold_stance")}
         docs = ec.load_corpus_docs(corpus)
         queries = ec.load_queries(corpus)
+
+        # P0-S5: HEADLINE metric (b) — Stance-Evidence Recall@k. Pure retrieval,
+        # no judge/key, so it runs in both --run and --dry-run. Computed ONCE per
+        # corpus (independent of the judge) and stamped onto each system block.
+        brep = mb.stance_recall_for_corpus(corpus, ks=[5, 10])
+
+        def _attach_stance_metrics(block: dict, system: str) -> dict:
+            # (b) headline: did top-k surface the gold stance-bearing docs?
+            block["stance_evidence_recall"] = {
+                "headline": True,
+                "proxy_label": brep["proxy_label"],
+                "ks": brep["ks"],
+                "n_sc_queries": brep["n_sc_queries"],
+                "n_nei_excluded": brep["n_nei_excluded"],
+                **brep["systems"].get(system, {}),
+            }
+            # (a) secondary slot: evidence-grounded stance (LLM-judged). Requires a
+            # judge key; structural placeholder here, NOT run in the offline gate.
+            block["evidence_grounded_stance"] = {
+                "headline": False,
+                "status": "secondary; requires OPENAI_API_KEY; not run in gate",
+                "values": None,
+            }
+            return block
+
         for system in systems:
             runs = ec.load_runs(corpus, system)
             if runs is None:
                 continue
             recs = ec.load_retrieve_records(corpus, system)
             if args.dry_run:
-                block = _metrics([])
+                block = _attach_stance_metrics(_metrics([]), system)
                 ec.update_layer(corpus, system, "layer_3_stance_abstention", block)
                 rows.append((corpus, system, block, "dry-run (null)"))
                 continue
@@ -240,7 +273,7 @@ def main(argv: list[str]) -> int:
                 judged.append((gold, pred))
             _save_cache(cache)
             per_system_judged[system].extend(judged)
-            block = _metrics(judged)
+            block = _attach_stance_metrics(_metrics(judged), system)
             ec.update_layer(corpus, system, "layer_3_stance_abstention", block)
             rows.append((corpus, system, block, f"judged {len(judged)}"))
 
@@ -275,6 +308,28 @@ def main(argv: list[str]) -> int:
             f"{ec.fmt(b['epistemic_abstention_accuracy']):>5s}  {ec.fmt(b['false_commitment_rate']):>5s}  "
             f"{ec.fmt(b['false_ignorance_rate']):>5s}  {ec.fmt(b['selective_stance_precision']):>5s}  "
             f"({b['n_gold_nei']})  {status}"
+        )
+
+    # P0-S5 — HEADLINE stance metric is now (b) Stance-Evidence Recall@k.
+    # (a) evidence-grounded stance is a secondary slot (judge-gated, not run
+    # offline); the old LLM-judged stance_accuracy is RETIRED (diagnostic-only).
+    print("\n================ STANCE HEADLINE: (b) Stance-Evidence Recall@k ================")
+    printed_proxy = False
+    print(f"{'corpus':<26s} {'system':<16s} {'(b) recall_any@10':<20s} {'(a) evidence-grounded':<24s} (old stance_acc)")
+    for corpus, system, b, status in rows:
+        if b is None:
+            print(f"{corpus:<26s} {system:<16s} -- {status}")
+            continue
+        ser = b.get("stance_evidence_recall", {})
+        if not printed_proxy and ser.get("proxy_label"):
+            print(f"stance docs: {ser['proxy_label']}")
+            printed_proxy = True
+        recall_any10 = ser.get(10, {}).get("stance_recall_any") if isinstance(ser.get(10), dict) else None
+        print(
+            f"{corpus:<26s} {system:<16s} "
+            f"{ec.fmt(recall_any10) + ' [HEADLINE]':<20s} "
+            f"{'secondary-gated':<24s} "
+            f"{ec.fmt(b['stance_accuracy'])} [RETIRED/diagnostic]"
         )
     return 0
 
