@@ -2,9 +2,10 @@
 """Layer 3 — stance & abstention scoring (EXPERIMENT_PLAN.md §5.3).
 
 For each stance-evaluable query, the system's *answer* is judged by gpt-4o into
-{SUPPORTS, CONTRADICTS, NEUTRAL, ABSTAIN, INVALID}. The "answer" is the system's
-raw response text when it produces one (GraphRAG), otherwise the text of its
-top-1 retrieved doc (OIDA / LightRAG / HippoRAG) — per §5.3.
+{SUPPORTS, CONTRADICTS, NEUTRAL, ABSTAIN, INVALID}. The "answer" is the text of
+the system's top-1 retrieved doc, fed identically for every system (OIDA /
+GraphRAG / LightRAG / HippoRAG) — no prose shortcut, so the judge sees the same
+input KIND for all systems (P0-S4), per §5.3.
 
 Gold stance (S / C / NEI) comes from annotations/stance_gold/<corpus>.json.
 Broad abstention (NEUTRAL ∪ ABSTAIN) is used for the abstention metrics (§4.1).
@@ -75,11 +76,12 @@ def _save_cache(cache: dict) -> None:
 
 
 def _answer_for(system: str, qid: str, recs: dict, docs: dict, runs: dict) -> str:
-    rec = recs.get(qid, {})
-    raw = rec.get("raw_response_text")
-    if raw:
-        return raw[:ANSWER_CHARS]
-    # fall back to top-1 retrieved doc text
+    # P0-S4: every system's answer is its top-1 retrieved doc text — fed
+    # identically for all systems. The prior GraphRAG-only `raw_response_text`
+    # prose shortcut is removed so the judge sees the same input KIND for every
+    # system (no prose-vs-doc asymmetry). Feeding prose drawn from the top-k for
+    # *all* systems is a separate change (P0-S5); `recs` stays in the signature
+    # for that follow-up.
     top = ec.ranked(runs.get(qid, {}))
     if top:
         d = docs.get(top[0], {})
