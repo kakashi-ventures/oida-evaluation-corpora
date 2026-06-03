@@ -288,6 +288,25 @@ class RetrieveResult:
     tokens_out: int = 0
     embed_tokens: int = 0
     notes: str | None = None
+    # --- v0 epistemic retention (P0-S6) ---------------------------------------
+    # Falsification contract (these three fields):
+    #   WHAT they measure: the dialectical content the v0 /retrieve/full-oida
+    #     server already emits — `subgraph.dialectic_resolutions` (verbatim) and
+    #     the subset of `subgraph.edges` whose `contradiction_flag is True`, plus
+    #     a count of that subset. NOT raw_response_text (v0 never populates it)
+    #     and NOT a `subgraph.contradictions` key (v0 does not emit one).
+    #   HOW computed: pure structural retention — copied/filtered straight from
+    #     the response JSON, no scoring/derivation/inference. count == len(subset).
+    #   WHERE stored: serialized into each `02_retrieve.py` per-query record
+    #     (output/retrieve_runs/.../*.jsonl) alongside doc_scores; NOT written to
+    #     runs_beir / runs.json / runs.tsv (BEIR ranking inputs stay byte-identical).
+    #   WHAT behavior changes: NONE today — no scored consumer reads these fields
+    #     (S4/S5 ignore them; proven inert in the P0-S6 acceptance gate). They are
+    #     additive plumbing so a later layer can exercise v0 dialectics without
+    #     re-running retrieval. Defaults keep every existing constructor valid.
+    dialectic_resolutions: list = field(default_factory=list)
+    contradiction_edges: list = field(default_factory=list)
+    contradiction_edge_count: int = 0
 
 
 # -- HTTP client --------------------------------------------------------------
@@ -579,6 +598,14 @@ class OidaClient:
         ranked = sorted(per_doc_best.items(), key=lambda kv: -kv[1])[:top_k]
         result.doc_scores = {doc_id: score for doc_id, score in ranked}
         result.score_components = {doc_id: dict(per_doc_components[doc_id]) for doc_id, _ in ranked}
+
+        # P0-S6: retain v0 epistemic content verbatim (no computation/fabrication).
+        # Independent of the kos->doc_scores mapping above, so BEIR is unperturbed.
+        subgraph = data.get("subgraph", {}) or {}
+        result.dialectic_resolutions = list(subgraph.get("dialectic_resolutions", []) or [])
+        edges = subgraph.get("edges", []) or []
+        result.contradiction_edges = [e for e in edges if e.get("contradiction_flag") is True]
+        result.contradiction_edge_count = len(result.contradiction_edges)
 
         meta = data.get("metadata", {}) or {}
         comp_meta = data.get("subgraph", {}).get("composition_metadata", {}) or {}
