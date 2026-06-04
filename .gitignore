@@ -9,18 +9,28 @@ docs/oida-core/
 corpora/*/slices/
 
 # Internal experiment harness — narrow-tracked from 2026-06-01 (P0-prep).
-# Track ONLY scripts/ + adapters/; everything else under experiments/ stays OFF git
-# (gold answer-key, run artifacts, working notes). Tracking the Evidence-Bundle dir
-# experiments/output/regression/ is DEFERRED to a later step — the nested
-# experiments/.gitignore also ignores output/, so it cannot be re-included here yet.
+# Track ONLY scripts/ + adapters/ + the nested .gitignore + the Regression
+# Evidence-Bundle dir experiments/output/regression/; everything else under
+# experiments/ stays OFF git (gold answer-key, run artifacts, working notes).
+#
+# P0-S7 (2026-06-03): regression/ is now trackable. ORDER MATTERS in gitignore —
+# a parent dir must be RE-INCLUDED before a deny rule can re-ignore its contents,
+# and the child re-include must come AFTER that re-ignore. So:
+#   experiments/output/        -> re-include the output dir itself
+#   experiments/output/*       -> re-ignore everything inside it (runs, cache, ...)
+#   experiments/output/regression/ -> re-include just the Evidence-Bundle subtree
+# Gold (experiments/annotations/) stays ignored FOREVER below — never re-included.
 experiments/*
 !experiments/scripts/
 !experiments/adapters/
+!experiments/.gitignore
+!experiments/output/
+experiments/output/*
+!experiments/output/regression/
 experiments/annotations/
 experiments/systems/
 experiments/runs/
 experiments/reports/
-experiments/output/
 experiments/*.md
 /scripts/
 tobefixed/

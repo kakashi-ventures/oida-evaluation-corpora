@@ -1,0 +1,22 @@
+# System clones — fetched, never committed (each has its own license)
+systems/
+
+# Private gold-stance annotations — used to compute aggregate stance metrics,
+# never published per-query
+annotations/stance_gold/
+
+# Run artifacts that aren't the canonical published reports.
+# P0-S7 (2026-06-03): keep ignoring everything under output/ EXCEPT the
+# Regression Evidence-Bundle subtree output/regression/ (committed + reproducible
+# per roadmap §8/§9). The re-ignore (output/*) must precede the re-include
+# (!output/regression/) for git's last-match-wins rule to track the bundles.
+output/*
+!output/regression/
+logs/
+cache/
+*.parquet
+*.pkl
+
+# Local secrets / per-experiment env (the repo-root .env is already covered)
+.env
+.env.*
