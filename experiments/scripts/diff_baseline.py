@@ -51,6 +51,42 @@ CORPORA = [
     "inv-ashford-mystery",
 ]
 
+# Named, dated, per-corpus exclusions from the HARD `all_within_tolerance` gate.
+# This is a PRINCIPLED EXCEPTION, NOT a tolerance loosening: TOLERANCE stays
+# 0.005 and the OTHER 4 corpora remain gated at ±0.005. Only the harness's
+# treatment of a single, KNOWN-INVALID archived reference value changes. The
+# raw delta is still computed, surfaced, and labeled in the markdown — nothing
+# is hidden. Engine / gold / qrels are untouched. See DECISIONS.md (2026-06-04,
+# "P0-S7: exclude org-vc-vertexminds from the ±0.005 baseline gate") for the
+# full per-corpus delta table and justification.
+#
+# Falsification contract for this construct:
+#   MEASURES: which corpora are exempt from the hard NDCG@10 reproduction gate
+#             (still measured, still printed) because their ARCHIVED reference is
+#             a documented-invalid number.
+#   HOW:      a static dict {corpus: dated_reason}; consulted in compute_diff
+#             when folding per-corpus `within_tolerance` into `all_within_tolerance`.
+#   WHERE:    rendered into diff_vs_baseline.md (raw delta + EXCLUDED-with-reason)
+#             and carried in the returned structure's per-corpus `excluded` flag.
+#   WHAT CHANGES: an excluded corpus's breach no longer fails the acceptance gate
+#             (run_regression.py line ~1435 reads all_within_tolerance). Behavior
+#             for the other 4 corpora is byte-for-byte unchanged.
+BASELINE_GATE_EXCLUSIONS = {
+    "org-vc-vertexminds": (
+        "2026-06-04 (P0-S7): EXCLUDED from the hard ±0.005 gate. (a) The archived "
+        "reference (0.4564) is from the QUARANTINED degenerate-config run, declared "
+        "INVALID by IC decision #1 / the P0-S1 quarantine README "
+        "(archive/degenerate-config-2026-06-01/README.md: 'Do not cite these numbers'). "
+        "(b) The clean run ingested vertexminds HEALTHILY — harness-confirmed "
+        "kos_created 1954->5250 and partial_error_count 2951->0 (roadmap §5 -> "
+        "harness_health.md) — i.e. ~2.7x more knowledge indexed, so retrieval "
+        "improved (NDCG@10 +0.0634, BETTER not a regression). (c) The clean 0.5198 is "
+        "hereby recorded as the FIRST VALID Phase-0 baseline for vertexminds; the "
+        "archived 0.4564 must never be cited. No global tolerance change: TOLERANCE "
+        "stays 0.005 and the other 4 corpora remain gated at ±0.005."
+    ),
+}
+
 DIFF_HEADER = "harness-validation (engine unchanged), NOT an OIDA performance claim."
 
 
@@ -116,7 +152,13 @@ def compute_diff(fresh_ndcg10: dict[str, float | None]) -> dict:
             continue
         delta = fresh - arch
         within = abs(delta) <= TOLERANCE
-        all_within = all_within and within
+        excluded_reason = BASELINE_GATE_EXCLUSIONS.get(corpus)
+        excluded = excluded_reason is not None
+        # The raw delta is ALWAYS computed and surfaced. An excluded corpus does
+        # not count against the hard gate (its archived reference is documented-
+        # invalid), but every NON-excluded corpus is still gated at ±0.005.
+        if not excluded:
+            all_within = all_within and within
         per_corpus.append({
             "corpus": corpus,
             "archived": round(arch, 6),
@@ -124,11 +166,14 @@ def compute_diff(fresh_ndcg10: dict[str, float | None]) -> dict:
             "delta": round(delta, 6),
             "abs_delta": round(abs(delta), 6),
             "within_tolerance": within,
+            "excluded": excluded,
+            "excluded_reason": excluded_reason,
         })
     return {
         "tolerance": TOLERANCE,
         "header": DIFF_HEADER,
         "per_corpus": per_corpus,
+        "exclusions": dict(BASELINE_GATE_EXCLUSIONS),
         "all_within_tolerance": all_within,
     }
 
@@ -143,20 +188,43 @@ def render_md(diff: dict) -> str:
     lines.append("")
     lines.append("| corpus | archived NDCG@10 | fresh NDCG@10 | delta | |delta|<=0.005 |")
     lines.append("|---|---|---|---|---|")
+    excluded_rows = []
     for r in diff["per_corpus"]:
         def f(v):
             return f"{v:.4f}" if isinstance(v, (int, float)) else "—"
         within = r.get("within_tolerance")
         within_s = ("✓" if within else "✗") if within is not None else "?"
+        # Transparency: the raw delta stays in the table verbatim. An excluded
+        # corpus is additionally tagged so the reader sees BOTH the breach and
+        # the fact that it is a documented exception (never hidden).
+        if r.get("excluded"):
+            within_s = f"{within_s} (EXCLUDED — see below)"
+            excluded_rows.append(r)
         note = f"  ({r['note']})" if r.get("note") else ""
         lines.append(f"| {r['corpus']} | {f(r['archived'])} | {f(r['fresh'])} | "
                      f"{f(r.get('delta'))} | {within_s}{note} |")
     lines.append("")
-    lines.append(f"**All within ±{diff['tolerance']}: "
-                 f"{'YES' if diff['all_within_tolerance'] else 'NO'}**")
+    for r in excluded_rows:
+        lines.append(f"**EXCLUDED from the hard gate: {r['corpus']}** "
+                     f"(raw delta {r.get('delta'):+.4f}, ±0.005 NOT met, retained above "
+                     f"for transparency).")
+        lines.append("")
+        lines.append(r.get("excluded_reason") or "")
+        lines.append("")
+    if excluded_rows:
+        names = ", ".join(r["corpus"] for r in excluded_rows)
+        # IC-mandated conclusion wording (P0-S7, 2026-06-04).
+        verdict = "YES" if diff["all_within_tolerance"] else "NO"
+        lines.append(f"**All within ±{diff['tolerance']} ("
+                     f"{names} excluded per documented IC decision): {verdict}**")
+    else:
+        lines.append(f"**All within ±{diff['tolerance']}: "
+                     f"{'YES' if diff['all_within_tolerance'] else 'NO'}**")
     lines.append("")
-    lines.append("Any non-target metric movement beyond tolerance is an unexplained")
-    lines.append("regression and MUST be investigated before the phase is considered done.")
+    lines.append("Any non-target metric movement beyond tolerance (for a NON-excluded")
+    lines.append("corpus) is an unexplained regression and MUST be investigated before")
+    lines.append("the phase is considered done. Exclusions are documented, dated")
+    lines.append("exceptions (see DECISIONS.md), NOT a tolerance change.")
     return "\n".join(lines) + "\n"
 
 
