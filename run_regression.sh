@@ -12,6 +12,8 @@
 #   --corpora burned|fresh  default burned; fresh -> "not implemented" (Phase-4)
 #   --env-file <path>       default: repo-root .env
 #   --skip-reset            skip the Render RESET job (NOT a clean slate)
+#   --target prod|staging   default prod; staging -> the Option-2 verification
+#                           service (oida-core-staging) for pre-merge engine checks
 #
 # This is a LIVE, costly run (real HTTP to oida-core + OpenAI + the Render API).
 # Secrets are read from .env by the Python entrypoint and NEVER printed.

@@ -76,6 +76,15 @@ OIDA_CORE_SERVICE_NAME = "oida-core"
 # outage). The .env may override via OIDA_CORE_RENDER_DB_ID.
 DEFAULT_OIDA_CORE_DB_ID = "dpg-d881lq1kh4rs73c92a50-a"
 
+# --target staging — the Option-2 verification substrate (oida-core-staging, KVA,
+# built 2026-06-04). Selecting it injects these through the existing
+# OIDA_CORE_RENDER_* / OIDA_CORE_BASE_URL override plumbing below; prod is the
+# default and is left untouched. .env may override per-target via
+# OIDA_CORE_{BASE_URL,RENDER_SERVICE_ID,RENDER_DB_ID}_STAGING.
+STAGING_BASE_URL = "https://oida-core-staging.onrender.com"
+STAGING_SERVICE_ID = "srv-d8glh4n7f7vs73etcbs0"
+STAGING_DB_ID = "dpg-d8glgo8g4nts739pvjl0-a"
+
 # RESET one-off job command (runs inside Render where DATABASE_URL is reachable).
 RESET_START_COMMAND = "RESET_BENCH_KOS=1 npx tsx scripts/seed-bench-projects.ts"
 
@@ -1364,6 +1373,10 @@ def main(argv: list[str]) -> int:
     p.add_argument("--corpora", choices=["burned", "fresh"], default="burned")
     p.add_argument("--env-file", default=str(REPO_ROOT / ".env"))
     p.add_argument("--skip-reset", action="store_true")
+    p.add_argument("--target", choices=["prod", "staging"], default="prod",
+                   help="which oida-core deploy to run against (default: prod). "
+                        "staging = the Option-2 verification service (oida-core-staging); "
+                        "engine steps verify here pre-merge, then merge to main on GREEN.")
     p.add_argument("--settle-sec", type=int, default=None,
                    help="override worker-drain settle seconds (default OIDA_CORE_SETTLE_SEC or 90)")
     args = p.parse_args(argv)
@@ -1374,6 +1387,14 @@ def main(argv: list[str]) -> int:
         return 1
 
     env = _load_env(Path(args.env_file))
+    # --target staging: route the whole run at the Option-2 staging deploy by
+    # injecting the staging ids/URL through the existing OIDA_CORE_RENDER_*
+    # override plumbing (PREFLIGHT service resolution, DB-infra probe, base_url,
+    # and the RESET job all read these). prod is the default and is untouched.
+    if args.target == "staging":
+        env["OIDA_CORE_BASE_URL"] = env.get("OIDA_CORE_BASE_URL_STAGING") or STAGING_BASE_URL
+        env["OIDA_CORE_RENDER_SERVICE_ID"] = env.get("OIDA_CORE_RENDER_SERVICE_ID_STAGING") or STAGING_SERVICE_ID
+        env["OIDA_CORE_RENDER_DB_ID"] = env.get("OIDA_CORE_RENDER_DB_ID_STAGING") or STAGING_DB_ID
     # secrets pulled into locals; NEVER printed.
     base_url = env.get("OIDA_CORE_BASE_URL", "https://oida-core.onrender.com")
     render_key = env.get("RENDER_API_KEY", "")
@@ -1386,12 +1407,13 @@ def main(argv: list[str]) -> int:
     bundle.mkdir(parents=True, exist_ok=True)
 
     print(f"\n############ Regression Harness — phase={args.phase} ts={ts} ############")
+    print(f"  target:  {args.target.upper()}")
     print(f"  corpora: {args.corpora} (BURNED — regression/sanity only)")
     print(f"  bundle:  {bundle.relative_to(REPO_ROOT)}")
     print(f"  oida-core: {base_url}")
 
     log_lines: list[str] = [f"# regression harness phase={args.phase} ts={ts} run_id={run_id}",
-                            f"# corpora={args.corpora} base_url={base_url}"]
+                            f"# target={args.target} corpora={args.corpora} base_url={base_url}"]
 
     # 1) PREFLIGHT
     preflight_rep = preflight(env, base_url, render_key)
