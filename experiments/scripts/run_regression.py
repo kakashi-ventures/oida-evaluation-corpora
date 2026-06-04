@@ -120,6 +120,7 @@ EXIT_RESET_FAILED = 3
 EXIT_EXPOSED_KEY = 4
 EXIT_INGEST = 5
 EXIT_LAYER = 6
+EXIT_PROD_RESET_BLOCKED = 7
 
 
 # ---------------------------------------------------------------------------
@@ -1367,6 +1368,17 @@ def _write_graph_composition(bundle: Path) -> None:
 # ---------------------------------------------------------------------------
 
 
+def _prod_reset_blocked(target: str, skip_reset: bool, allow_prod_reset: bool) -> bool:
+    """True iff this invocation would RESET production and must be blocked.
+
+    Blocked iff the resolved target is prod (the default) AND a RESET would fire
+    (not --skip-reset) AND the operator did not explicitly opt in via
+    --allow-prod-reset. `--target staging` is never blocked; `--skip-reset` (no
+    RESET fires) is never blocked.
+    """
+    return target == "prod" and not skip_reset and not allow_prod_reset
+
+
 def main(argv: list[str]) -> int:
     p = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     p.add_argument("--phase", required=True, help="phase id, e.g. P0-baseline")
@@ -1377,6 +1389,10 @@ def main(argv: list[str]) -> int:
                    help="which oida-core deploy to run against (default: prod). "
                         "staging = the Option-2 verification service (oida-core-staging); "
                         "engine steps verify here pre-merge, then merge to main on GREEN.")
+    p.add_argument("--allow-prod-reset", action="store_true",
+                   help="explicitly permit a RESET against PRODUCTION oida-core. "
+                        "Required when --target is prod (the default) and a RESET "
+                        "would fire; ignored for --target staging and --skip-reset.")
     p.add_argument("--settle-sec", type=int, default=None,
                    help="override worker-drain settle seconds (default OIDA_CORE_SETTLE_SEC or 90)")
     args = p.parse_args(argv)
@@ -1385,6 +1401,19 @@ def main(argv: list[str]) -> int:
         print("error: --corpora fresh not implemented (Phase-4 fresh corpora are a "
               "separate, pre-registered run). Use --corpora burned.")
         return 1
+
+    if _prod_reset_blocked(args.target, args.skip_reset, args.allow_prod_reset):
+        print(
+            "error: refusing to fire a RESET against PRODUCTION oida-core.\n"
+            "  --target is 'prod' (the default) and --skip-reset was not passed, so this\n"
+            "  run would RESET (wipe the 5 bench projects' KOs) and re-ingest PRODUCTION,\n"
+            "  then verify against the production engine — the degenerate-config trap\n"
+            "  Phase 0 cleaned up.\n"
+            "    - To verify an engine change, run against staging:  --target staging\n"
+            "    - To intentionally reset production, pass:           --allow-prod-reset",
+            file=sys.stderr,
+        )
+        return EXIT_PROD_RESET_BLOCKED
 
     env = _load_env(Path(args.env_file))
     # --target staging: route the whole run at the Option-2 staging deploy by
