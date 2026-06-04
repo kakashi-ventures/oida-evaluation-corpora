@@ -1,0 +1,376 @@
+{
+  "$schema_version": "2",
+  "corpus_id": "org-iot-fireglass",
+  "system": "oida-core",
+  "system_version": "angelica-db@d1cad80b",
+  "run_id": "20260604T072402Z",
+  "dataset_version": "v2.1.0",
+  "common_setup": {
+    "embedder": "openai/text-embedding-3-small",
+    "ingest_llm": "(OIDA deployed default)",
+    "stance_judge_llm": null,
+    "top_k_reported": [
+      1,
+      5,
+      10,
+      20
+    ],
+    "retrieve_top_k_used": 100,
+    "retrieve_v0_thresholds": {
+      "tauBind": 0.2,
+      "tauFallback": 0.1
+    }
+  },
+  "layer_1_static_ir": {
+    "ndcg": {
+      "1": 0.43571428571428567,
+      "5": 0.5186690109027657,
+      "10": 0.6080566121357365,
+      "20": 0.6534617926928921
+    },
+    "recall": {
+      "5": 0.4375,
+      "10": 0.6575,
+      "100": 0.8258333333333333
+    },
+    "map": {
+      "10": 0.3889017857142857
+    },
+    "precision": {
+      "1": 0.55,
+      "5": 0.35000000000000003
+    }
+  },
+  "layer_2_adversarial": {
+    "contradiction_recall_at_10": 0.6666666666666666,
+    "mean_rank_binding": 5.0,
+    "superseded_above_rate": 0.3333333333333333,
+    "trap_in_top_5": 0.0,
+    "n_contradiction_queries": 3,
+    "n_supersession_queries": 3,
+    "n_trap_pairs": 2
+  },
+  "layer_3_stance_abstention": {
+    "stance_accuracy": null,
+    "stance_macro_f1": null,
+    "contradiction_recall": null,
+    "stance_coverage": null,
+    "epistemic_abstention_accuracy": null,
+    "false_commitment_rate": null,
+    "false_ignorance_rate": null,
+    "selective_stance_precision": null,
+    "abstention_commitment_balance": null,
+    "epistemic_risk_score": null,
+    "n_gold_nei": 0,
+    "n_false_commitments": 0,
+    "n_false_ignorance": 0,
+    "n_non_neutral_predictions": 0,
+    "stance_accuracy_status": "retired/diagnostic-only",
+    "stance_evidence_recall": {
+      "headline": true,
+      "proxy_label": "proxy (score-3, 28 stance_doc_ids missing)",
+      "ks": [
+        5,
+        10
+      ],
+      "n_sc_queries": 13,
+      "n_nei_excluded": 1,
+      "5": {
+        "stance_recall_any": 0.6923076923076923,
+        "stance_recall_all": 0.6538461538461539,
+        "contra_all_sides": 0.6666666666666666,
+        "n_contra_with_sides": 3,
+        "per_query": {
+          "q01": {
+            "recall_any": 0.0,
+            "recall_all": 0.0,
+            "all_sides": null,
+            "hit": []
+          },
+          "q02": {
+            "recall_any": 1.0,
+            "recall_all": 1.0,
+            "all_sides": null,
+            "hit": [
+              "03-internal-comms/email/architecture-decision-mqtt"
+            ]
+          },
+          "q03": {
+            "recall_any": 1.0,
+            "recall_all": 1.0,
+            "all_sides": 1.0,
+            "hit": [
+              "03-internal-comms/email/budget-timeline-concern",
+              "04-external-comms/email/timeline-update-client"
+            ]
+          },
+          "q04": {
+            "recall_any": 0.0,
+            "recall_all": 0.0,
+            "all_sides": null,
+            "hit": []
+          },
+          "q07": {
+            "recall_any": 1.0,
+            "recall_all": 1.0,
+            "all_sides": 1.0,
+            "hit": [
+              "03-internal-comms/email/field-testing-report",
+              "04-external-comms/email/field-testing-update-client"
+            ]
+          },
+          "q08": {
+            "recall_any": 1.0,
+            "recall_all": 1.0,
+            "all_sides": null,
+            "hit": [
+              "03-internal-comms/email/field-testing-report"
+            ]
+          },
+          "q09": {
+            "recall_any": 1.0,
+            "recall_all": 1.0,
+            "all_sides": null,
+            "hit": [
+              "03-internal-comms/email/pre-launch-checklist"
+            ]
+          },
+          "q10": {
+            "recall_any": 0.0,
+            "recall_all": 0.0,
+            "all_sides": null,
+            "hit": []
+          },
+          "q11": {
+            "recall_any": 1.0,
+            "recall_all": 1.0,
+            "all_sides": null,
+            "hit": [
+              "05-meetings/sprint-review-scope-adjustment"
+            ]
+          },
+          "q13": {
+            "recall_any": 1.0,
+            "recall_all": 1.0,
+            "all_sides": null,
+            "hit": [
+              "02-subject/known-issues"
+            ]
+          },
+          "q16": {
+            "recall_any": 0.0,
+            "recall_all": 0.0,
+            "all_sides": null,
+            "hit": []
+          },
+          "q17": {
+            "recall_any": 1.0,
+            "recall_all": 0.5,
+            "all_sides": 0.0,
+            "hit": [
+              "05-meetings/iot-architecture-review"
+            ]
+          },
+          "q20": {
+            "recall_any": 1.0,
+            "recall_all": 1.0,
+            "all_sides": null,
+            "hit": [
+              "04-external-comms/email/alberto-timeline-concern"
+            ]
+          }
+        }
+      },
+      "10": {
+        "stance_recall_any": 0.9230769230769231,
+        "stance_recall_all": 0.8461538461538461,
+        "contra_all_sides": 0.6666666666666666,
+        "n_contra_with_sides": 3,
+        "per_query": {
+          "q01": {
+            "recall_any": 1.0,
+            "recall_all": 1.0,
+            "all_sides": null,
+            "hit": [
+              "03-internal-comms/email/architecture-decision-mqtt"
+            ]
+          },
+          "q02": {
+            "recall_any": 1.0,
+            "recall_all": 1.0,
+            "all_sides": null,
+            "hit": [
+              "03-internal-comms/email/architecture-decision-mqtt"
+            ]
+          },
+          "q03": {
+            "recall_any": 1.0,
+            "recall_all": 1.0,
+            "all_sides": 1.0,
+            "hit": [
+              "03-internal-comms/email/budget-timeline-concern",
+              "04-external-comms/email/timeline-update-client"
+            ]
+          },
+          "q04": {
+            "recall_any": 1.0,
+            "recall_all": 1.0,
+            "all_sides": null,
+            "hit": [
+              "03-internal-comms/email/helion-firmware-followup"
+            ]
+          },
+          "q07": {
+            "recall_any": 1.0,
+            "recall_all": 1.0,
+            "all_sides": 1.0,
+            "hit": [
+              "03-internal-comms/email/field-testing-report",
+              "04-external-comms/email/field-testing-update-client"
+            ]
+          },
+          "q08": {
+            "recall_any": 1.0,
+            "recall_all": 1.0,
+            "all_sides": null,
+            "hit": [
+              "03-internal-comms/email/field-testing-report"
+            ]
+          },
+          "q09": {
+            "recall_any": 1.0,
+            "recall_all": 1.0,
+            "all_sides": null,
+            "hit": [
+              "03-internal-comms/email/pre-launch-checklist"
+            ]
+          },
+          "q10": {
+            "recall_any": 1.0,
+            "recall_all": 0.5,
+            "all_sides": null,
+            "hit": [
+              "05-meetings/sprint-review-scope-adjustment"
+            ]
+          },
+          "q11": {
+            "recall_any": 1.0,
+            "recall_all": 1.0,
+            "all_sides": null,
+            "hit": [
+              "05-meetings/sprint-review-scope-adjustment"
+            ]
+          },
+          "q13": {
+            "recall_any": 1.0,
+            "recall_all": 1.0,
+            "all_sides": null,
+            "hit": [
+              "02-subject/known-issues"
+            ]
+          },
+          "q16": {
+            "recall_any": 0.0,
+            "recall_all": 0.0,
+            "all_sides": null,
+            "hit": []
+          },
+          "q17": {
+            "recall_any": 1.0,
+            "recall_all": 0.5,
+            "all_sides": 0.0,
+            "hit": [
+              "05-meetings/iot-architecture-review"
+            ]
+          },
+          "q20": {
+            "recall_any": 1.0,
+            "recall_all": 1.0,
+            "all_sides": null,
+            "hit": [
+              "04-external-comms/email/alberto-timeline-concern"
+            ]
+          }
+        }
+      }
+    },
+    "evidence_grounded_stance": {
+      "headline": false,
+      "status": "secondary; requires OPENAI_API_KEY; not run in gate",
+      "values": null
+    }
+  },
+  "layer_4_temporal": {
+    "cutoffs": [
+      "2025-08-31",
+      "2025-09-30",
+      "2025-10-31"
+    ],
+    "ndcg_at_10_per_cutoff": [
+      0.5457840772040331,
+      0.57980570858458,
+      0.6190017105762161
+    ],
+    "temporal_ndcg_at_10_b0_similarity": 0.6634892801731088,
+    "temporal_ndcg_at_10_b2_full_oida": 0.605925070502049,
+    "temporal_ndcg_lift_b2_minus_b0": -0.057564209671059796,
+    "current_state_accuracy_at_1": 0.5,
+    "current_state_accuracy_at_5": 0.75,
+    "current_state_accuracy_at_10": 0.9166666666666666,
+    "superseded_leakage_at_10": 0.24500000000000002,
+    "temporal_ndcg_at_10": 0.605925070502049,
+    "stable_knowledge_retention_at_10": 0.8095238095238095,
+    "freshness_overbias_rate": 0.2857142857142857,
+    "lifecycle_ranking_agreement": 0.43754130865829477,
+    "as_of_accuracy_at_10": null,
+    "decay_sensitivity_pairwise": null,
+    "reinforcement_lift_mean": null,
+    "n_current_state_queries": 12,
+    "n_stable_knowledge_queries": 7
+  },
+  "layer_5_practicality": {
+    "ingest_wall_clock_sec_per_doc_median": 15.575512207986321,
+    "retrieve_latency_ms_p50": 1932.819667039439,
+    "retrieve_latency_ms_p95": 3043.192583019845,
+    "retrieve_cost_usd_per_query_median": 0.0,
+    "ingest_cost_usd_total": null
+  },
+  "f_conditions": {
+    "F-TEMP-1": {
+      "passed": true,
+      "value": 0.9166666666666666,
+      "threshold": 0.8
+    },
+    "F-TEMP-2": {
+      "passed": false,
+      "value": 0.24500000000000002,
+      "threshold": 0.1
+    },
+    "F-TEMP-4": {
+      "passed": true,
+      "value": 0.8095238095238095,
+      "threshold": 0.75
+    },
+    "F-TEMP-5": {
+      "passed": false,
+      "value": 0.2857142857142857,
+      "threshold": 0.15
+    },
+    "F-TEMP-6": {
+      "passed": false,
+      "value": 0.43754130865829477,
+      "threshold": 0.7
+    },
+    "F-TEMP-7": {
+      "passed": false,
+      "value": -0.0576,
+      "threshold": 0.1,
+      "b2_full_oida": 0.6059,
+      "b0_similarity": 0.6635
+    }
+  },
+  "n_queries_total": 20,
+  "n_queries_with_gold": 20,
+  "n_queries_with_retrieved_docs": 20,
+  "notes": "Layer 1 only. Retrieve run used OIDA v0 (tauBind=0.2, tauFallback=0.1). top_k=100; Recall@100 is measurable (run reached top_k>=100). 0 queries returned empty subgraph from OIDA. Remediated run on the oida-core deploy: per-corpus project isolation (each corpus in its own project, not the shared default), widened server-side commit transaction window, and /health warm-up (tobefixed/REMEDIATION.md items A/C/E). This is the fair-conditions OIDA comparison surface; see experiments/EXPERIMENT_PLAN.md §1 (oida-core row)."
+}
