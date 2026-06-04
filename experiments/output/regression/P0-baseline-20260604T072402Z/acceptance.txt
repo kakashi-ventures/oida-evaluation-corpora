@@ -1,0 +1,448 @@
+# regression harness phase=P0-baseline ts=20260604T072402Z run_id=20260604T072402Z
+# corpora=burned base_url=https://oida-core.onrender.com
+# cache cold: judge_cache_deleted=False ingest_reports_deleted=['org-consulting-clearpath.jsonl', 'org-iot-fireglass.jsonl', 'org-vc-vertexminds.jsonl'] skip_reset=False
+$ python experiments/scripts/01_ingest.py --system oida-core
+
+>>> OIDA deploy: oida-core (https://oida-core.onrender.com)
+
+[org-consulting-clearpath] system=oida-core → project=oida-clearpath (https://oida-core.onrender.com) | 46 docs total, 0 already committed, 46 to ingest
+  [  1/46] OK   01-scope/project-brief                             chunks=3 kos= 61 (  9.6s)
+  [  2/46] OK   01-scope/requirements                              chunks=4 kos= 68 (  6.6s)
+  [  3/46] OK   01-scope/statement-of-work                         chunks=14 kos=209 ( 46.1s)
+  [  4/46] OK   02-subject/bottleneck-analysis                     chunks=4 kos= 20 (  5.8s)
+  [  5/46] OK   02-subject/observation-001-onboarding              chunks=3 kos= 57 ( 11.5s)
+  [  6/46] OK   02-subject/observation-002-client-intake           chunks=3 kos= 63 ( 27.1s)
+  [  7/46] OK   02-subject/observation-002-v2-client-intake        chunks=3 kos= 77 ( 27.1s)
+  [  8/46] OK   02-subject/observation-003-audit-workflow          chunks=3 kos= 45 (  9.2s)
+  [  9/46] OK   02-subject/observation-004-reporting               chunks=2 kos= 36 (  7.0s)
+  [ 10/46] OK   02-subject/observation-005-knowledge-sharing       chunks=3 kos= 36 (  6.3s)
+  [ 11/46] OK   02-subject/process-map-current                     chunks=5 kos=141 ( 41.5s)
+  [ 12/46] OK   03-internal-comms/email/email-internal-001         chunks=2 kos= 30 (  3.9s)
+  [ 13/46] OK   03-internal-comms/email/email-internal-002         chunks=1 kos= 16 (  2.1s)
+  [ 14/46] OK   03-internal-comms/email/email-internal-003         chunks=1 kos= 14 (  1.8s)
+  [ 15/46] OK   03-internal-comms/email/email-internal-004         chunks=2 kos= 39 (  5.3s)
+  [ 16/46] OK   03-internal-comms/email/email-internal-005         chunks=2 kos= 28 (  3.6s)
+  [ 17/46] OK   03-internal-comms/email/email-internal-006         chunks=1 kos= 26 (  4.6s)
+  [ 18/46] OK   03-internal-comms/email/email-internal-007         chunks=1 kos= 21 (  3.2s)
+  [ 19/46] OK   03-internal-comms/email/email-internal-008         chunks=2 kos= 50 ( 11.9s)
+  [ 20/46] OK   03-internal-comms/slack/project-clearpath          chunks=8 kos=178 ( 24.6s)
+  [ 21/46] OK   04-external-comms/email/email-external-001         chunks=1 kos= 28 (  4.7s)
+  [ 22/46] OK   04-external-comms/email/email-external-002         chunks=1 kos= 28 (  3.2s)
+  [ 23/46] OK   04-external-comms/email/email-external-003         chunks=1 kos= 16 (  1.9s)
+  [ 24/46] OK   04-external-comms/email/email-external-004         chunks=1 kos= 26 (  3.6s)
+  [ 25/46] OK   04-external-comms/email/email-external-005         chunks=1 kos=  8 (  1.0s)
+  [ 26/46] OK   04-external-comms/email/email-external-006         chunks=1 kos= 23 (  3.8s)
+  [ 27/46] OK   04-external-comms/email/email-external-007         chunks=1 kos=  7 (  0.7s)
+  [ 28/46] OK   04-external-comms/email/email-external-008         chunks=1 kos= 12 (  1.6s)
+  [ 29/46] OK   04-external-comms/email/email-external-009         chunks=1 kos= 16 (  2.1s)
+  [ 30/46] OK   04-external-comms/email/email-external-010         chunks=1 kos= 12 (  2.4s)
+  [ 31/46] OK   04-external-comms/email/email-external-011         chunks=1 kos= 14 (  1.5s)
+  [ 32/46] OK   04-external-comms/email/email-external-012         chunks=2 kos= 31 (  4.0s)
+  [ 33/46] OK   04-external-comms/slack/client-channel             chunks=4 kos= 99 ( 17.0s)
+  [ 34/46] OK   05-meetings/meeting-001-kickoff                    chunks=15 kos=381 ( 74.7s)
+  [ 35/46] OK   05-meetings/meeting-002-discovery-ops              chunks=11 kos=327 ( 57.5s)
+  [ 36/46] OK   05-meetings/meeting-003-interim-review             chunks=9 kos=206 ( 54.9s)
+  [ 37/46] OK   05-meetings/meeting-004-workshop-design            chunks=11 kos=407 (102.0s)
+  [ 38/46] OK   05-meetings/meeting-005-final-presentation         chunks=6 kos=179 ( 52.8s)
+  [ 39/46] OK   06-market-context/competitor-benchmark             chunks=3 kos= 12 (  2.2s)
+  [ 40/46] OK   06-market-context/compliance-market-overview       chunks=6 kos=133 ( 26.3s)
+  [ 41/46] OK   06-market-context/regulatory-landscape             chunks=7 kos=177 ( 39.1s)
+  [ 42/46] OK   07-documents/implementation-roadmap                chunks=8 kos= 39 (  6.4s)
+  [ 43/46] OK   07-documents/presentation-interim                  chunks=7 kos=186 ( 41.7s)
+  [ 44/46] OK   07-documents/proposal-initial                      chunks=9 kos=172 ( 36.9s)
+  [ 45/46] OK   07-documents/report-final                          chunks=15 kos=402 (143.9s)
+  [ 46/46] OK   08-agenda/calendar-events                          chunks=5 kos=  0 (  0.6s)
+[org-consulting-clearpath] done: 46 OK / 0 FAIL / 0 skipped | 4156 KOs / 196 chunks | 946s wall-clock
+
+[org-iot-fireglass] system=oida-core → project=oida-fireglass (https://oida-core.onrender.com) | 47 docs total, 0 already committed, 47 to ingest
+  [  1/47] OK   01-scope/project-brief                             chunks=8 kos=156 ( 15.5s)
+  [  2/47] OK   01-scope/technical-requirements                    chunks=12 kos=254 ( 33.4s)
+  [  3/47] OK   01-scope/user-stories                              chunks=10 kos=177 ( 25.9s)
+  [  4/47] OK   02-subject/api-documentation                       chunks=12 kos=161 ( 21.1s)
+  [  5/47] OK   02-subject/architecture-overview                   chunks=8 kos= 83 ( 24.8s)
+  [  6/47] OK   02-subject/changelog                               chunks=3 kos= 70 ( 10.3s)
+  [  7/47] OK   02-subject/component-tree                          chunks=15 kos=207 ( 26.7s)
+  [  8/47] OK   02-subject/database-schema                         chunks=14 kos=190 ( 27.0s)
+  [  9/47] OK   02-subject/known-issues                            chunks=8 kos=120 ( 15.6s)
+  [ 10/47] OK   02-subject/mqtt-protocol                           chunks=15 kos=250 ( 58.8s)
+  [ 11/47] OK   03-internal-comms/email/architecture-decision-mqtt chunks=2 kos= 44 (  9.4s)
+  [ 12/47] OK   03-internal-comms/email/budget-timeline-concern    chunks=1 kos= 28 (  4.1s)
+  [ 13/47] OK   03-internal-comms/email/code-review-feedback       chunks=2 kos= 30 (  5.0s)
+  [ 14/47] OK   03-internal-comms/email/field-testing-report       chunks=1 kos= 25 (  4.2s)
+  [ 15/47] OK   03-internal-comms/email/helion-firmware-followup   chunks=2 kos= 36 (  6.1s)
+  [ 16/47] OK   03-internal-comms/email/pre-launch-checklist       chunks=2 kos= 40 (  7.4s)
+  [ 17/47] OK   03-internal-comms/email/sprint-kickoff-week1       chunks=1 kos= 18 (  3.2s)
+  [ 18/47] OK   03-internal-comms/slack/dev-channel                chunks=14 kos=217 ( 35.2s)
+  [ 19/47] OK   03-internal-comms/slack/general-channel            chunks=6 kos= 77 ( 11.4s)
+  [ 20/47] OK   04-external-comms/email/alberto-timeline-concern   chunks=1 kos= 13 (  1.7s)
+  [ 21/47] OK   04-external-comms/email/field-testing-update-clien chunks=1 kos= 15 (  2.4s)
+  [ 22/47] OK   04-external-comms/email/first-demo-feedback        chunks=1 kos= 19 (  4.2s)
+  [ 23/47] OK   04-external-comms/email/helion-autoresponse        chunks=1 kos= 11 (  2.3s)
+  [ 24/47] OK   04-external-comms/email/helion-outreach            chunks=1 kos= 15 (  2.8s)
+  [ 25/47] OK   04-external-comms/email/pre-launch-scope-confirmat chunks=1 kos= 20 (  3.1s)
+  [ 26/47] OK   04-external-comms/email/site-access-coordination   chunks=1 kos= 24 (  4.1s)
+  [ 27/47] OK   04-external-comms/email/timeline-update-client     chunks=1 kos= 17 (  2.4s)
+  [ 28/47] OK   04-external-comms/email/uat-scheduling             chunks=1 kos= 24 (  3.7s)
+  [ 29/47] OK   04-external-comms/email/welcome-kickoff            chunks=1 kos= 14 (  1.7s)
+  [ 30/47] OK   04-external-comms/slack/client-channel             chunks=9 kos=128 ( 22.1s)
+  [ 31/47] OK   05-meetings/field-testing-debrief                  chunks=6 kos=182 ( 48.0s)
+  [ 32/47] OK   05-meetings/iot-architecture-review                chunks=10 kos=256 ( 62.4s)
+  [ 33/47] OK   05-meetings/kickoff-meeting                        chunks=10 kos=252 ( 53.1s)
+  [ 34/47] OK   05-meetings/pre-launch-planning                    chunks=8 kos=195 ( 60.1s)
+  [ 35/47] OK   05-meetings/sprint-3-review                        chunks=10 kos=268 ( 71.1s)
+  [ 36/47] OK   05-meetings/sprint-review-scope-adjustment         chunks=7 kos=183 ( 55.1s)
+  [ 37/47] OK   06-market-context/competitor-analysis              chunks=4 kos= 14 (  2.9s)
+  [ 38/47] OK   06-market-context/iot-landscape                    chunks=15 kos=398 (118.7s)
+  [ 39/47] OK   06-market-context/market-overview                  chunks=13 kos=307 ( 76.8s)
+  [ 40/47] OK   06-market-context/regulations-overview             chunks=12 kos=307 ( 87.1s)
+  [ 41/47] OK   07-documents/proposal                              chunks=6 kos=121 ( 28.3s)
+  [ 42/47] OK   07-documents/release-notes-v1                      chunks=12 kos=225 ( 90.6s)
+  [ 43/47] OK   07-documents/test-plan                             chunks=15 kos=278 ( 88.0s) err={"message": "non-JSON response", "raw": "<!DOCTYPE html>\n<h
+  [ 44/47] OK   07-documents/user-manual-draft                     chunks=16 kos=269 ( 88.8s)
+  [ 45/47] OK   07-documents/wireframes-notes                      chunks=13 kos=208 ( 82.4s)
+  [ 46/47] OK   08-agenda/calendar                                 chunks=11 kos= 41 ( 12.1s)
+  [ 47/47] OK   08-agenda/sprint-timeline                          chunks=3 kos= 24 (  8.7s)
+[org-iot-fireglass] done: 47 OK / 0 FAIL / 0 skipped | 6011 KOs / 326 chunks | 1430s wall-clock
+
+[org-vc-vertexminds] system=oida-core → project=oida-vertexminds (https://oida-core.onrender.com) | 77 docs total, 0 already committed, 77 to ingest
+  [  1/77] OK   01-scope/evaluation-framework                      chunks=2 kos= 31 (  4.2s)
+  [  2/77] OK   01-scope/investment-thesis                         chunks=3 kos= 67 (  7.8s)
+  [  3/77] OK   01-scope/pitch-day-brief                           chunks=2 kos= 48 (  8.4s)
+  [  4/77] OK   02-subject/dossier-datapulse                       chunks=5 kos=122 ( 14.2s)
+  [  5/77] OK   02-subject/dossier-greenloop                       chunks=7 kos=168 ( 24.0s)
+  [  6/77] OK   02-subject/dossier-mindbridge                      chunks=6 kos=158 ( 21.3s)
+  [  7/77] OK   02-subject/dossier-novatech-ai                     chunks=8 kos=179 ( 25.6s)
+  [  8/77] OK   02-subject/dossier-urbanflow                       chunks=8 kos=175 ( 41.6s)
+  [  9/77] OK   02-subject/portfolio-update-fitbrew                chunks=5 kos=101 ( 15.0s)
+  [ 10/77] OK   02-subject/portfolio-update-nestease               chunks=3 kos= 48 (  6.3s)
+  [ 11/77] OK   02-subject/scoring-matrix                          chunks=1 kos=  6 (  0.6s)
+  [ 12/77] OK   02-subject/term-sheet-draft-novatech               chunks=3 kos= 51 (  6.0s)
+  [ 13/77] OK   02-subject/term-sheet-draft-urbanflow              chunks=4 kos= 63 (  8.1s)
+  [ 14/77] OK   03-internal-comms/email/email-001-ic-convocation   chunks=1 kos= 17 (  2.4s)
+  [ 15/77] OK   03-internal-comms/email/email-002-screening-summar chunks=2 kos= 51 (  8.0s)
+  [ 16/77] OK   03-internal-comms/email/email-003-pipeline-concern chunks=1 kos= 13 (  2.0s)
+  [ 17/77] OK   03-internal-comms/email/email-004-logistics        chunks=1 kos=  8 (  0.8s)
+  [ 18/77] OK   03-internal-comms/email/email-005-post-event-debri chunks=1 kos= 26 (  3.6s)
+  [ 19/77] OK   03-internal-comms/email/email-006-decisions-summar chunks=2 kos= 44 (  6.5s)
+  [ 20/77] OK   03-internal-comms/email/email-007-fitbrew-escalati chunks=1 kos= 19 (  2.8s)
+  [ 21/77] OK   03-internal-comms/slack/ic-decisions               chunks=6 kos=148 ( 25.4s)
+  [ 22/77] OK   03-internal-comms/slack/portfolio-alerts           chunks=2 kos= 45 (  7.6s)
+  [ 23/77] OK   04-external-comms/email/founders/email-ext-001-pit chunks=1 kos= 26 (  3.6s)
+  [ 24/77] OK   04-external-comms/email/founders/email-ext-002-pit chunks=1 kos=  0 (  0.2s)
+  [ 25/77] OK   04-external-comms/email/founders/email-ext-003-pit chunks=1 kos=  9 (  1.0s)
+  [ 26/77] OK   04-external-comms/email/founders/email-ext-004-mat chunks=1 kos= 12 (  2.3s)
+  [ 27/77] OK   04-external-comms/email/founders/email-ext-005-mat chunks=1 kos= 16 (  2.9s)
+  [ 28/77] OK   04-external-comms/email/founders/email-ext-006-rej chunks=1 kos= 16 (  4.4s)
+  [ 29/77] OK   04-external-comms/email/founders/email-ext-007-rej chunks=1 kos= 15 (  2.0s)
+  [ 30/77] OK   04-external-comms/email/founders/email-ext-008-con chunks=1 kos= 18 (  2.7s)
+  [ 31/77] OK   04-external-comms/email/founders/email-ext-009-ter chunks=1 kos= 14 (  1.7s)
+  [ 32/77] OK   04-external-comms/email/founders/email-ext-010-ter chunks=1 kos= 19 (  2.9s)
+  [ 33/77] OK   04-external-comms/email/founders/email-ext-011-urb chunks=1 kos=  9 (  1.1s)
+  [ 34/77] OK   04-external-comms/email/founders/email-ext-012-nov chunks=1 kos= 10 (  1.5s)
+  [ 35/77] OK   04-external-comms/slack/novatech-channel           chunks=2 kos= 67 ( 11.6s)
+  [ 36/77] OK   04-external-comms/slack/urbanflow-channel          chunks=2 kos= 56 ( 23.2s)
+  [ 37/77] OK   05-meetings/meeting-001-ic-pre-pitchday            chunks=7 kos=248 (102.6s)
+  [ 38/77] OK   05-meetings/meeting-002-pitchday-novatech          chunks=4 kos=123 ( 27.3s)
+  [ 39/77] OK   05-meetings/meeting-003-pitchday-greenloop         chunks=5 kos=151 ( 30.2s)
+  [ 40/77] OK   05-meetings/meeting-004-pitchday-mindbridge        chunks=4 kos=125 ( 28.6s)
+  [ 41/77] OK   05-meetings/meeting-005-pitchday-datapulse         chunks=6 kos=154 ( 30.7s)
+  [ 42/77] OK   05-meetings/meeting-006-pitchday-urbanflow         chunks=9 kos=243 ( 58.8s)
+  [ 43/77] OK   05-meetings/meeting-007-ic-deliberation            chunks=14 kos=497 (146.6s)
+  [ 44/77] OK   05-meetings/meeting-008-termsheet-novatech         chunks=6 kos=198 ( 49.9s)
+  [ 45/77] OK   06-market-context/circular-economy-b2b             chunks=6 kos=128 ( 29.5s)
+  [ 46/77] OK   06-market-context/comparable-deals                 chunks=3 kos= 24 (  7.5s)
+  [ 47/77] OK   06-market-context/ecommerce-analytics              chunks=6 kos=142 ( 34.8s)
+  [ 48/77] OK   06-market-context/employee-engagement-saas         chunks=5 kos=128 ( 32.8s)
+  [ 49/77] OK   06-market-context/regtech-documentation            chunks=4 kos=106 ( 49.0s)
+  [ 50/77] OK   06-market-context/urban-logistics                  chunks=7 kos=169 ( 46.0s)
+  [ 51/77] OK   06-market-context/vc-market-conditions             chunks=6 kos=151 ( 51.4s)
+  [ 52/77] OK   07-documents/ic-memo-final                         chunks=9 kos=178 ( 44.0s)
+  [ 53/77] OK   07-documents/pitch-deck-datapulse                  chunks=4 kos= 86 ( 24.9s)
+  [ 54/77] OK   07-documents/pitch-deck-greenloop                  chunks=3 kos= 87 ( 23.1s)
+  [ 55/77] OK   07-documents/pitch-deck-mindbridge                 chunks=3 kos= 72 ( 22.7s)
+  [ 56/77] OK   07-documents/pitch-deck-novatech                   chunks=4 kos= 87 ( 26.7s)
+  [ 57/77] OK   07-documents/pitch-deck-urbanflow                  chunks=4 kos= 93 ( 44.6s)
+  [ 58/77] OK   07-documents/portfolio-report-q3                   chunks=9 kos=168 ( 45.2s)
+  [ 59/77] OK   08-agenda/2025-10-20_calendar_vertex_minds         chunks=1 kos=  0 (  0.1s)
+  [ 60/77] OK   08-agenda/2025-10-21_calendar_vertex_minds         chunks=1 kos=  0 (  0.2s)
+  [ 61/77] OK   08-agenda/2025-10-22_calendar_vertex_minds         chunks=1 kos=  0 (  0.1s)
+  [ 62/77] OK   08-agenda/2025-10-23_calendar_vertex_minds         chunks=1 kos=  0 (  0.1s)
+  [ 63/77] OK   08-agenda/2025-10-27_calendar_vertex_minds         chunks=1 kos=  0 (  0.1s)
+  [ 64/77] OK   08-agenda/2025-10-28_calendar_vertex_minds         chunks=1 kos=  0 (  0.1s)
+  [ 65/77] OK   08-agenda/2025-10-30_calendar_vertex_minds         chunks=1 kos=  0 (  0.7s)
+  [ 66/77] OK   08-agenda/2025-11-03_calendar_vertex_minds         chunks=1 kos=  0 (  0.3s)
+  [ 67/77] OK   08-agenda/2025-11-04_calendar_vertex_minds         chunks=1 kos=  0 (  0.2s)
+  [ 68/77] OK   08-agenda/2025-11-07_calendar_vertex_minds         chunks=1 kos=  0 (  0.1s)
+  [ 69/77] OK   08-agenda/2025-11-11_calendar_vertex_minds         chunks=1 kos=  0 (  0.1s)
+  [ 70/77] OK   08-agenda/2025-11-12_calendar_vertex_minds         chunks=1 kos=  0 (  0.1s)
+  [ 71/77] OK   08-agenda/2025-11-13_calendar_vertex_minds         chunks=1 kos=  0 (  0.2s)
+  [ 72/77] OK   08-agenda/2025-11-14_calendar_vertex_minds         chunks=1 kos=  0 (  0.1s)
+  [ 73/77] OK   08-agenda/2025-11-17_calendar_vertex_minds         chunks=1 kos=  0 (  0.1s)
+  [ 74/77] OK   08-agenda/2025-11-18_calendar_vertex_minds         chunks=1 kos=  0 (  0.1s)
+  [ 75/77] OK   08-agenda/2025-11-19_calendar_vertex_minds         chunks=1 kos=  0 (  0.1s)
+  [ 76/77] OK   08-agenda/2025-11-20_calendar_vertex_minds         chunks=1 kos=  0 (  0.2s)
+  [ 77/77] OK   08-agenda/pitchday-schedule                        chunks=1 kos= 17 (  5.4s)
+[org-vc-vertexminds] done: 77 OK / 0 FAIL / 0 skipped | 5250 KOs / 237 chunks | 1268s wall-clock
+
+[inv-mystery-redhood] system=oida-core → project=oida-redhood (https://oida-core.onrender.com) | 30 docs total, 0 already committed, 30 to ingest
+  [  1/30] OK   source_001_private_letter_ada_to_marta             chunks=1 kos=  8 (  0.5s)
+  [  2/30] OK   source_002_bakery_receipt                          chunks=1 kos=  5 (  0.3s)
+  [  3/30] OK   source_003_private_note_pietro_ledger              chunks=1 kos=  5 (  0.6s)
+  [  4/30] OK   source_004_informal_note_clara_to_livia            chunks=1 kos=  6 (  0.4s)
+  [  5/30] OK   source_005_ranger_log_morning_tracks               chunks=1 kos=  5 (  0.3s)
+  [  6/30] OK   source_006_weather_bulletin_fog                    chunks=1 kos=  5 (  0.3s)
+  [  7/30] OK   source_007_witness_pietro_sees_clara               chunks=1 kos=  6 (  0.4s)
+  [  8/30] OK   source_008_informal_note_clara_birches             chunks=1 kos=  6 (  0.4s)
+  [  9/30] OK   source_009_witness_child_at_birches                chunks=1 kos=  6 (  0.5s)
+  [ 10/30] OK   source_010_witness_nino_dark_shape                 chunks=1 kos=  6 (  0.4s)
+  [ 11/30] OK   source_011_old_mill_worker_noise                   chunks=1 kos=  5 (  0.3s)
+  [ 12/30] OK   source_012_private_letter_marta_to_tommaso         chunks=1 kos=  6 (  0.3s)
+  [ 13/30] OK   source_013_witness_sofia_voice                     chunks=1 kos=  6 (  0.3s)
+  [ 14/30] OK   source_014_chapel_bell_notice                      chunks=1 kos=  5 (  0.5s)
+  [ 15/30] OK   source_015_ranger_log_afternoon_cry                chunks=1 kos=  5 (  0.6s)
+  [ 16/30] OK   source_016_guard_report_first_inspection           chunks=1 kos=  5 (  0.4s)
+  [ 17/30] OK   source_017_medical_report_marta                    chunks=1 kos=  7 (  0.5s)
+  [ 18/30] OK   source_018_medical_report_clara                    chunks=1 kos=  6 (  0.6s)
+  [ 19/30] OK   source_019_clara_statement_room                    chunks=1 kos=  6 (  0.5s)
+  [ 20/30] OK   source_020_guard_report_second_inspection          chunks=1 kos=  5 (  0.3s)
+  [ 21/30] OK   source_021_enrico_incident_note                    chunks=1 kos=  6 (  0.5s)
+  [ 22/30] OK   source_022_admin_record_enrico_ledger              chunks=1 kos=  5 (  0.3s)
+  [ 23/30] OK   source_023_rinaldo_statement                       chunks=1 kos=  6 (  0.5s)
+  [ 24/30] OK   source_024_bridge_toll_rinaldo                     chunks=1 kos=  5 (  0.4s)
+  [ 25/30] OK   source_025_lucia_tavern_rumor                      chunks=1 kos=  6 (  0.5s)
+  [ 26/30] OK   source_026_local_news_initial_rumors               chunks=1 kos=  6 (  0.4s)
+  [ 27/30] OK   source_027_guard_report_rumor_origin               chunks=1 kos=  5 (  0.4s)
+  [ 28/30] OK   source_028_market_notice_noise                     chunks=1 kos=  7 (  1.7s)
+  [ 29/30] OK   source_029_school_notice_noise                     chunks=1 kos=  7 (  1.3s)
+  [ 30/30] OK   source_030_recipe_card_noise                       chunks=1 kos=  5 (  0.5s)
+[inv-mystery-redhood] done: 30 OK / 0 FAIL / 0 skipped | 172 KOs / 30 chunks | 15s wall-clock
+
+[inv-ashford-mystery] system=oida-core → project=oida-ashford (https://oida-core.onrender.com) | 30 docs total, 0 already committed, 30 to ingest
+  [  1/30] OK   source_001_missing_persons_reyes                   chunks=1 kos= 13 (  2.4s)
+  [  2/30] OK   source_002_arcade_cashier_statement                chunks=1 kos= 16 (  1.3s)
+  [  3/30] OK   source_003_smiths_tap_statement                    chunks=1 kos= 14 (  1.2s)
+  [  4/30] OK   source_004_coroner_report_reyes                    chunks=1 kos= 14 (  1.2s)
+  [  5/30] OK   source_005_track_inspector_note                    chunks=1 kos= 11 (  1.0s)
+  [  6/30] OK   source_006_letter_elena_to_sister                  chunks=1 kos= 10 (  0.9s)
+  [  7/30] OK   source_007_missing_persons_webb                    chunks=1 kos=  0 (  0.1s)
+  [  8/30] OK   source_008_lantern_bartender_statement             chunks=1 kos= 15 (  1.3s)
+  [  9/30] OK   source_009_culvert_discovery_report                chunks=1 kos= 10 (  0.8s)
+  [ 10/30] OK   source_010_toxicology_webb                         chunks=1 kos= 11 (  1.3s)
+  [ 11/30] OK   source_011_letter_cheryl_webb                      chunks=1 kos= 12 (  1.0s)
+  [ 12/30] OK   source_012_hotel_coworker_statement                chunks=1 kos= 10 (  0.7s)
+  [ 13/30] OK   source_013_halloran_scene_report                   chunks=1 kos= 18 (  1.9s)
+  [ 14/30] OK   source_014_vail_first_statement                    chunks=1 kos= 15 (  1.4s)
+  [ 15/30] OK   source_015_halbert_alibi_statement                 chunks=1 kos= 12 (  1.1s)
+  [ 16/30] OK   source_016_forrester_neighbor_statement            chunks=1 kos= 11 (  0.9s)
+  [ 17/30] OK   source_017_vong_letter                             chunks=1 kos= 11 (  0.8s)
+  [ 18/30] OK   source_018_halloran_autopsy                        chunks=1 kos= 13 (  1.1s)
+  [ 19/30] OK   source_019_sweeney_case_note                       chunks=1 kos= 10 (  1.2s)
+  [ 20/30] OK   source_020_cab_driver_statement                    chunks=1 kos= 13 (  1.1s)
+  [ 21/30] OK   source_021_hoyts_deli_receipt                      chunks=1 kos=  7 (  0.5s)
+  [ 22/30] OK   source_022_motel_clerk_statement                   chunks=1 kos= 14 (  1.3s)
+  [ 23/30] OK   source_023_marsh_discovery_report                  chunks=1 kos=  9 (  0.7s)
+  [ 24/30] OK   source_024_marsh_coroner_report                    chunks=1 kos= 11 (  1.6s)
+  [ 25/30] OK   source_025_group_home_record                       chunks=1 kos=  9 (  4.2s)
+  [ 26/30] OK   source_026_sentinel_article                        chunks=1 kos=  8 (  5.2s)
+  [ 27/30] OK   source_027_pelham_clearance                        chunks=1 kos= 11 (  5.5s)
+  [ 28/30] OK   source_028_kell_witness_statement                  chunks=1 kos= 17 (  1.8s)
+  [ 29/30] OK   source_029_pawnshop_record                         chunks=1 kos= 11 (  1.9s)
+  [ 30/30] OK   source_030_county_fair_bulletin                    chunks=1 kos= 12 (  1.0s)
+[inv-ashford-mystery] done: 30 OK / 0 FAIL / 0 skipped | 348 KOs / 30 chunks | 47s wall-clock
+
+=========================== SUMMARY ===========================
+  System: oida-core  (https://oida-core.onrender.com)
+  org-consulting-clearpath → oida-clearpath: 46 OK, 0 FAIL, 0 skipped | 4156 KOs | 946s
+  org-iot-fireglass → oida-fireglass: 47 OK, 0 FAIL, 0 skipped | 6011 KOs | 1430s
+  org-vc-vertexminds → oida-vertexminds: 77 OK, 0 FAIL, 0 skipped | 5250 KOs | 1268s
+  inv-mystery-redhood → oida-redhood: 30 OK, 0 FAIL, 0 skipped | 172 KOs | 15s
+  inv-ashford-mystery → oida-ashford: 30 OK, 0 FAIL, 0 skipped | 348 KOs | 47s
+  TOTAL wall-clock: 3705s (61.8 min)
+# rc=0
+# ingest-health 0-KO notes: org-consulting-clearpath: 1 committed doc(s) with 0 KOs (benign — no extractable propositions; recorded, not a failure); org-vc-vertexminds: 19 committed doc(s) with 0 KOs (benign — no extractable propositions; recorded, not a failure); inv-ashford-mystery: 1 committed doc(s) with 0 KOs (benign — no extractable propositions; recorded, not a failure)
+# worker drain: settle=90.0s health=200 (cosmetic for P0)
+$ python experiments/scripts/02_retrieve.py --system oida-core --run-id 20260604T072402Z
+
+>>> OIDA deploy: oida-core (https://oida-core.onrender.com) | run_id=20260604T072402Z
+
+[org-consulting-clearpath] system=oida-core → oida-clearpath (https://oida-core.onrender.com) | 26 queries | top_k=100 | score=regime_adjusted_score
+  [  1/26] OK    q01   docs= 12 top1=07-documents/proposal-initial                   score=0.739 ( 3.03s)
+  [  2/26] OK    q02   docs= 15 top1=02-subject/bottleneck-analysis                  score=0.733 ( 1.81s)
+  [  3/26] OK    q03   docs= 14 top1=02-subject/bottleneck-analysis                  score=0.646 ( 2.32s)
+  [  4/26] OK    q04   docs= 13 top1=07-documents/report-final                       score=0.925 ( 1.51s)
+  [  5/26] OK    q05   docs= 16 top1=04-external-comms/email/email-external-011      score=0.733 ( 2.09s)
+  [  6/26] OK    q06   docs= 15 top1=03-internal-comms/slack/project-clearpath       score=0.613 ( 1.63s)
+  [  7/26] OK    q07   docs= 21 top1=07-documents/proposal-initial                   score=0.720 ( 1.63s)
+  [  8/26] OK    q08   docs= 16 top1=02-subject/bottleneck-analysis                  score=0.636 ( 1.42s)
+  [  9/26] OK    q09   docs= 13 top1=02-subject/bottleneck-analysis                  score=0.707 ( 1.32s)
+  [ 10/26] OK    q10   docs= 16 top1=02-subject/bottleneck-analysis                  score=0.822 ( 1.80s)
+  [ 11/26] OK    q11   docs= 14 top1=02-subject/observation-003-audit-workflow       score=0.797 ( 1.68s)
+  [ 12/26] OK    q12   docs= 17 top1=02-subject/observation-003-audit-workflow       score=0.718 ( 2.14s)
+  [ 13/26] OK    q13   docs=  9 top1=01-scope/requirements                           score=0.705 ( 2.11s)
+  [ 14/26] OK    q14   docs= 10 top1=05-meetings/meeting-004-workshop-design         score=0.673 ( 1.57s)
+  [ 15/26] OK    q15   docs= 18 top1=01-scope/project-brief                          score=0.855 ( 2.56s)
+  [ 16/26] OK    q16   docs= 15 top1=01-scope/project-brief                          score=0.853 ( 1.64s)
+  [ 17/26] OK    q17   docs= 12 top1=07-documents/implementation-roadmap             score=0.691 ( 1.49s)
+  [ 18/26] OK    q18   docs= 12 top1=07-documents/proposal-initial                   score=0.646 ( 1.63s)
+  [ 19/26] OK    q19   docs= 17 top1=02-subject/observation-003-audit-workflow       score=0.675 ( 1.80s)
+  [ 20/26] OK    q20   docs= 21 top1=05-meetings/meeting-001-kickoff                 score=0.574 ( 1.74s)
+  [ 21/26] OK    q21   docs= 17 top1=06-market-context/regulatory-landscape          score=0.592 ( 1.93s)
+  [ 22/26] OK    q22   docs= 21 top1=04-external-comms/email/email-external-001      score=0.595 ( 2.50s)
+  [ 23/26] OK    q23   docs= 17 top1=01-scope/project-brief                          score=0.745 ( 3.13s)
+  [ 24/26] OK    q24   docs= 14 top1=07-documents/report-final                       score=0.691 ( 1.74s)
+  [ 25/26] OK    q25   docs=  8 top1=05-meetings/meeting-005-final-presentation      score=0.673 ( 1.37s)
+  [ 26/26] OK    q26   docs= 17 top1=04-external-comms/email/email-external-011      score=0.688 ( 1.49s)
+[org-consulting-clearpath] done: 26/26 with docs | 0 empty | 0 failed | p50=1738ms p95=3022.2516669891775ms | 49s wall-clock
+
+[org-iot-fireglass] system=oida-core → oida-fireglass (https://oida-core.onrender.com) | 20 queries | top_k=100 | score=regime_adjusted_score
+  [  1/20] OK    q01   docs= 13 top1=01-scope/technical-requirements                 score=0.901 ( 3.05s)
+  [  2/20] OK    q02   docs= 18 top1=01-scope/technical-requirements                 score=0.700 ( 1.82s)
+  [  3/20] OK    q03   docs= 19 top1=04-external-comms/email/timeline-update-clien.. score=0.552 ( 2.01s)
+  [  4/20] OK    q04   docs= 11 top1=04-external-comms/email/helion-outreach         score=0.907 ( 1.93s)
+  [  5/20] OK    q05   docs= 13 top1=05-meetings/iot-architecture-review             score=0.572 ( 2.19s)
+  [  6/20] OK    q06   docs= 15 top1=03-internal-comms/email/code-review-feedback    score=0.601 ( 1.84s)
+  [  7/20] OK    q07   docs= 17 top1=05-meetings/field-testing-debrief               score=0.711 ( 1.51s)
+  [  8/20] OK    q08   docs= 12 top1=03-internal-comms/email/field-testing-report    score=1.050 ( 2.18s)
+  [  9/20] OK    q09   docs= 15 top1=03-internal-comms/email/pre-launch-checklist    score=1.037 ( 1.84s)
+  [ 10/20] OK    q10   docs= 18 top1=07-documents/user-manual-draft                  score=0.662 ( 1.59s)
+  [ 11/20] OK    q11   docs= 12 top1=05-meetings/sprint-review-scope-adjustment      score=0.689 ( 1.96s)
+  [ 12/20] OK    q12   docs= 13 top1=02-subject/known-issues                         score=0.782 ( 1.74s)
+  [ 13/20] OK    q13   docs= 14 top1=02-subject/known-issues                         score=0.799 ( 2.54s)
+  [ 14/20] OK    q14   docs= 16 top1=02-subject/known-issues                         score=1.089 ( 1.58s)
+  [ 15/20] OK    q15   docs= 12 top1=06-market-context/iot-landscape                 score=0.714 ( 1.62s)
+  [ 16/20] OK    q16   docs= 20 top1=01-scope/project-brief                          score=0.555 ( 1.58s)
+  [ 17/20] OK    q17   docs= 17 top1=05-meetings/sprint-3-review                     score=0.743 ( 2.64s)
+  [ 18/20] OK    q18   docs= 17 top1=04-external-comms/email/timeline-update-clien.. score=0.722 ( 2.32s)
+  [ 19/20] OK    q19   docs= 13 top1=02-subject/known-issues                         score=0.671 ( 1.36s)
+  [ 20/20] OK    q20   docs= 17 top1=07-documents/proposal                           score=0.897 ( 2.52s)
+[org-iot-fireglass] done: 20/20 with docs | 0 empty | 0 failed | p50=1933ms p95=3043.192583019845ms | 40s wall-clock
+
+[org-vc-vertexminds] system=oida-core → oida-vertexminds (https://oida-core.onrender.com) | 20 queries | top_k=100 | score=regime_adjusted_score
+  [  1/20] OK    q01   docs= 14 top1=02-subject/term-sheet-draft-novatech            score=0.820 ( 2.70s)
+  [  2/20] OK    q02   docs=  9 top1=02-subject/term-sheet-draft-urbanflow           score=0.837 ( 1.74s)
+  [  3/20] OK    q03   docs= 11 top1=05-meetings/meeting-001-ic-pre-pitchday         score=0.651 ( 2.27s)
+  [  4/20] OK    q04   docs= 14 top1=02-subject/dossier-greenloop                    score=0.782 ( 1.67s)
+  [  5/20] OK    q05   docs= 15 top1=05-meetings/meeting-007-ic-deliberation         score=0.703 ( 1.61s)
+  [  6/20] OK    q06   docs= 14 top1=02-subject/term-sheet-draft-novatech            score=0.772 ( 2.09s)
+  [  7/20] OK    q07   docs= 21 top1=05-meetings/meeting-005-pitchday-datapulse      score=0.681 ( 1.85s)
+  [  8/20] OK    q08   docs= 13 top1=02-subject/term-sheet-draft-urbanflow           score=0.634 ( 2.31s)
+  [  9/20] OK    q09   docs= 10 top1=05-meetings/meeting-007-ic-deliberation         score=0.711 ( 1.71s)
+  [ 10/20] OK    q10   docs= 17 top1=07-documents/ic-memo-final                      score=0.806 ( 1.66s)
+  [ 11/20] OK    q11   docs=  8 top1=07-documents/pitch-deck-datapulse               score=0.564 ( 1.51s)
+  [ 12/20] OK    q12   docs=  7 top1=05-meetings/meeting-007-ic-deliberation         score=0.586 ( 1.53s)
+  [ 13/20] OK    q13   docs= 19 top1=02-subject/dossier-novatech-ai                  score=0.604 ( 1.46s)
+  [ 14/20] OK    q14   docs= 17 top1=02-subject/term-sheet-draft-novatech            score=0.726 ( 2.03s)
+  [ 15/20] OK    q15   docs= 10 top1=01-scope/evaluation-framework                   score=0.580 ( 1.66s)
+  [ 16/20] OK    q16   docs= 15 top1=05-meetings/meeting-002-pitchday-novatech       score=0.670 ( 2.01s)
+  [ 17/20] OK    q17   docs= 24 top1=07-documents/ic-memo-final                      score=0.730 ( 1.39s)
+  [ 18/20] OK    q18   docs= 14 top1=02-subject/dossier-mindbridge                   score=0.655 ( 1.54s)
+  [ 19/20] OK    q19   docs= 17 top1=02-subject/dossier-novatech-ai                  score=0.606 ( 1.30s)
+  [ 20/20] OK    q20   docs= 14 top1=02-subject/term-sheet-draft-urbanflow           score=0.867 ( 1.89s)
+[org-vc-vertexminds] done: 20/20 with docs | 0 empty | 0 failed | p50=1712ms p95=2701.6590000130236ms | 36s wall-clock
+
+[inv-mystery-redhood] system=oida-core → oida-redhood (https://oida-core.onrender.com) | 8 queries | top_k=100 | score=regime_adjusted_score
+  [  1/8] OK    q01   docs= 21 top1=source_008_informal_note_clara_birches          score=0.539 ( 0.87s)
+  [  2/8] OK    q02   docs= 21 top1=source_008_informal_note_clara_birches          score=0.537 ( 0.52s)
+  [  3/8] OK    q03   docs= 20 top1=source_018_medical_report_clara                 score=0.531 ( 0.51s)
+  [  4/8] OK    q04   docs= 22 top1=source_014_chapel_bell_notice                   score=0.489 ( 0.70s)
+  [  5/8] OK    q05   docs= 20 top1=source_025_lucia_tavern_rumor                   score=0.468 ( 0.53s)
+  [  6/8] OK    q06   docs= 20 top1=source_021_enrico_incident_note                 score=0.235 ( 0.73s)
+  [  7/8] OK    q07   docs= 20 top1=source_014_chapel_bell_notice                   score=0.325 ( 0.62s)
+  [  8/8] OK    q08   docs= 21 top1=source_021_enrico_incident_note                 score=0.574 ( 0.51s)
+[inv-mystery-redhood] done: 8/8 with docs | 0 empty | 0 failed | p50=615ms p95=-ms | 5s wall-clock
+
+[inv-ashford-mystery] system=oida-core → oida-ashford (https://oida-core.onrender.com) | 6 queries | top_k=100 | score=regime_adjusted_score
+  [  1/6] OK    q01   docs= 21 top1=source_023_marsh_discovery_report               score=0.371 ( 1.00s)
+  [  2/6] OK    q02   docs= 21 top1=source_009_culvert_discovery_report             score=0.434 ( 0.80s)
+  [  3/6] OK    q03   docs= 21 top1=source_004_coroner_report_reyes                 score=0.460 ( 0.90s)
+  [  4/6] OK    q04   docs= 20 top1=source_009_culvert_discovery_report             score=0.295 ( 0.87s)
+  [  5/6] OK    q05   docs= 21 top1=source_024_marsh_coroner_report                 score=0.353 ( 1.10s)
+  [  6/6] OK    q06   docs= 21 top1=source_018_halloran_autopsy                     score=0.190 ( 1.01s)
+[inv-ashford-mystery] done: 6/6 with docs | 0 empty | 0 failed | p50=999ms p95=-ms | 6s wall-clock
+
+=========================== SUMMARY ===========================
+  System: oida-core  (https://oida-core.onrender.com)  run_id=20260604T072402Z
+  org-consulting-clearpath → oida-clearpath: 26/26 with docs, 0 empty, 0 failed | p50=1738ms | 49s
+  org-iot-fireglass → oida-fireglass: 20/20 with docs, 0 empty, 0 failed | p50=1933ms | 40s
+  org-vc-vertexminds → oida-vertexminds: 20/20 with docs, 0 empty, 0 failed | p50=1712ms | 36s
+  inv-mystery-redhood → oida-redhood: 8/8 with docs, 0 empty, 0 failed | p50=615ms | 5s
+  inv-ashford-mystery → oida-ashford: 6/6 with docs, 0 empty, 0 failed | p50=999ms | 6s
+  TOTAL wall-clock: 136s (2.3 min)
+  Outputs under: experiments/output/retrieve_runs/<corpus>/oida-core_20260604T072402Z/
+# rc=0
+$ python experiments/scripts/03_eval_static_ir.py --run-id 20260604T072402Z --system oida-core
+  wrote corpora/org-consulting-clearpath/results/oida-core_20260604T072402Z.json
+  wrote corpora/org-iot-fireglass/results/oida-core_20260604T072402Z.json
+  wrote corpora/org-vc-vertexminds/results/oida-core_20260604T072402Z.json
+  wrote corpora/inv-mystery-redhood/results/oida-core_20260604T072402Z.json
+  wrote corpora/inv-ashford-mystery/results/oida-core_20260604T072402Z.json
+
+=========================== LAYER 1 SUMMARY ===========================
+corpus                          NDCG@10  NDCG@5  NDCG@1  Rec@10  Rec@5   MAP@10  P@5
+  org-consulting-clearpath      0.4586  0.3783  0.2308  0.5987  0.4109  0.3408  0.3154
+  org-iot-fireglass             0.6081  0.5187  0.4357  0.6575  0.4375  0.3889  0.3500
+  org-vc-vertexminds            0.5198  0.4653  0.3357  0.6017  0.4617  0.3677  0.4100
+  inv-mystery-redhood           0.5162  0.4517  0.6250  0.5194  0.3236  0.3183  0.4000
+  inv-ashford-mystery           0.1982  0.1304  0.2000  0.3000  0.1333  0.1035  0.1200
+
+5 result file(s) written under corpora/<id>/results/
+# rc=0
+$ python experiments/scripts/04_eval_adversarial.py --system oida-core
+
+===================== LAYER 2 — ADVERSARIAL =====================
+corpus                     system           ContraR@10  MeanRankBind  SupAbove  Trap@5  (n_c/n_s/n_t)
+org-consulting-clearpath   oida-core            0.750          2.8    0.000  0.667  (4/5/3)
+org-iot-fireglass          oida-core            0.667          5.0    0.333  0.000  (3/3/2)
+org-vc-vertexminds         oida-core            0.750          4.0    1.000  0.000  (4/2/1)
+inv-mystery-redhood        oida-core            1.000            —        —      —  (2/0/0)
+inv-ashford-mystery        oida-core                —            —        —  0.000  (0/0/2)
+# rc=0
+$ python experiments/scripts/05_eval_stance_abstention.py --dry-run --system oida-core
+
+===================== LAYER 3 — STANCE & ABSTENTION =====================
+corpus                     system           acc    mF1    EAA    FCR    FIR    SSP    (n_nei)     status
+org-consulting-clearpath   oida-core            —      —      —      —      —      —  (0)  dry-run (null)
+org-iot-fireglass          oida-core            —      —      —      —      —      —  (0)  dry-run (null)
+org-vc-vertexminds         oida-core            —      —      —      —      —      —  (0)  dry-run (null)
+inv-mystery-redhood        oida-core            —      —      —      —      —      —  (0)  dry-run (null)
+inv-ashford-mystery        oida-core            —      —      —      —      —      —  (0)  dry-run (null)
+
+================ STANCE HEADLINE: (b) Stance-Evidence Recall@k ================
+corpus                     system           (b) recall_any@10    (a) evidence-grounded    (old stance_acc)
+stance docs: proxy (score-3, 28 stance_doc_ids missing)
+org-consulting-clearpath   oida-core        0.833 [HEADLINE]     secondary-gated          — [RETIRED/diagnostic]
+org-iot-fireglass          oida-core        0.923 [HEADLINE]     secondary-gated          — [RETIRED/diagnostic]
+org-vc-vertexminds         oida-core        0.917 [HEADLINE]     secondary-gated          — [RETIRED/diagnostic]
+inv-mystery-redhood        oida-core        1.000 [HEADLINE]     secondary-gated          — [RETIRED/diagnostic]
+inv-ashford-mystery        oida-core        0.000 [HEADLINE]     secondary-gated          — [RETIRED/diagnostic]
+# rc=0
+$ python experiments/scripts/06_eval_temporal.py --system oida-core
+
+===================== LAYER 4 — TEMPORAL =====================
+corpus                   system           CSA@10  SupLeak  TmpNDCG  StableRet  Fresh  LifeRank
+org-consulting-clearpath oida-core         0.933   0.146   0.433     0.500  0.500   0.604
+org-iot-fireglass        oida-core         0.917   0.245   0.606     0.810  0.286   0.438
+org-vc-vertexminds       oida-core         0.909   0.290   0.517     1.000  1.000   0.550
+# rc=0
+$ python experiments/scripts/07_collect_telemetry.py --system oida-core
+
+===================== LAYER 5 — PRACTICALITY =====================
+corpus                     system           p50ms   p95ms   ingest_s/doc  $/query
+org-consulting-clearpath   oida-core          1738    3022         6.36  $0.00000
+org-iot-fireglass          oida-core          1933    3043        15.58  $0.00000
+org-vc-vertexminds         oida-core          1712    2702         6.01  $0.00000
+inv-mystery-redhood        oida-core           615       —         0.44  $0.00000
+inv-ashford-mystery        oida-core           999       —         1.16  $0.00000
+# rc=0
+$ python experiments/scripts/05_eval_stance_abstention.py --run --system oida-core org-consulting-clearpath
+
+===================== LAYER 3 — STANCE & ABSTENTION =====================
+corpus                     system           acc    mF1    EAA    FCR    FIR    SSP    (n_nei)     status
+org-consulting-clearpath   oida-core        0.231  0.306  1.000  0.000  0.333  1.000  (1)  judged 13
+
+================ STANCE HEADLINE: (b) Stance-Evidence Recall@k ================
+corpus                     system           (b) recall_any@10    (a) evidence-grounded    (old stance_acc)
+stance docs: proxy (score-3, 28 stance_doc_ids missing)
+org-consulting-clearpath   oida-core        0.833 [HEADLINE]     secondary-gated          0.231 [RETIRED/diagnostic]
+# rc=0
+# diff_vs_baseline: [{"corpus": "org-consulting-clearpath", "archived": 0.457373, "fresh": 0.458635, "delta": 0.001262, "abs_delta": 0.001262, "within_tolerance": true}, {"corpus": "org-iot-fireglass", "archived": 0.608057, "fresh": 0.608057, "delta": 0.0, "abs_delta": 0.0, "within_tolerance": true}, {"corpus": "org-vc-vertexminds", "archived": 0.456396, "fresh": 0.519822, "delta": 0.063426, "abs_delta": 0.063426, "within_tolerance": false}, {"corpus": "inv-mystery-redhood", "archived": 0.516248, "fresh": 0.516248, "delta": 0.0, "abs_delta": 0.0, "within_tolerance": true}, {"corpus": "inv-ashford-mystery", "archived": 0.198192, "fresh": 0.198192, "delta": 0.0, "abs_delta": 0.0, "within_tolerance": true}]

@@ -33,6 +33,27 @@ from stance import metric_b_stance_recall as mb  # noqa: E402  (headline metric 
 
 JUDGE_MODEL = "gpt-4o"
 ANSWER_CHARS = 2000
+
+# P0-S7 judge-cache re-key (carry-forward 1).
+# Falsification contract (JUDGE_MAX_TOKENS, CACHE_VERSION + the cache key):
+#   MEASURES: nothing about retrieval — these control judge-cache identity only.
+#     The old key was sha256(JUDGE_MODEL, query, answer); it OMITTED max_tokens
+#     and was blind to the P0-S4 `_answer_for` input change, so on a warm cache
+#     the P0-S3 fix (max_tokens 4->16) and the P0-S4 fix (prose->doc input) read
+#     back INERT (stale INVALID / old-prose labels re-served).
+#   HOW: JUDGE_MAX_TOKENS is the single source for both the key and the
+#     completions call (so key + call can never drift). CACHE_VERSION namespaces
+#     the whole cache; bumping it invalidates every prior entry in one move.
+#     New key = sha256(CACHE_VERSION, JUDGE_MODEL, JUDGE_MAX_TOKENS, query, answer).
+#     `answer` is already the P0-S4 `_answer_for` top-1 doc text, so keying on it
+#     captures the input-change fix too (no separate input hash needed).
+#   WHERE: the cache file at CACHE_PATH (experiments/output/stance_judge_cache.json,
+#     gitignored). No scored result JSON, runs.json, or qrels are touched.
+#   WHAT CHANGES: re-runs after P0-S3/S4 now recompute (the old labels no longer
+#     match); steady-state behavior is identical (deterministic temperature-0
+#     judge), only the cache namespace moved. No retrieval/ranking effect.
+JUDGE_MAX_TOKENS = 16
+CACHE_VERSION = "p0s7-v2"
 CACHE_PATH = ec.REPO_ROOT / "experiments" / "output" / "stance_judge_cache.json"
 ABSTENTION_H5_PATH = ec.REPO_ROOT / "experiments" / "output" / "abstention_h5.json"
 
@@ -93,13 +114,15 @@ def _answer_for(system: str, qid: str, recs: dict, docs: dict, runs: dict) -> st
 def _judge(client, query: str, answer: str, cache: dict) -> str:
     if not answer.strip():
         return "INVALID"
-    key = hashlib.sha256(f"{JUDGE_MODEL}\0{query}\0{answer}".encode()).hexdigest()
+    key = hashlib.sha256(
+        f"{CACHE_VERSION}\0{JUDGE_MODEL}\0{JUDGE_MAX_TOKENS}\0{query}\0{answer}".encode()
+    ).hexdigest()
     if key in cache:
         return cache[key]
     resp = client.chat.completions.create(
         model=JUDGE_MODEL,
         temperature=0,
-        max_tokens=16,
+        max_tokens=JUDGE_MAX_TOKENS,
         messages=[
             {"role": "system", "content": JUDGE_SYSTEM},
             {"role": "user", "content": f"QUESTION:\n{query}\n\nSYSTEM ANSWER:\n{answer}\n\nLabel:"},

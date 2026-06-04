@@ -1,0 +1,227 @@
+{
+  "phase": "P0-baseline",
+  "ts": "20260604T072402Z",
+  "run_id": "20260604T072402Z",
+  "system": "oida-core",
+  "corpora_mode": "burned",
+  "corpora": [
+    "org-consulting-clearpath",
+    "org-iot-fireglass",
+    "org-vc-vertexminds",
+    "inv-mystery-redhood",
+    "inv-ashford-mystery"
+  ],
+  "preflight": {
+    "checks": [
+      {
+        "check": "oida-core /health == 200",
+        "passed": true,
+        "detail": "GET https://oida-core.onrender.com/health -> 200"
+      },
+      {
+        "check": "Render API reachable (GET /v1/services == 200)",
+        "passed": true,
+        "detail": "-> 200"
+      },
+      {
+        "check": "resolve oida-core service id (oida-core)",
+        "passed": true,
+        "detail": "name match confirms default srv-d881ojr7uimc73b1berg"
+      },
+      {
+        "check": "required .env keys present (presence-only)",
+        "passed": true,
+        "detail": "all present"
+      },
+      {
+        "check": "per-corpus routing resolves (all 5)",
+        "passed": true,
+        "detail": "5/5 resolved"
+      },
+      {
+        "check": "oida-core DB reachable (authenticated retrieve probe — /health is NOT enough)",
+        "passed": true,
+        "detail": "authenticated retrieve OK (DB reachable): v0 elapsed_ms=2443 stopping=fallback_avg_edges_below_tau_fallback kos_returned=1 docs_matched=1"
+      }
+    ],
+    "service_id": "srv-d881ojr7uimc73b1berg",
+    "all_passed": true
+  },
+  "db_infra": {
+    "db_id": "dpg-d881lq1kh4rs73c92a50-a",
+    "endpoint": "https://api.render.com/v1/postgres/dpg-d881lq1kh4rs73c92a50-a",
+    "http_status": 200,
+    "fetch_ok": true,
+    "status": "available",
+    "plan": "basic_256mb",
+    "diskSizeGB": 5,
+    "name": "oida-core-db",
+    "region": "frankfurt",
+    "version": "17",
+    "suspended": "not_suspended"
+  },
+  "reset": {
+    "skipped": false,
+    "service_id": "srv-d881ojr7uimc73b1berg",
+    "job_id": "job-d8gig5uq1p3s739kluv0",
+    "status": "succeeded",
+    "log_source": "/v1/logs?resource=job-d8gig5uq1p3s739kluv0",
+    "reset_line": "# RESET_BENCH_KOS: deleted 14916 KOs (before=14916, after=0) across oida-clearpath, oida-fireglass, oida-vertexminds, oida-redhood, oida-ashford",
+    "safe_no_mint": true,
+    "minted_slugs": [],
+    "logs_retrieved": true
+  },
+  "cache_cold": {
+    "skip_reset": false,
+    "judge_cache_deleted": false,
+    "ingest_reports_deleted": [
+      "org-consulting-clearpath.jsonl",
+      "org-iot-fireglass.jsonl",
+      "org-vc-vertexminds.jsonl"
+    ]
+  },
+  "ingest_health": {
+    "per_corpus": [
+      {
+        "corpus": "org-consulting-clearpath",
+        "n_docs": 46,
+        "n_committed": 46,
+        "all_committed": true,
+        "kos_created": 4156,
+        "kos_created_positive": true,
+        "n_docs_zero_ko": 1,
+        "partial_error_count": 0,
+        "n_docs_with_partial_errors": 0
+      },
+      {
+        "corpus": "org-iot-fireglass",
+        "n_docs": 47,
+        "n_committed": 47,
+        "all_committed": true,
+        "kos_created": 6011,
+        "kos_created_positive": true,
+        "n_docs_zero_ko": 0,
+        "partial_error_count": 0,
+        "n_docs_with_partial_errors": 0
+      },
+      {
+        "corpus": "org-vc-vertexminds",
+        "n_docs": 77,
+        "n_committed": 77,
+        "all_committed": true,
+        "kos_created": 5250,
+        "kos_created_positive": true,
+        "n_docs_zero_ko": 19,
+        "partial_error_count": 0,
+        "n_docs_with_partial_errors": 0
+      },
+      {
+        "corpus": "inv-mystery-redhood",
+        "n_docs": 30,
+        "n_committed": 30,
+        "all_committed": true,
+        "kos_created": 172,
+        "kos_created_positive": true,
+        "n_docs_zero_ko": 0,
+        "partial_error_count": 0,
+        "n_docs_with_partial_errors": 0
+      },
+      {
+        "corpus": "inv-ashford-mystery",
+        "n_docs": 30,
+        "n_committed": 30,
+        "all_committed": true,
+        "kos_created": 348,
+        "kos_created_positive": true,
+        "n_docs_zero_ko": 1,
+        "partial_error_count": 0,
+        "n_docs_with_partial_errors": 0
+      }
+    ],
+    "failures": [],
+    "warnings": [
+      "org-consulting-clearpath: 1 committed doc(s) with 0 KOs (benign — no extractable propositions; recorded, not a failure)",
+      "org-vc-vertexminds: 19 committed doc(s) with 0 KOs (benign — no extractable propositions; recorded, not a failure)",
+      "inv-ashford-mystery: 1 committed doc(s) with 0 KOs (benign — no extractable propositions; recorded, not a failure)"
+    ]
+  },
+  "worker_drain": {
+    "settle_sec_param": 90,
+    "settle_sec_actual": 90.0,
+    "health_after": 200,
+    "health_ok": true,
+    "label": "cosmetic for P0 — cross-document edges arrive in Phase 1; not a claim that draining produced edges"
+  },
+  "layers": {
+    "run_id": "20260604T072402Z",
+    "steps": {
+      "02_retrieve": 0,
+      "03_static_ir": 0,
+      "04_adversarial": 0,
+      "05_stance_dry_run": 0,
+      "06_temporal": 0,
+      "07_telemetry": 0
+    }
+  },
+  "micro_probe": {
+    "rc": 0,
+    "corpus": "org-consulting-clearpath",
+    "label_distribution": {
+      "INVALID": 6,
+      "NEUTRAL": 5,
+      "SUPPORTS": 1,
+      "CONTRADICTS": 1
+    },
+    "n_contradicts": 1,
+    "at_least_one_contradicts": true,
+    "finding": null
+  },
+  "diff_vs_baseline": {
+    "tolerance": 0.005,
+    "header": "harness-validation (engine unchanged), NOT an OIDA performance claim.",
+    "per_corpus": [
+      {
+        "corpus": "org-consulting-clearpath",
+        "archived": 0.457373,
+        "fresh": 0.458635,
+        "delta": 0.001262,
+        "abs_delta": 0.001262,
+        "within_tolerance": true
+      },
+      {
+        "corpus": "org-iot-fireglass",
+        "archived": 0.608057,
+        "fresh": 0.608057,
+        "delta": 0.0,
+        "abs_delta": 0.0,
+        "within_tolerance": true
+      },
+      {
+        "corpus": "org-vc-vertexminds",
+        "archived": 0.456396,
+        "fresh": 0.519822,
+        "delta": 0.063426,
+        "abs_delta": 0.063426,
+        "within_tolerance": false
+      },
+      {
+        "corpus": "inv-mystery-redhood",
+        "archived": 0.516248,
+        "fresh": 0.516248,
+        "delta": 0.0,
+        "abs_delta": 0.0,
+        "within_tolerance": true
+      },
+      {
+        "corpus": "inv-ashford-mystery",
+        "archived": 0.198192,
+        "fresh": 0.198192,
+        "delta": 0.0,
+        "abs_delta": 0.0,
+        "within_tolerance": true
+      }
+    ],
+    "all_within_tolerance": false
+  },
+  "guardrail": "BURNED dev corpora — regression/sanity ONLY, never an OIDA pass/fail claim; pass/fail lives in Phase-4 fresh corpora."
+}
