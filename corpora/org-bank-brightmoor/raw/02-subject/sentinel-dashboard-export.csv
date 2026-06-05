@@ -1,0 +1,8 @@
+metric,value,definition,as_of,snapshot_note,source
+Open alerts,~900,alerts currently in an analyst investigation queue (EXCLUDES system auto-closed alerts),2026-02-07,"Point-in-time export captured 2026-02-07; this is a snapshot and is now stale — alert counts change daily as analysts work the queue. Do not cite as a current figure.",Sentinel Analytics platform dashboard
+Open alerts - high risk,~180,open alerts on high-risk scenarios,2026-02-07,snapshot,Sentinel Analytics platform dashboard
+Open alerts - medium risk,~420,open alerts on medium-risk scenarios,2026-02-07,snapshot,Sentinel Analytics platform dashboard
+Open alerts - low risk,~300,open low-risk alerts awaiting analyst,2026-02-07,snapshot,Sentinel Analytics platform dashboard
+Auto-closed (excluded from open count),~500,alerts auto-closed by platform scoring without analyst review,2026-02-07,"NOT counted in the 'open alerts' figure above; Compliance counts these in its inclusive backlog (see Financial Crimes backlog report).",Sentinel Analytics platform dashboard
+Alerts generated (trailing 30d),~640,new alerts generated in prior 30 days,2026-02-07,snapshot,Sentinel Analytics platform dashboard
+note,,"The dashboard 'open alerts' count (~900) measures the live analyst queue only and excludes auto-closed alerts. It is NOT comparable to the Compliance inclusive backlog figure (~1,400), which counts auto-closed alerts as uninvestigated. See P. Nair backlog report of 2026-02-06.",2026-02-07,,Sentinel Analytics platform dashboard

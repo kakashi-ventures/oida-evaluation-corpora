@@ -1,0 +1,7 @@
+metric,period,value,definition,as_of,source
+SEP-1 3-hour bundle compliance,Q4 2025,84%,bundle initiated (antibiotic order placed in sepsis order set; order-placement time),2026-02-21,EHR automated SEP-1 flag (Clinical Informatics)
+SEP-1 3-hour bundle compliance,Jan 2026,83%,bundle initiated,2026-02-21,EHR automated SEP-1 flag
+Nurse screening completion (ED),Q4 2025,41%,screening tool documented at triage,2026-02-21,EHR discrete field
+Median door-to-antibiotic (suspected shock),Q4 2025,155 min,arrival to antibiotic order,2026-02-21,EHR timestamps
+Repeat lactate ordered where indicated,Q4 2025,38%,second lactate within 6h of elevated first,2026-02-21,EHR orders
+note,,,"This dashboard counts bundle INITIATION, not CMS all-or-none completion. It is NOT comparable to the Quality Dept manual abstraction (62%). See D. Lin email of 2026-02-22 for the definition difference.",2026-02-21,Clinical Informatics

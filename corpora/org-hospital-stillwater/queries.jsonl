@@ -1,0 +1,17 @@
+{"_id": "q01", "text": "What is the binding adult sepsis antibiotic-timing standard at Stillwater Regional now, and how does it differ from the protocol it replaced?", "metadata": {"tests": "antibiotic_timing_current_vs_superseded", "difficulty": "medium"}}
+{"_id": "q02", "text": "What is Stillwater's SEP-1 sepsis bundle compliance rate, and is there conflicting information about that number?", "metadata": {"tests": "bundle_compliance_rate_conflict", "difficulty": "hard"}}
+{"_id": "q03", "text": "How many preventable sepsis deaths did the root-cause analysis ultimately attribute, and is that figure reported consistently across the initiative's documents?", "metadata": {"tests": "rca_death_count_consistency", "difficulty": "hard"}}
+{"_id": "q04", "text": "What did the preliminary RCA first conclude about the number of Q4 sepsis deaths, and how and why did that conclusion change in the final report?", "metadata": {"tests": "rca_preliminary_to_final", "difficulty": "medium"}}
+{"_id": "q05", "text": "Why was the dedicated sepsis-nurse proposal not adopted, and what escalation mechanism was put in its place?", "metadata": {"tests": "escalation_mechanism_decision", "difficulty": "medium"}}
+{"_id": "q06", "text": "What is the current status of the Veramed infusion-pump safety issue, and what earlier guidance did it supersede?", "metadata": {"tests": "infusion_pump_recall_status", "difficulty": "medium"}}
+{"_id": "q07", "text": "Did the Sepsis Pathway 2.0 initiative reduce sepsis mortality?", "metadata": {"tests": "mortality_reduction_unverified", "difficulty": "hard"}}
+{"_id": "q08", "text": "Is a one-hour door-to-antibiotic target for all suspected sepsis patients supported by the clinical evidence?", "metadata": {"tests": "one_hour_mandate_evidence_basis", "difficulty": "hard"}}
+{"_id": "q09", "text": "What event triggered the Sepsis Pathway 2.0 initiative?", "metadata": {"tests": "initiative_trigger", "difficulty": "easy"}}
+{"_id": "q10", "text": "What does the CMS SEP-1 three-hour bundle require?", "metadata": {"tests": "sep1_bundle_requirements", "difficulty": "easy"}}
+{"_id": "q11", "text": "What are Stillwater's budgeted nurse-staffing ratios and the FY2026 rule on adding new nursing positions?", "metadata": {"tests": "nurse_staffing_policy", "difficulty": "medium"}}
+{"_id": "q12", "text": "Under the current sepsis protocol, when must a repeat serum lactate be drawn?", "metadata": {"tests": "repeat_lactate_requirement", "difficulty": "easy"}}
+{"_id": "q13", "text": "What did the redesigned sepsis protocol change about nurse-driven screening?", "metadata": {"tests": "screening_mandatory_change", "difficulty": "medium"}}
+{"_id": "q14", "text": "Why does the manual SEP-1 chart audit report a lower compliance rate than the EHR dashboard?", "metadata": {"tests": "compliance_measurement_difference", "difficulty": "medium"}}
+{"_id": "q15", "text": "What did the accreditor say about the timeline for completing the sentinel-event root-cause analysis?", "metadata": {"tests": "accreditor_rca_expectation", "difficulty": "medium"}}
+{"_id": "q16", "text": "Did the Quality & Patient Safety Committee approve the stratified one-hour-for-shock antibiotic timing?", "metadata": {"tests": "protocol_v2_approval", "difficulty": "medium"}}
+{"_id": "q17", "text": "What did the pilot show for door-to-antibiotic time and nurse screening completion?", "metadata": {"tests": "pilot_process_outcomes", "difficulty": "medium"}}

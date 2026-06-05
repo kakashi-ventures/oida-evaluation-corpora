@@ -1,0 +1,17 @@
+{"_id": "q01", "text": "What transaction-monitoring threshold is now in force at Brightmoor, and what did it replace?", "metadata": {"tests": "monitoring_threshold_current_vs_superseded", "difficulty": "medium"}}
+{"_id": "q02", "text": "How large is Brightmoor's uninvestigated alert backlog, and is there conflicting information about that number?", "metadata": {"tests": "alert_backlog_count_conflict", "difficulty": "hard"}}
+{"_id": "q03", "text": "Did the core-banking migration cause any loss of transaction-monitoring data?", "metadata": {"tests": "migration_monitoring_data_loss_conflict", "difficulty": "hard"}}
+{"_id": "q04", "text": "What false-positive reduction does the new Sentinel transaction-monitoring model achieve on Brightmoor's data?", "metadata": {"tests": "sentinel_fp_reduction_unverifiable", "difficulty": "hard"}}
+{"_id": "q05", "text": "What core-migration cutover approach is Brightmoor now using, and what was the earlier plan?", "metadata": {"tests": "migration_cutover_current_vs_superseded", "difficulty": "medium"}}
+{"_id": "q06", "text": "Who owns the AML remediation program now, and how did that change?", "metadata": {"tests": "remediation_governance_current_vs_superseded", "difficulty": "medium"}}
+{"_id": "q07", "text": "What is the current status of the MRA remediation with the regulator?", "metadata": {"tests": "mra_remediation_current_status", "difficulty": "medium"}}
+{"_id": "q08", "text": "Did the regulator's examination result in a formal finding?", "metadata": {"tests": "exam_formal_finding", "difficulty": "easy"}}
+{"_id": "q09", "text": "What does the BSA/AML framework require for transaction monitoring and SAR filing?", "metadata": {"tests": "bsa_aml_requirements", "difficulty": "easy"}}
+{"_id": "q10", "text": "What is Brightmoor's risk appetite for AML and financial-crime risk?", "metadata": {"tests": "risk_appetite_aml", "difficulty": "easy"}}
+{"_id": "q11", "text": "Why did the bank lower the monitoring threshold to a risk-based model?", "metadata": {"tests": "threshold_change_rationale", "difficulty": "medium"}}
+{"_id": "q12", "text": "Is there conflicting evidence about the Sentinel model's false-positive performance?", "metadata": {"tests": "sentinel_fp_conflict_existence", "difficulty": "hard"}}
+{"_id": "q13", "text": "What objections did Retail Banking raise to lowering the monitoring threshold?", "metadata": {"tests": "retail_threshold_objections", "difficulty": "medium"}}
+{"_id": "q14", "text": "How many alerts did the preliminary triage claim were SAR-eligible, and was that figure upheld?", "metadata": {"tests": "prelim_sar_eligibility_claim_evolution", "difficulty": "medium"}}
+{"_id": "q15", "text": "What is the current authoritative alert-backlog figure Compliance reports?", "metadata": {"tests": "current_backlog_figure_of_record", "difficulty": "medium"}}
+{"_id": "q16", "text": "What were the regulator's specific concerns in the MRA?", "metadata": {"tests": "mra_specific_concerns", "difficulty": "medium"}}
+{"_id": "q17", "text": "What migration cutover schedule did the core vendor communicate?", "metadata": {"tests": "vendor_cutover_schedule", "difficulty": "medium"}}

@@ -1,0 +1,17 @@
+{"_id": "q01", "text": "Which turbine model and array layout is the Marrowbank project now committed to, and what did it replace?", "metadata": {"tests": "turbine_current_vs_superseded", "difficulty": "medium"}}
+{"_id": "q02", "text": "What is the Marrowbank project's expected energy yield, and is there conflicting information about it?", "metadata": {"tests": "energy_yield_conflict", "difficulty": "hard"}}
+{"_id": "q03", "text": "What is the Marrowbank project's CAPEX, and is it reported consistently across the project's documents?", "metadata": {"tests": "capex_consistency_conflict", "difficulty": "hard"}}
+{"_id": "q04", "text": "Where will the Marrowbank export cable make landfall, and why did the chosen site change?", "metadata": {"tests": "landfall_current_vs_superseded", "difficulty": "medium"}}
+{"_id": "q05", "text": "What is the current target commercial operation date (COD) for Marrowbank, and what was it before?", "metadata": {"tests": "cod_current_vs_superseded", "difficulty": "medium"}}
+{"_id": "q06", "text": "What grid connection point and energisation date does the Marrowbank project now hold?", "metadata": {"tests": "grid_offer_current_vs_superseded", "difficulty": "medium"}}
+{"_id": "q07", "text": "How many local jobs will the Marrowbank project create?", "metadata": {"tests": "local_jobs_count_unverifiable", "difficulty": "hard"}}
+{"_id": "q08", "text": "Is there conflicting evidence about the Marrowbank project's seabird collision impact?", "metadata": {"tests": "bird_collision_conflict", "difficulty": "hard"}}
+{"_id": "q09", "text": "Did the board approve the Final Investment Decision for Marrowbank, and on what basis?", "metadata": {"tests": "fid_approval", "difficulty": "medium"}}
+{"_id": "q10", "text": "What does the GB Grid Code require for the Marrowbank project's connection?", "metadata": {"tests": "grid_code_requirements", "difficulty": "easy"}}
+{"_id": "q11", "text": "What are the seabed lease terms Galewright holds from The Crown Estate for Marrowbank?", "metadata": {"tests": "seabed_lease_terms", "difficulty": "easy"}}
+{"_id": "q12", "text": "Why was Saltmarsh Point rejected as the Marrowbank cable landfall?", "metadata": {"tests": "saltmarsh_rejection_reason", "difficulty": "medium"}}
+{"_id": "q13", "text": "Why did the Marrowbank project move from the AT-12 to a larger turbine?", "metadata": {"tests": "turbine_change_rationale", "difficulty": "medium"}}
+{"_id": "q14", "text": "What objections did external stakeholders raise during the Marrowbank consultation?", "metadata": {"tests": "stakeholder_objections", "difficulty": "medium"}}
+{"_id": "q15", "text": "How does the Marrowbank finance model's energy assumption differ from the resource consultant's, and why?", "metadata": {"tests": "finance_vs_consultant_energy_basis", "difficulty": "medium"}}
+{"_id": "q16", "text": "What CAPEX figure does the current Marrowbank investment case use?", "metadata": {"tests": "current_capex_figure", "difficulty": "medium"}}
+{"_id": "q17", "text": "What is the current consent / DCO status of the Marrowbank project?", "metadata": {"tests": "consent_dco_current_status", "difficulty": "medium"}}
