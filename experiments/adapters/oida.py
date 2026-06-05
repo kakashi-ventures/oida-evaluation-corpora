@@ -446,6 +446,9 @@ class OidaClient:
                 "text": chunk,
                 "mode": "commit",
                 "permissions": {"scope": "project", "sensitivity": 1, "visibleTo": []},
+                # P2-S1a — per-document effective date (corpus metadata.created).
+                # None when the doc has no `created` → engine stores NULL.
+                "effectiveDate": (doc.get("metadata") or {}).get("created"),
             }
             status, data, _ = self._post("/ingest", payload)
             if status == 401:
