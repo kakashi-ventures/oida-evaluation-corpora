@@ -138,6 +138,7 @@ def _retrieve_corpus(
                 "dialectic_resolutions": res.dialectic_resolutions,
                 "contradiction_edges": res.contradiction_edges,
                 "contradiction_edge_count": res.contradiction_edge_count,
+                "contradictions": res.contradictions,
                 "latency_ms": res.latency_ms,
                 "tokens_in": res.tokens_in,
                 "tokens_out": res.tokens_out,
