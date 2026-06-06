@@ -273,7 +273,10 @@ class DocScore:
     doc_id: str
     score: float
     contributing_kos: int
-    score_components: dict[str, float]  # similarity, kge_score, regime_adjusted_score, ...
+    # similarity, kge_score, regime_adjusted_score, contributing_kos, +P2-S2
+    # additive components (freshness/decay/supersession_penalty/salience), which
+    # may be None where the engine emits a null signal (so | None).
+    score_components: dict[str, float | None]
 
 
 @dataclass
@@ -281,7 +284,7 @@ class RetrieveResult:
     """Per-query retrieval outcome (adapter contract — EXPERIMENT_PLAN.md §6)."""
 
     doc_scores: dict[str, float]
-    score_components: dict[str, dict[str, float]] | None
+    score_components: dict[str, dict[str, float | None]] | None
     raw_response_text: str | None
     latency_ms: float
     tokens_in: int = 0
@@ -569,6 +572,30 @@ class OidaClient:
             lambda: {"similarity": 0.0, "kge_score": 0.0, "regime_adjusted_score": 0.0, "contributing_kos": 0.0}
         )
         per_doc_best: dict[str, float] = {}
+        # P2-S2 — surface the engine's four additive per-KO components
+        # (freshness/decay/supersession_penalty/salience) at doc level.
+        #
+        # Falsification contract (these four keys in score_components):
+        #   WHAT: inspectable temporal/lifecycle/supersession/salience signals
+        #     the v0 engine emits per KO under `ko["score_components"]`
+        #     (oida-core P2-S2): decay←decayScore, salience←kScore (both swept),
+        #     freshness←temporalStatus ordinal (CURRENT 1.0/AGING 0.5/OBSOLETE
+        #     0.0/null), supersession_penalty←status=='DEPRECATED'.
+        #   HOW: freshness/decay/salience describe the doc's MAX-SCORING KO (the
+        #     same KO that set doc_scores[doc] under `score_field`) — the KO that
+        #     represents the doc in the ranking; a principled single-KO snapshot,
+        #     None preserved verbatim (no fabricated value). supersession_penalty
+        #     is instead the MAX over ALL the doc's contributing KOs — an OR /
+        #     "does this doc contain superseded (status=DEPRECATED) content" flag.
+        #     A superseded KO is rarely the doc-best (it is the replaced/older
+        #     version), so a single doc-best snapshot would hide it; the max
+        #     faithfully exposes the supersession signal at doc level.
+        #   WHERE: per-doc score_components in queries.jsonl (02_retrieve already
+        #     captures res.score_components).
+        #   WHAT DOES NOT CHANGE: ranking. doc_scores / per_doc_best are byte-
+        #     identical; these keys are NOT a --score-field choice. Expose-only.
+        per_doc_best_components: dict[str, dict[str, float | None]] = {}
+        per_doc_max_supersession: dict[str, float] = defaultdict(float)
 
         for ko in kos:
             srcs = ko.get("supporting_sources") or []
@@ -591,16 +618,35 @@ class OidaClient:
             chosen = {"similarity": sim, "kge_score": kge, "regime_adjusted_score": ras}[score_field]
             if doc_id not in per_doc_best or chosen > per_doc_best[doc_id]:
                 per_doc_best[doc_id] = chosen
+                # Snapshot the additive components of the KO that now represents
+                # this doc in the ranking (the doc-best KO under score_field).
+                sc = ko.get("score_components") or {}
+                per_doc_best_components[doc_id] = {
+                    "freshness": sc.get("freshness"),
+                    "decay": sc.get("decay"),
+                    "supersession_penalty": sc.get("supersession_penalty"),
+                    "salience": sc.get("salience"),
+                }
             comp = per_doc_components[doc_id]
             comp["similarity"] = max(comp["similarity"], sim)
             comp["kge_score"] = max(comp["kge_score"], kge)
             comp["regime_adjusted_score"] = max(comp["regime_adjusted_score"], ras)
             comp["contributing_kos"] += 1.0
+            # supersession_penalty: max over ALL contributing KOs (see HOW above).
+            sp = (ko.get("score_components") or {}).get("supersession_penalty")
+            per_doc_max_supersession[doc_id] = max(per_doc_max_supersession[doc_id], float(sp or 0.0))
 
         # Cap at top_k after aggregation
         ranked = sorted(per_doc_best.items(), key=lambda kv: -kv[1])[:top_k]
         result.doc_scores = {doc_id: score for doc_id, score in ranked}
-        result.score_components = {doc_id: dict(per_doc_components[doc_id]) for doc_id, _ in ranked}
+        result.score_components = {
+            doc_id: {
+                **per_doc_components[doc_id],
+                **per_doc_best_components.get(doc_id, {}),
+                "supersession_penalty": per_doc_max_supersession.get(doc_id, 0.0),
+            }
+            for doc_id, _ in ranked
+        }
 
         # P0-S6: retain v0 epistemic content verbatim (no computation/fabrication).
         # Independent of the kos->doc_scores mapping above, so BEIR is unperturbed.
