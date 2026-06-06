@@ -581,17 +581,21 @@ class OidaClient:
         #     (oida-core P2-S2): decay←decayScore, salience←kScore (both swept),
         #     freshness←temporalStatus ordinal (CURRENT 1.0/AGING 0.5/OBSOLETE
         #     0.0/null), supersession_penalty←status=='DEPRECATED'.
-        #   HOW: aggregated with the components of the doc's MAX-SCORING KO — the
-        #     same KO that set doc_scores[doc] under `score_field` — so the
-        #     surfaced components describe the KO that represents the doc in the
-        #     ranking. NOT a max/mean per component (that would mix KOs); a
-        #     principled single-KO snapshot. None is preserved verbatim (the
-        #     engine emits null where a signal is unset — no fabricated value).
+        #   HOW: freshness/decay/salience describe the doc's MAX-SCORING KO (the
+        #     same KO that set doc_scores[doc] under `score_field`) — the KO that
+        #     represents the doc in the ranking; a principled single-KO snapshot,
+        #     None preserved verbatim (no fabricated value). supersession_penalty
+        #     is instead the MAX over ALL the doc's contributing KOs — an OR /
+        #     "does this doc contain superseded (status=DEPRECATED) content" flag.
+        #     A superseded KO is rarely the doc-best (it is the replaced/older
+        #     version), so a single doc-best snapshot would hide it; the max
+        #     faithfully exposes the supersession signal at doc level.
         #   WHERE: per-doc score_components in queries.jsonl (02_retrieve already
         #     captures res.score_components).
         #   WHAT DOES NOT CHANGE: ranking. doc_scores / per_doc_best are byte-
         #     identical; these keys are NOT a --score-field choice. Expose-only.
         per_doc_best_components: dict[str, dict[str, float | None]] = {}
+        per_doc_max_supersession: dict[str, float] = defaultdict(float)
 
         for ko in kos:
             srcs = ko.get("supporting_sources") or []
@@ -628,12 +632,19 @@ class OidaClient:
             comp["kge_score"] = max(comp["kge_score"], kge)
             comp["regime_adjusted_score"] = max(comp["regime_adjusted_score"], ras)
             comp["contributing_kos"] += 1.0
+            # supersession_penalty: max over ALL contributing KOs (see HOW above).
+            sp = (ko.get("score_components") or {}).get("supersession_penalty")
+            per_doc_max_supersession[doc_id] = max(per_doc_max_supersession[doc_id], float(sp or 0.0))
 
         # Cap at top_k after aggregation
         ranked = sorted(per_doc_best.items(), key=lambda kv: -kv[1])[:top_k]
         result.doc_scores = {doc_id: score for doc_id, score in ranked}
         result.score_components = {
-            doc_id: {**per_doc_components[doc_id], **per_doc_best_components.get(doc_id, {})}
+            doc_id: {
+                **per_doc_components[doc_id],
+                **per_doc_best_components.get(doc_id, {}),
+                "supersession_penalty": per_doc_max_supersession.get(doc_id, 0.0),
+            }
             for doc_id, _ in ranked
         }
 
