@@ -296,8 +296,12 @@ class RetrieveResult:
     #   WHAT they measure: the dialectical content the v0 /retrieve/full-oida
     #     server already emits — `subgraph.dialectic_resolutions` (verbatim) and
     #     the subset of `subgraph.edges` whose `contradiction_flag is True`, plus
-    #     a count of that subset. NOT raw_response_text (v0 never populates it)
-    #     and NOT a `subgraph.contradictions` key (v0 does not emit one).
+    #     a count of that subset. NOT raw_response_text (v0 never populates it).
+    #   P2-S3 ADDS `contradictions`: the top-level `subgraph.contradictions` array
+    #     v0 now emits (one projected Contradiction row per detected CONTRADICTS
+    #     edge, de-duped server-side). Captured verbatim; the NON-CONSTANT signal
+    #     is its per-query length (rows on contradiction queries, 0 elsewhere) —
+    #     NOT severity/status, which are written constant (MEDIUM/OPEN) at detection.
     #   HOW computed: pure structural retention — copied/filtered straight from
     #     the response JSON, no scoring/derivation/inference. count == len(subset).
     #   WHERE stored: serialized into each `02_retrieve.py` per-query record
@@ -310,6 +314,7 @@ class RetrieveResult:
     dialectic_resolutions: list = field(default_factory=list)
     contradiction_edges: list = field(default_factory=list)
     contradiction_edge_count: int = 0
+    contradictions: list = field(default_factory=list)
 
 
 # -- HTTP client --------------------------------------------------------------
@@ -655,6 +660,8 @@ class OidaClient:
         edges = subgraph.get("edges", []) or []
         result.contradiction_edges = [e for e in edges if e.get("contradiction_flag") is True]
         result.contradiction_edge_count = len(result.contradiction_edges)
+        # P2-S3: capture the new top-level subgraph.contradictions array verbatim.
+        result.contradictions = list(subgraph.get("contradictions", []) or [])
 
         meta = data.get("metadata", {}) or {}
         comp_meta = data.get("subgraph", {}).get("composition_metadata", {}) or {}
