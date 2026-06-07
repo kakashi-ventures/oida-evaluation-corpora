@@ -574,7 +574,8 @@ class OidaClient:
 
         kos = data.get("subgraph", {}).get("kos", []) or []
         per_doc_components: dict[str, dict[str, float]] = defaultdict(
-            lambda: {"similarity": 0.0, "kge_score": 0.0, "regime_adjusted_score": 0.0, "contributing_kos": 0.0}
+            lambda: {"similarity": 0.0, "kge_score": 0.0, "regime_adjusted_score": 0.0,
+                     "recency_adjusted_score": 0.0, "contributing_kos": 0.0}
         )
         per_doc_best: dict[str, float] = {}
         # P2-S2 — surface the engine's four additive per-KO components
@@ -620,6 +621,13 @@ class OidaClient:
             sim = float(ko.get("similarity") or 0.0)
             kge = float(ko.get("kge_score") or 0.0)
             ras = float(ko.get("regime_adjusted_score") or 0.0)
+            # P3-S2: recency/decay-aware ranking field (oida-core scoreFullKo:
+            # max(0, similarity × decayScore)). Surfaced as a per-doc score_components
+            # key for the 06 temporal re-rank diagnostic (B3). GRACEFUL DEGRADE: when
+            # the engine lacks the field (live=6962929, pre-deploy), `.get(...) or 0.0`
+            # makes it uniformly 0.0 → the temporal re-rank is a no-op tie and the main
+            # BEIR doc_scores are byte-identical (it is NOT a --score-field choice).
+            rec = float(ko.get("recency_adjusted_score") or 0.0)
             chosen = {"similarity": sim, "kge_score": kge, "regime_adjusted_score": ras}[score_field]
             if doc_id not in per_doc_best or chosen > per_doc_best[doc_id]:
                 per_doc_best[doc_id] = chosen
@@ -636,6 +644,7 @@ class OidaClient:
             comp["similarity"] = max(comp["similarity"], sim)
             comp["kge_score"] = max(comp["kge_score"], kge)
             comp["regime_adjusted_score"] = max(comp["regime_adjusted_score"], ras)
+            comp["recency_adjusted_score"] = max(comp["recency_adjusted_score"], rec)
             comp["contributing_kos"] += 1.0
             # supersession_penalty: max over ALL contributing KOs (see HOW above).
             sp = (ko.get("score_components") or {}).get("supersession_penalty")

@@ -131,21 +131,34 @@ def score(corpus, system, lifecycle, tqs, docs):
     # F-TEMP-7 — B2 (full OIDA, regime_adjusted) vs B0 (similarity-only), from the
     # same run's per-doc score_components. OIDA deploys only (baselines expose no
     # comparable similarity/composite split). No re-ingest / time-slice needed.
-    t6_b0 = t6_b2 = ftemp7 = None
+    #
+    # P3-S2 adds a NEW B3 diagnostic alongside (NOT replacing) B0/B2: temporal NDCG
+    # under a recency/decay-aware re-rank (score_components.recency_adjusted_score =
+    # oida-core max(0, similarity × decayScore)). It is a separate metric key
+    # (temporal_ndcg_at_10_b3_recency); F-TEMP-7's locked B2−B0 threshold is untouched.
+    # GRACEFUL DEGRADE: when the engine lacks the field (pre-deploy, live=6962929) the
+    # per-doc recency values are uniformly 0.0 → _ranking_by_component is a flat tie
+    # over a constant → t6_b3 is a flat/degenerate number, NOT a crash. (Reads null
+    # when components are entirely absent.) NO new tuned constant.
+    t6_b0 = t6_b2 = ftemp7 = t6_b3 = None
     if system in ec.OIDA_SYSTEMS and recs:
-        b0s, b2s = [], []
+        b0s, b2s, b3s = [], [], []
         for q, s in tqs.items():
             gains = _temporal_gains(s)
             if not any(gains.values()):
                 continue
             r_b0 = _ranking_by_component(recs, q, "similarity")
             r_b2 = _ranking_by_component(recs, q, "regime_adjusted_score")
+            r_b3 = _ranking_by_component(recs, q, "recency_adjusted_score")
             if r_b0:
                 b0s.append(_ndcg_graded(r_b0, gains, 10))
             if r_b2:
                 b2s.append(_ndcg_graded(r_b2, gains, 10))
+            if r_b3:
+                b3s.append(_ndcg_graded(r_b3, gains, 10))
         t6_b0 = (sum(b0s) / len(b0s)) if b0s else None
         t6_b2 = (sum(b2s) / len(b2s)) if b2s else None
+        t6_b3 = (sum(b3s) / len(b3s)) if b3s else None
         if t6_b0 is not None and t6_b2 is not None:
             ftemp7 = t6_b2 - t6_b0
 
@@ -220,6 +233,10 @@ def score(corpus, system, lifecycle, tqs, docs):
         "temporal_ndcg_at_10_b0_similarity": t6_b0,
         "temporal_ndcg_at_10_b2_full_oida": t6_b2,
         "temporal_ndcg_lift_b2_minus_b0": ftemp7,
+        # P3-S2 — NEW recency-ranked diagnostic (B3); separate key, no F-condition,
+        # does not touch the locked F-TEMP-7 B2−B0 threshold. null/flat when the
+        # recency component is uniform/absent (pre-deploy graceful degrade).
+        "temporal_ndcg_at_10_b3_recency": t6_b3,
         "current_state_accuracy_at_1": csa[1],
         "current_state_accuracy_at_5": csa[5],
         "current_state_accuracy_at_10": csa[10],
