@@ -69,6 +69,28 @@ def _diff_runs(path_a: Path, path_b: Path) -> dict:
     }
 
 
+def _read_ndcg10(result_path: Path) -> float | None:
+    """Parse NDCG@10 out of a committed 03_eval_static_ir result file. The real
+    schema nests it as `layer_1_static_ir.ndcg["10"]` (the STEP-1 measure missed
+    this — it checked only top-level / `metrics` keys → NDCG=None). Pure +
+    tolerant so it is unit-testable against a committed result file."""
+    if not result_path.exists():
+        return None
+    data = json.loads(result_path.read_text(encoding="utf-8"))
+    l1 = data.get("layer_1_static_ir") or {}
+    ndcg = l1.get("ndcg")
+    if isinstance(ndcg, dict):
+        v = ndcg.get("10", ndcg.get(10))
+        if isinstance(v, (int, float)):
+            return float(v)
+    # tolerant fallbacks across older / alternate report shapes
+    for container in (l1, data, data.get("metrics") or {}, data.get("static_ir") or {}):
+        for k in ("ndcg@10", "NDCG@10", "ndcg_at_10"):
+            if isinstance(container.get(k), (int, float)):
+                return float(container[k])
+    return None
+
+
 def _ndcg10(corpus: str, run_id: str, log_lines: list[str]) -> float | None:
     """Run 03_eval_static_ir for one (corpus, run) and read NDCG@10 back."""
     rc, _ = rr._run_script(
@@ -77,19 +99,7 @@ def _ndcg10(corpus: str, run_id: str, log_lines: list[str]) -> float | None:
         log_lines, check=False)
     if rc != 0:
         return None
-    res = REPO_ROOT / "corpora" / corpus / "results" / f"{SYSTEM}_{run_id}.json"
-    if not res.exists():
-        return None
-    data = json.loads(res.read_text(encoding="utf-8"))
-    # tolerant lookup across the report's possible shapes
-    for k in ("ndcg@10", "NDCG@10", "ndcg_at_10"):
-        if isinstance(data.get(k), (int, float)):
-            return float(data[k])
-    metrics = data.get("metrics") or data.get("static_ir") or {}
-    for k in ("ndcg@10", "NDCG@10", "ndcg_at_10"):
-        if isinstance(metrics.get(k), (int, float)):
-            return float(metrics[k])
-    return None
+    return _read_ndcg10(REPO_ROOT / "corpora" / corpus / "results" / f"{SYSTEM}_{run_id}.json")
 
 
 def _drain_one(corpus: str, base_url: str, service_id: str, render_key: str,
@@ -104,12 +114,24 @@ def _drain_one(corpus: str, base_url: str, service_id: str, render_key: str,
 
 
 def _fingerprint_of(drain_rep: dict, corpus: str) -> dict | None:
+    """Per-project frozen fingerprint from the final probe. Prefers an exact
+    project match; falls back to the sole row when the drain was scoped to one
+    project (project_filter=proj) so the fingerprint populates on a real edged
+    run regardless of the project label. Returns None only when the probe
+    reported no projects (e.g. genuinely 0 edges)."""
     proj = OIDA_CORE_PROJECT_IDS[corpus]
-    for r in drain_rep.get("final_by_project") or []:
+    rows = drain_rep.get("final_by_project") or []
+
+    def _pick(r: dict) -> dict:
+        return {"edges": r.get("edges"), "edge_fp": r.get("edge_fp"),
+                "open_contradictions": r.get("open_contradictions"),
+                "open_contradiction_fp": r.get("open_contradiction_fp")}
+
+    for r in rows:
         if str(r.get("project")) == proj:
-            return {"edges": r.get("edges"), "edge_fp": r.get("edge_fp"),
-                    "open_contradictions": r.get("open_contradictions"),
-                    "open_contradiction_fp": r.get("open_contradiction_fp")}
+            return _pick(r)
+    if len(rows) == 1:
+        return _pick(rows[0])
     return None
 
 
