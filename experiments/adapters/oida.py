@@ -38,6 +38,7 @@ are aggregated to their parent doc and scored with
 from __future__ import annotations
 
 import json
+import os
 import time
 from collections import defaultdict
 from dataclasses import dataclass, field
@@ -713,6 +714,16 @@ def _load_env(env_path: Path) -> dict[str, str]:
                     v = v[:idx].rstrip()
                     break
         out[k.strip()] = v
+    # Standard dotenv precedence: the real process environment WINS over the
+    # .env file for any key the file defines. This lets a parent process route
+    # spawned subprocesses by setting os.environ before Popen (e.g.
+    # run_regression --target staging) instead of the file's prod default — the
+    # fix for the silent staging->prod misroute
+    # (../../oida-core/doc/findings/edge-freeze-step1-live-demo.md §3).
+    for _k in list(out):
+        _override = os.environ.get(_k)
+        if _override is not None and _override != "":
+            out[_k] = _override
     return out
 
 
