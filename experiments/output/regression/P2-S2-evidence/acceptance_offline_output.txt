@@ -1,0 +1,63 @@
+=== doc_scores (RANKING — must be the regime_adjusted_score of doc-best KO) ===
+{
+  "docA": 0.88,
+  "docB": 0.77,
+  "docC": 0.66
+}
+
+=== per-doc score_components (existing keys + 4 P2-S2 additive) ===
+{
+  "docA": {
+    "similarity": 0.91,
+    "kge_score": 0.7,
+    "regime_adjusted_score": 0.88,
+    "contributing_kos": 2.0,
+    "freshness": 1.0,
+    "decay": 0.95,
+    "supersession_penalty": 0.0,
+    "salience": 0.34
+  },
+  "docB": {
+    "similarity": 0.8,
+    "kge_score": 0.62,
+    "regime_adjusted_score": 0.77,
+    "contributing_kos": 2.0,
+    "freshness": 0.5,
+    "decay": 0.41,
+    "supersession_penalty": 0.0,
+    "salience": 0.2
+  },
+  "docC": {
+    "similarity": 0.72,
+    "kge_score": 0.5,
+    "regime_adjusted_score": 0.66,
+    "contributing_kos": 1.0,
+    "freshness": 0.0,
+    "decay": 0.05,
+    "supersession_penalty": 1.0,
+    "salience": 0.02
+  }
+}
+
+=== distributions (prove NON-CONSTANT) ===
+freshness            distinct=[0.0, 0.5, 1.0]
+decay                distinct=[0.05, 0.41, 0.95]
+salience             distinct=[0.02, 0.2, 0.34]
+supersession_penalty distinct=[0.0, 1.0]  (sparse: 1.0 only where a DEPRECATED KO is doc-best)
+
+=== ACCEPTANCE CHECKLIST ===
+  [PASS] freshness present on every doc
+  [PASS] decay present on every doc
+  [PASS] salience present on every doc
+  [PASS] supersession_penalty present on every doc
+  [PASS] freshness NON-CONSTANT (>1 distinct)
+  [PASS] decay NON-CONSTANT (>1 distinct)
+  [PASS] salience NON-CONSTANT (>1 distinct)
+  [PASS] supersession_penalty has a 1.0 (the DEPRECATED doc)
+  [PASS] doc-best snapshot correct (docA freshness=1.0)
+  [PASS] doc-best snapshot correct (docC supersession=1.0)
+  [PASS] ranking = regime_adjusted_score of doc-best KO (docA=0.88)
+  [PASS] ranking unchanged: docA > docB > docC
+  [PASS] existing keys preserved (similarity/kge_score/regime_adjusted_score/contributing_kos)
+
+RESULT: ALL PASS

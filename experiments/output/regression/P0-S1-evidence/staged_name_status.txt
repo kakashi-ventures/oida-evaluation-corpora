@@ -1,0 +1,26 @@
+A	archive/degenerate-config-2026-06-01/README.md
+R100	corpora/inv-ashford-mystery/results/graphrag_2026-05-29T15Z.json	archive/degenerate-config-2026-06-01/corpora/inv-ashford-mystery/results/graphrag_2026-05-29T15Z.json
+R100	corpora/inv-ashford-mystery/results/hipporag_2026-05-29T13Z.json	archive/degenerate-config-2026-06-01/corpora/inv-ashford-mystery/results/hipporag_2026-05-29T13Z.json
+R100	corpora/inv-ashford-mystery/results/lightrag_2026-05-29T11Z.json	archive/degenerate-config-2026-06-01/corpora/inv-ashford-mystery/results/lightrag_2026-05-29T11Z.json
+R100	corpora/inv-ashford-mystery/results/oida-angelicadb_2026-05-29T09Z.json	archive/degenerate-config-2026-06-01/corpora/inv-ashford-mystery/results/oida-angelicadb_2026-05-29T09Z.json
+A	archive/degenerate-config-2026-06-01/corpora/inv-ashford-mystery/results/oida-core_2026-06-01T10Z.json
+R100	corpora/inv-mystery-redhood/results/graphrag_2026-05-29T15Z.json	archive/degenerate-config-2026-06-01/corpora/inv-mystery-redhood/results/graphrag_2026-05-29T15Z.json
+R100	corpora/inv-mystery-redhood/results/hipporag_2026-05-29T13Z.json	archive/degenerate-config-2026-06-01/corpora/inv-mystery-redhood/results/hipporag_2026-05-29T13Z.json
+R100	corpora/inv-mystery-redhood/results/lightrag_2026-05-29T11Z.json	archive/degenerate-config-2026-06-01/corpora/inv-mystery-redhood/results/lightrag_2026-05-29T11Z.json
+R100	corpora/inv-mystery-redhood/results/oida-angelicadb_2026-05-29T09Z.json	archive/degenerate-config-2026-06-01/corpora/inv-mystery-redhood/results/oida-angelicadb_2026-05-29T09Z.json
+A	archive/degenerate-config-2026-06-01/corpora/inv-mystery-redhood/results/oida-core_2026-06-01T10Z.json
+R100	corpora/org-consulting-clearpath/results/graphrag_2026-05-29T15Z.json	archive/degenerate-config-2026-06-01/corpora/org-consulting-clearpath/results/graphrag_2026-05-29T15Z.json
+R100	corpora/org-consulting-clearpath/results/hipporag_2026-05-29T13Z.json	archive/degenerate-config-2026-06-01/corpora/org-consulting-clearpath/results/hipporag_2026-05-29T13Z.json
+R100	corpora/org-consulting-clearpath/results/lightrag_2026-05-29T11Z.json	archive/degenerate-config-2026-06-01/corpora/org-consulting-clearpath/results/lightrag_2026-05-29T11Z.json
+R100	corpora/org-consulting-clearpath/results/oida-angelicadb_2026-05-29T09Z.json	archive/degenerate-config-2026-06-01/corpora/org-consulting-clearpath/results/oida-angelicadb_2026-05-29T09Z.json
+A	archive/degenerate-config-2026-06-01/corpora/org-consulting-clearpath/results/oida-core_2026-06-01T10Z.json
+R100	corpora/org-iot-fireglass/results/graphrag_2026-05-29T15Z.json	archive/degenerate-config-2026-06-01/corpora/org-iot-fireglass/results/graphrag_2026-05-29T15Z.json
+R100	corpora/org-iot-fireglass/results/hipporag_2026-05-29T13Z.json	archive/degenerate-config-2026-06-01/corpora/org-iot-fireglass/results/hipporag_2026-05-29T13Z.json
+R100	corpora/org-iot-fireglass/results/lightrag_2026-05-29T11Z.json	archive/degenerate-config-2026-06-01/corpora/org-iot-fireglass/results/lightrag_2026-05-29T11Z.json
+R100	corpora/org-iot-fireglass/results/oida-angelicadb_2026-05-29T09Z.json	archive/degenerate-config-2026-06-01/corpora/org-iot-fireglass/results/oida-angelicadb_2026-05-29T09Z.json
+A	archive/degenerate-config-2026-06-01/corpora/org-iot-fireglass/results/oida-core_2026-06-01T10Z.json
+R100	corpora/org-vc-vertexminds/results/graphrag_2026-05-29T15Z.json	archive/degenerate-config-2026-06-01/corpora/org-vc-vertexminds/results/graphrag_2026-05-29T15Z.json
+R100	corpora/org-vc-vertexminds/results/hipporag_2026-05-29T13Z.json	archive/degenerate-config-2026-06-01/corpora/org-vc-vertexminds/results/hipporag_2026-05-29T13Z.json
+R100	corpora/org-vc-vertexminds/results/lightrag_2026-05-29T11Z.json	archive/degenerate-config-2026-06-01/corpora/org-vc-vertexminds/results/lightrag_2026-05-29T11Z.json
+R100	corpora/org-vc-vertexminds/results/oida-angelicadb_2026-05-29T09Z.json	archive/degenerate-config-2026-06-01/corpora/org-vc-vertexminds/results/oida-angelicadb_2026-05-29T09Z.json
+A	archive/degenerate-config-2026-06-01/corpora/org-vc-vertexminds/results/oida-core_2026-06-01T10Z.json

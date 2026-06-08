@@ -1,0 +1,42 @@
+commit 0f85d5001d7ffb4ef371dcecfe5c78d73b96298c
+P0-S1: quarantine degenerate-config run (archive + README)
+
+ archive/degenerate-config-2026-06-01/README.md     |  57 ++++++
+ .../results/graphrag_2026-05-29T15Z.json           |  43 +++--
+ .../results/hipporag_2026-05-29T13Z.json           |  43 +++--
+ .../results/lightrag_2026-05-29T11Z.json           |  45 +++--
+ .../results/oida-angelicadb_2026-05-29T09Z.json    |  90 +++++++--
+ .../results/oida-core_2026-06-01T10Z.json          | 162 ++++++++++++++++
+ .../results/graphrag_2026-05-29T15Z.json           |  49 +++--
+ .../results/hipporag_2026-05-29T13Z.json           |  45 +++--
+ .../results/lightrag_2026-05-29T11Z.json           |  45 +++--
+ .../results/oida-angelicadb_2026-05-29T09Z.json    |  90 +++++++--
+ .../results/oida-core_2026-06-01T10Z.json          | 162 ++++++++++++++++
+ .../results/graphrag_2026-05-29T15Z.json           | 162 ++++++++++++++++
+ .../results/hipporag_2026-05-29T13Z.json           | 162 ++++++++++++++++
+ .../results/lightrag_2026-05-29T11Z.json           | 162 ++++++++++++++++
+ .../results/oida-angelicadb_2026-05-29T09Z.json    | 205 +++++++++++++++++++++
+ .../results/oida-core_2026-06-01T10Z.json          | 205 +++++++++++++++++++++
+ .../results/graphrag_2026-05-29T15Z.json           | 162 ++++++++++++++++
+ .../results/hipporag_2026-05-29T13Z.json           | 162 ++++++++++++++++
+ .../results/lightrag_2026-05-29T11Z.json           | 162 ++++++++++++++++
+ .../results/oida-angelicadb_2026-05-29T09Z.json    | 205 +++++++++++++++++++++
+ .../results/oida-core_2026-06-01T10Z.json          | 205 +++++++++++++++++++++
+ .../results/graphrag_2026-05-29T15Z.json           | 162 ++++++++++++++++
+ .../results/hipporag_2026-05-29T13Z.json           | 162 ++++++++++++++++
+ .../results/lightrag_2026-05-29T11Z.json           | 162 ++++++++++++++++
+ .../results/oida-angelicadb_2026-05-29T09Z.json    | 205 +++++++++++++++++++++
+ .../results/oida-core_2026-06-01T10Z.json          | 205 +++++++++++++++++++++
+ .../results/graphrag_2026-05-29T15Z.json           |  98 ----------
+ .../results/hipporag_2026-05-29T13Z.json           |  98 ----------
+ .../results/lightrag_2026-05-29T11Z.json           |  98 ----------
+ .../results/oida-angelicadb_2026-05-29T09Z.json    |  98 ----------
+ .../results/graphrag_2026-05-29T15Z.json           |  98 ----------
+ .../results/hipporag_2026-05-29T13Z.json           |  98 ----------
+ .../results/lightrag_2026-05-29T11Z.json           |  98 ----------
+ .../results/oida-angelicadb_2026-05-29T09Z.json    |  98 ----------
+ .../results/graphrag_2026-05-29T15Z.json           |  98 ----------
+ .../results/hipporag_2026-05-29T13Z.json           |  98 ----------
+ .../results/lightrag_2026-05-29T11Z.json           |  98 ----------
+ .../results/oida-angelicadb_2026-05-29T09Z.json    |  98 ----------
+ 38 files changed, 3421 insertions(+), 1274 deletions(-)
