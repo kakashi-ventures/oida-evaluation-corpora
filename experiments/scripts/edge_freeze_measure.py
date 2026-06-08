@@ -182,9 +182,15 @@ def main(argv: list[str]) -> int:
         print(f"\n========== INGEST {i + 1}/{k} ==========")
         # RESET wipes ALL bench projects' KOs (seed-bench); honour --skip-reset on
         # the FIRST iteration only (subsequent band iterations MUST re-ingest fresh).
-        rr.reset_bench(service_id, render_key, bundle,
-                       skip_reset=(args.skip_reset and first))
-        if not (args.skip_reset and first):
+        reset_skipped = args.skip_reset and first
+        rr.reset_bench(service_id, render_key, bundle, skip_reset=reset_skipped)
+        # CACHE COLD — clear the local ingest reports so 01_ingest re-ingests from
+        # EMPTY after the RESET. Without this, 01_ingest's resume-skip sees the
+        # corpus "already committed" in the local report and writes 0 KOs → the
+        # staging graph stays empty → churn->0 is vacuous (the STEP-1 failure mode).
+        # Clear iff a RESET ran (skip_reset=False), exactly like run_regression.
+        rr.cache_cold(log_lines, skip_reset=reset_skipped)
+        if not reset_skipped:
             rc, _ = rr._run_script("01_ingest.py", ["--system", SYSTEM, args.corpus], log_lines)
             if rc != 0:
                 print("!!! ingest failed — ABORT")
