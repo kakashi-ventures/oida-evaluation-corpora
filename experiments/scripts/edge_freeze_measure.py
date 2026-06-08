@@ -213,6 +213,22 @@ def main(argv: list[str]) -> int:
                                bundle, log_lines, floor, max_wait, interval)
         fp = _fingerprint_of(drain_rep, args.corpus)
 
+        # D5 MUST #2 — edges MUST materialize on staging. If the clean-ingest
+        # produced 0 edges (P1-S5 silent enqueue, or a misroute that left the
+        # graph empty), churn->0 is VACUOUS — STOP loudly instead of reporting a
+        # meaningless 0/26 (the STEP-1 failure mode).
+        edges_now = int((fp or {}).get("edges") or 0)
+        if first and edges_now == 0:
+            print("\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+            print("!!! EDGES=0 on staging after clean-ingest — the graph is EMPTY.")
+            print("!!! D5 MUST #2 unmet (edge materialization / P1-S5 silent enqueue).")
+            print("!!! STOP: a within-run 0/N over an edgeless graph is VACUOUS.")
+            print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+            report["within_run"] = {"aborted": "edges=0", "edges": edges_now}
+            (bundle / "edge_freeze_measure.json").write_text(json.dumps(report, indent=2), encoding="utf-8")
+            (bundle / "log.txt").write_text("\n".join(log_lines), encoding="utf-8")
+            return 2
+
         # A/B within-run drift on the FIRST settled graph (the 0/N demo).
         if first:
             run_a, run_b = f"freeze_ab_a_{ts}", f"freeze_ab_b_{ts}"
