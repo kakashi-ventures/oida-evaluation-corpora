@@ -31,6 +31,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -157,6 +158,15 @@ def main(argv: list[str]) -> int:
         env.get("OIDA_CORE_RENDER_DB_ID_STAGING") or rr.STAGING_DB_ID)
     base_url = env["OIDA_CORE_BASE_URL"]
     render_key = env.get("RENDER_API_KEY", "")
+    # Propagate routing to the spawned subprocesses (01_ingest/02_retrieve/03):
+    # _run_script forwards os.environ, and _load_env now PREFERS os.environ over
+    # the .env file. This is the routing fix (eval#16) applied at THIS entrypoint —
+    # run_regression.main is not invoked here, so the measure must set os.environ
+    # itself or the subprocesses silently fall back to the .env (prod) default.
+    os.environ["OIDA_CORE_BASE_URL"] = base_url
+    _admin = env.get("OIDA_CORE_ADMIN_KEY", "")
+    if _admin:
+        os.environ["OIDA_CORE_ADMIN_KEY"] = _admin
     floor = int(env.get("OIDA_CORE_SETTLE_SEC", str(rr.QUIESCENCE_FLOOR_SEC)))
     max_wait = int(env.get("OIDA_CORE_QUIESCENCE_MAX_WAIT_SEC", str(rr.QUIESCENCE_MAX_WAIT_SEC)))
     interval = int(env.get("OIDA_CORE_QUIESCENCE_INTERVAL_SEC", str(rr.QUIESCENCE_INTERVAL_SEC)))
@@ -183,6 +193,9 @@ def main(argv: list[str]) -> int:
         # RESET wipes ALL bench projects' KOs (seed-bench); honour --skip-reset on
         # the FIRST iteration only (subsequent band iterations MUST re-ingest fresh).
         reset_skipped = args.skip_reset and first
+        # FAIL-CLOSED (eval#16): abort before any write if it would resolve
+        # off-staging — a --target staging run can NEVER touch prod.
+        rr._assert_staging_write_target("staging", args.env_file, "RESET")
         rr.reset_bench(service_id, render_key, bundle, skip_reset=reset_skipped)
         # CACHE COLD — clear the local ingest reports so 01_ingest re-ingests from
         # EMPTY after the RESET. Without this, 01_ingest's resume-skip sees the
@@ -191,6 +204,7 @@ def main(argv: list[str]) -> int:
         # Clear iff a RESET ran (skip_reset=False), exactly like run_regression.
         rr.cache_cold(log_lines, skip_reset=reset_skipped)
         if not reset_skipped:
+            rr._assert_staging_write_target("staging", args.env_file, "INGEST")
             rc, _ = rr._run_script("01_ingest.py", ["--system", SYSTEM, args.corpus], log_lines)
             if rc != 0:
                 print("!!! ingest failed — ABORT")
