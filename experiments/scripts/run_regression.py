@@ -15,8 +15,13 @@ ONE command that, against the LIVE oida-core deploy:
                P0-S7 cache re-key).
   INGEST     — clean-ingest the 5 corpora into oida-core ONLY (baselines NOT
                re-run); assert every doc committed + kos_created>0.
-  DRAIN      — bounded settle-wait then re-assert /health (cosmetic for P0;
-               cross-document edges arrive in Phase 1).
+  DRAIN      — QUIESCENCE drain (edge-graph freeze, D5 MUST #1): poll the
+               READ-ONLY probe (queue-quiescence-probe.ts) as a Render one-off
+               until the edge-detection queue==0 AND Edge+Contradiction
+               counts/fingerprints are stable across two probes; run the
+               post-edge sweeps; snapshot the frozen graph into the bundle. On
+               hard timeout -> variance-band fallback. (Replaces the old
+               cosmetic fixed-sleep; see ../oida-core/doc/findings/edge-freeze-step0.md.)
   RETRIEVE+  — 02 retrieve + 03..07 layer scorers under one RUN_ID; 05 dry-run
   LAYERS       (headline (b) is judge-free).
   MICRO-PROBE— a single live judged corpus (clearpath) to prove CONTRADICTS is
@@ -95,6 +100,37 @@ SAFE_NO_MINT_MARKER = "# All bench keys already existed; no new plaintext minted
 # "OIDA_CORE_KEY_CLEARPATH=adb_sk_..." (a RANDOM key, now leaked to job logs).
 MINTED_KEY_PREFIX = "OIDA_CORE_KEY_"
 RESET_LINE_MARKER = "# RESET_BENCH_KOS:"
+
+# ---- Edge-graph freeze (D5 MUST #1) — quiescence probe + post-edge sweeps ----
+# The engine-side probe (oida-core/scripts/queue-quiescence-probe.ts, READ-ONLY)
+# emits the edge-detection queue depth + per-project Edge/Contradiction counts +
+# a deterministic fingerprint. The harness polls it to wait for TRUE quiescence
+# before scoring — replacing the old cosmetic fixed-sleep "worker_drain". Bench
+# projects all share the `oida-` prefix, so one LIKE filter covers them.
+# Design: ../oida-core/doc/findings/edge-freeze-step0.md.
+PROBE_PROJECT_FILTER = "oida-%"
+PROBE_JSON_MARKER = "###PROBE### JSON "
+
+
+def _probe_start_command(project_filter: str) -> str:
+    return f"npx tsx scripts/queue-quiescence-probe.ts {project_filter}"
+
+
+# Triggerable post-edge sweeps (run AFTER edges settle): decay/kScore (P2-S1b) +
+# contradiction-exposure (P2-S4a). Each is a direct one-off (calls run*Sweep, no
+# enqueue). {p} = projectId.
+DECAY_SWEEP_CMD = "npx tsx scripts/decay-sweep.ts {p}"
+CXSWEEP_CMD = "npx tsx scripts/contradiction-exposure-sweep.ts {p}"
+
+# Quiescence poll tuning (env-overridable in main). A probe is a Render one-off
+# (cold start ~tens of seconds), so we poll coarsely: quiescent iff queue==0 AND
+# per-project Edge+Contradiction counts+fingerprints are unchanged across two
+# consecutive probes >= interval apart (queue==0 alone is insufficient — the
+# Contradiction create is fire-and-forget, edges/signals.ts:86).
+QUIESCENCE_MAX_WAIT_SEC = 1200   # hard timeout -> variance-band fallback
+QUIESCENCE_INTERVAL_SEC = 20     # gap between probe jobs (the stability window)
+QUIESCENCE_FLOOR_SEC = 30        # settle before the first probe (let the first
+                                 # wave of fire-and-forget Contradiction writes land)
 
 REQUIRED_ENV_KEYS = [
     "OPENAI_API_KEY",
@@ -403,6 +439,10 @@ def _fetch_job_logs(service_id: str, job_id: str, render_key: str,
                     # minted-key / a fatal infra error from the seed run).
                     if (SAFE_NO_MINT_MARKER in text
                             or RESET_LINE_MARKER in text
+                            or "###PROBE### DONE" in text
+                            or "###PROBE### ERR" in text
+                            or "###SWEEP### DONE" in text
+                            or "###CXSWEEP### DONE" in text
                             or "No space left on device" in text
                             or "prisma:error" in text
                             or any(ln.strip().startswith(MINTED_KEY_PREFIX)
@@ -803,27 +843,212 @@ def clean_ingest(log_lines: list[str]) -> dict:
 # ---------------------------------------------------------------------------
 
 
-def worker_drain(base_url: str, settle_sec: int, log_lines: list[str]) -> dict:
-    print(f"\n===================== WORKER DRAIN (settle {settle_sec}s) =====================")
-    print("  NOTE: cosmetic for P0 — cross-document edges arrive in Phase 1. This is")
-    print("  NOT a claim that draining produced edges; it is a bounded settle-wait so")
-    print("  the async ingest workers quiesce before retrieve.")
+def _fire_and_wait_job(service_id: str, render_key: str, start_command: str,
+                       owner_id: str | None,
+                       terminal_timeout_sec: int = 420) -> tuple[str, str]:
+    """Fire a Render one-off job, poll to terminal, return (status, log_text).
+
+    Generic sibling of reset_bench's job mechanics (minus the security gate).
+    Used for the READ-ONLY quiescence probe and the post-edge sweeps. NEVER
+    sys.exits — the caller decides how to treat a non-`succeeded` status."""
+    body = json.dumps({"startCommand": start_command}).encode("utf-8")
+    st, raw = _http("POST", f"{RENDER_API}/services/{service_id}/jobs",
+                    headers=_render_headers(render_key), body=body, timeout=60)
+    if st not in (200, 201):
+        return f"create-HTTP-{st}", ""
+    try:
+        job = json.loads(raw)
+    except json.JSONDecodeError:
+        return "create-non-json", ""
+    job_id = job.get("id") or (job.get("job") or {}).get("id")
+    if not job_id:
+        return "no-job-id", ""
+    terminal = {"succeeded", "failed"}
+    status = job.get("status") or "pending"
+    deadline = time.time() + terminal_timeout_sec
+    while status not in terminal and time.time() < deadline:
+        time.sleep(8)
+        jst, jraw = _http("GET", f"{RENDER_API}/services/{service_id}/jobs/{job_id}",
+                          headers=_render_headers(render_key), timeout=30)
+        if jst == 200:
+            try:
+                jj = json.loads(jraw)
+                status = (jj.get("job") or jj).get("status") or status
+            except json.JSONDecodeError:
+                pass
+    log_text, _ = _fetch_job_logs(service_id, job_id, render_key, owner_id)
+    return status, log_text
+
+
+def _parse_probe_json(log_text: str) -> dict | None:
+    """Extract the probe's machine-readable `###PROBE### JSON {…}` payload
+    (last occurrence wins, in case the log stream repeats lines)."""
+    for line in reversed(log_text.splitlines()):
+        idx = line.find(PROBE_JSON_MARKER)
+        if idx != -1:
+            try:
+                return json.loads(line[idx + len(PROBE_JSON_MARKER):])
+            except json.JSONDecodeError:
+                return None
+    return None
+
+
+def _project_snapshot_key(by_project: list | None) -> dict:
+    """Canonical comparable view of per-project edge/contradiction state (counts
+    + fingerprints) — exactly what must be stable for the graph to be frozen."""
+    out: dict = {}
+    for r in by_project or []:
+        out[str(r.get("project"))] = {
+            "edges": r.get("edges"),
+            "edge_fp": r.get("edge_fp"),
+            "contradictions": r.get("contradictions"),
+            "open_contradictions": r.get("open_contradictions"),
+            "open_contradiction_fp": r.get("open_contradiction_fp"),
+        }
+    return out
+
+
+def _frozen_graph_md(snap: dict) -> str:
+    out = ["# frozen_graph.md — edge-graph freeze (D5 MUST #1)", ""]
+    out.append(f"- quiescent: **{snap.get('quiescent')}**  "
+               f"(band_fallback: {snap.get('band_fallback')})")
+    out.append(f"- elapsed: {snap.get('elapsed_sec')}s over {snap.get('iterations')} probe(s)")
+    final = snap.get("final_probe") or {}
+    totals = final.get("totals") or {}
+    out.append(f"- final totals: edges={totals.get('edges')} "
+               f"contradictions={totals.get('contradictions')} "
+               f"open={totals.get('open_contradictions')}")
+    out.append("")
+    out.append("## Per-project frozen fingerprint (the snapshot scored)")
+    out.append("| project | edges | edge_fp | open_contra | open_contra_fp |")
+    out.append("|---|---|---|---|---|")
+    for r in final.get("by_project") or []:
+        out.append(f"| {r.get('project')} | {r.get('edges')} | "
+                   f"`{str(r.get('edge_fp'))[:12]}` | {r.get('open_contradictions')} | "
+                   f"`{str(r.get('open_contradiction_fp'))[:12]}` |")
+    out.append("")
+    out.append("## Sweeps (post-edge signals on the settled graph)")
+    for s in snap.get("sweeps") or []:
+        out.append(f"- `{s.get('cmd')}` -> {s.get('status')} ok={s.get('ok')}")
+    out.append("")
+    out.append("> Two scoring runs over THIS frozen graph must be byte-identical "
+               "(v0 retrieve is read-only on edges/contradictions). If band_fallback "
+               "is true, report a run-to-run variance band — never a bare point NDCG.")
+    return "\n".join(out) + "\n"
+
+
+def quiescence_drain(base_url: str, service_id: str, render_key: str,
+                     bundle: Path, log_lines: list[str], *,
+                     project_ids: list[str], max_wait_sec: int,
+                     interval_sec: int, floor_sec: int,
+                     project_filter: str = PROBE_PROJECT_FILTER,
+                     run_sweeps: bool = True) -> dict:
+    """Wait for TRUE edge-graph quiescence, then snapshot the frozen graph.
+
+    Replaces the old cosmetic fixed-sleep worker_drain (D5 MUST #1). Polls the
+    READ-ONLY engine probe (queue-quiescence-probe.ts) as a Render one-off until
+    the edge-detection queue is empty AND per-project Edge+Contradiction
+    counts/fingerprints are unchanged across two consecutive probes >= interval
+    apart (queue==0 alone is insufficient — the Contradiction create is
+    fire-and-forget). Then triggers the post-edge sweeps (decay/kScore +
+    contradiction-exposure), re-confirms, and writes the frozen-graph snapshot
+    into the bundle. On hard timeout -> band_fallback=True (the caller then
+    reports a run-to-run variance band, never a bare point NDCG)."""
+    print("\n===================== QUIESCENCE DRAIN (edge-graph freeze) =====================")
+    print("  Poll the READ-ONLY probe until queue==0 AND Edge+Contradiction counts/")
+    print("  fingerprints are stable across two probes — then snapshot the frozen graph.")
+    probe_cmd = _probe_start_command(project_filter)
     t0 = time.time()
-    # bounded settle-wait (sleep in small chunks so a Ctrl-C is responsive)
-    remaining = settle_sec
-    while remaining > 0:
-        chunk = min(10, remaining)
-        time.sleep(chunk)
-        remaining -= chunk
+    owner_id = _resolve_owner_id(service_id, render_key)
+    history: list[dict] = []
+    last_key: dict | None = None
+    quiescent = False
+    band_fallback = False
+
+    if floor_sec > 0:
+        time.sleep(floor_sec)  # let the first wave of fire-and-forget writes land
+
+    while True:
+        status, log_text = _fire_and_wait_job(service_id, render_key, probe_cmd, owner_id)
+        probe = _parse_probe_json(log_text)
+        elapsed = round(time.time() - t0, 1)
+        if probe is None:
+            history.append({"t": elapsed, "ok": False, "job_status": status})
+            print(f"  [{elapsed}s] probe unreadable (job={status}) — will retry")
+        else:
+            q = probe.get("queue", {})
+            qpi = q.get("queued_plus_inflight")
+            totals = probe.get("totals", {})
+            key = _project_snapshot_key(probe.get("by_project", []))
+            queue_zero = bool(probe.get("queue_zero"))
+            stable = queue_zero and last_key is not None and key == last_key
+            history.append({"t": elapsed, "ok": True, "queue": q,
+                            "queue_zero": queue_zero, "totals": totals,
+                            "stable_vs_prev": stable})
+            print(f"  [{elapsed}s] queue(q+inflight)={qpi} edges={totals.get('edges')} "
+                  f"contradictions={totals.get('contradictions')} "
+                  f"open={totals.get('open_contradictions')} stable={stable}")
+            if stable:
+                quiescent = True
+                break
+            # reset the stability window if churn is still in progress
+            last_key = key if queue_zero else None
+        if time.time() - t0 > max_wait_sec:
+            band_fallback = True
+            print(f"  !!! quiescence not reached within {max_wait_sec}s — VARIANCE-BAND FALLBACK")
+            break
+        time.sleep(interval_sec)
+
+    sweeps: list[dict] = []
+    if quiescent and run_sweeps:
+        print("  quiescent — triggering post-edge sweeps (decay/kScore + contradiction-exposure)")
+        for p in project_ids:
+            for cmd_t, marker in ((DECAY_SWEEP_CMD, "###SWEEP###"),
+                                  (CXSWEEP_CMD, "###CXSWEEP###")):
+                cmd = cmd_t.format(p=p)
+                st, lt = _fire_and_wait_job(service_id, render_key, cmd, owner_id)
+                ok = (st == "succeeded") and (f"{marker} DONE" in lt)
+                sweeps.append({"project": p, "cmd": cmd, "status": st, "ok": ok})
+                print(f"    {cmd} -> {st} ok={ok}")
+
+    # Final snapshot probe (after sweeps; edges/contradictions must be UNCHANGED —
+    # the sweeps touch only KO columns, never edges/contradictions).
+    _, final_log = _fire_and_wait_job(service_id, render_key, probe_cmd, owner_id)
+    final = _parse_probe_json(final_log)
+
+    st_h, _ = _http("GET", base_url.rstrip("/") + "/health", timeout=30)
+    health_ok = st_h == 200
     elapsed = round(time.time() - t0, 1)
-    st, _ = _http("GET", base_url.rstrip("/") + "/health", timeout=30)
-    health_ok = st == 200
-    print(f"  settled {elapsed}s; /health -> {st}")
-    rep = {"settle_sec_param": settle_sec, "settle_sec_actual": elapsed,
-           "health_after": st, "health_ok": health_ok,
-           "label": ("cosmetic for P0 — cross-document edges arrive in Phase 1; "
-                     "not a claim that draining produced edges")}
-    log_lines.append(f"# worker drain: settle={elapsed}s health={st} (cosmetic for P0)")
+
+    snapshot = {
+        "quiescent": quiescent, "band_fallback": band_fallback,
+        "elapsed_sec": elapsed, "iterations": len(history),
+        "final_probe": final, "queue_history": history, "sweeps": sweeps,
+    }
+    (bundle / "frozen_graph_snapshot.json").write_text(
+        json.dumps(snapshot, indent=2), encoding="utf-8")
+    (bundle / "frozen_graph.md").write_text(_frozen_graph_md(snapshot), encoding="utf-8")
+
+    label = ("edge-graph quiescence reached (queue==0 + stable Edge/Contradiction "
+             "fingerprints) — frozen graph snapshotted"
+             if quiescent else
+             "QUIESCENCE NOT REACHED within budget — variance-band fallback "
+             "(report a run-to-run band, never a bare point NDCG)")
+    rep = {
+        # backward-compatible keys (consumed by _write_notes / run_manifest.json)
+        "settle_sec_param": max_wait_sec, "settle_sec_actual": elapsed,
+        "health_after": st_h, "health_ok": health_ok, "label": label,
+        # new quiescence fields
+        "quiescent": quiescent, "band_fallback": band_fallback,
+        "iterations": len(history), "sweeps": sweeps,
+        "final_totals": (final or {}).get("totals"),
+        "final_by_project": (final or {}).get("by_project"),
+    }
+    log_lines.append(
+        f"# quiescence drain: quiescent={quiescent} band_fallback={band_fallback} "
+        f"elapsed={elapsed}s health={st_h} iters={len(history)}")
+    print(f"  {label}")
+    print(f"  elapsed={elapsed}s iters={len(history)} /health -> {st_h}")
     if not health_ok:
         print("!!! /health not 200 after drain — ABORT")
         sys.exit(EXIT_INGEST)
@@ -1326,8 +1551,10 @@ def _write_notes(bundle: Path, drain_rep: dict) -> None:
         "  corpora reproduce the archived NDCG@10 within ±0.005 (engine unchanged),",
         "  with all signals present + non-constant and the judge axis live (>=1",
         "  CONTRADICTS)?",
-        "- HOW: clean RESET (Render one-off) -> deterministic 01_ingest -> bounded",
-        "  worker drain -> 02 retrieve -> 03..07 layer scorers -> in-harness per-query",
+        "- HOW: clean RESET (Render one-off) -> deterministic 01_ingest -> quiescence",
+        "  drain (poll the READ-ONLY probe to queue==0 + stable Edge/Contradiction",
+        "  fingerprints, then snapshot the frozen graph) -> 02 retrieve -> 03..07 layer",
+        "  scorers -> in-harness per-query",
         "  NDCG@10 / score-component spreads + a live micro-probe.",
         "- WHERE: serialized into this bundle (layers/, harness_health.md,",
         "  signal_presence.md, diff_vs_baseline.md, run_manifest.json).",
@@ -1336,9 +1563,13 @@ def _write_notes(bundle: Path, drain_rep: dict) -> None:
         "  GATES phase completion: a phase is not done until its bundle is produced and",
         "  no unexplained regression on a non-target metric appears.",
         "",
-        f"## Worker-drain settle-wait: param={drain_rep.get('settle_sec_param')}s "
-        f"actual={drain_rep.get('settle_sec_actual')}s health_after={drain_rep.get('health_after')}",
+        f"## Quiescence drain (edge-graph freeze): quiescent={drain_rep.get('quiescent')} "
+        f"band_fallback={drain_rep.get('band_fallback')} "
+        f"elapsed={drain_rep.get('settle_sec_actual')}s "
+        f"iters={drain_rep.get('iterations')} health_after={drain_rep.get('health_after')}",
         f"LABEL: {drain_rep.get('label')}",
+        "(See frozen_graph.md + frozen_graph_snapshot.json in this bundle for the "
+        "per-project frozen fingerprint scored.)",
         "",
         "## Guardrail",
         "BURNED dev corpora = regression / sanity ONLY, never an OIDA pass/fail claim.",
@@ -1394,7 +1625,15 @@ def main(argv: list[str]) -> int:
                         "Required when --target is prod (the default) and a RESET "
                         "would fire; ignored for --target staging and --skip-reset.")
     p.add_argument("--settle-sec", type=int, default=None,
-                   help="override worker-drain settle seconds (default OIDA_CORE_SETTLE_SEC or 90)")
+                   help="quiescence-drain settle floor before the first probe, seconds "
+                        "(default OIDA_CORE_SETTLE_SEC or 30)")
+    p.add_argument("--quiescence-max-wait", type=int, default=None,
+                   help="hard timeout for the quiescence poll, seconds; on timeout the "
+                        "run falls back to a variance band (default "
+                        "OIDA_CORE_QUIESCENCE_MAX_WAIT_SEC or 1200)")
+    p.add_argument("--quiescence-interval", type=int, default=None,
+                   help="gap between quiescence probe jobs, seconds — the stability "
+                        "window (default OIDA_CORE_QUIESCENCE_INTERVAL_SEC or 20)")
     args = p.parse_args(argv)
 
     if args.corpora == "fresh":
@@ -1428,7 +1667,13 @@ def main(argv: list[str]) -> int:
     base_url = env.get("OIDA_CORE_BASE_URL", "https://oida-core.onrender.com")
     render_key = env.get("RENDER_API_KEY", "")
     settle_sec = (args.settle_sec if args.settle_sec is not None
-                  else int(env.get("OIDA_CORE_SETTLE_SEC", "90")))
+                  else int(env.get("OIDA_CORE_SETTLE_SEC", str(QUIESCENCE_FLOOR_SEC))))
+    quiescence_max_wait = (args.quiescence_max_wait if args.quiescence_max_wait is not None
+                           else int(env.get("OIDA_CORE_QUIESCENCE_MAX_WAIT_SEC",
+                                            str(QUIESCENCE_MAX_WAIT_SEC))))
+    quiescence_interval = (args.quiescence_interval if args.quiescence_interval is not None
+                           else int(env.get("OIDA_CORE_QUIESCENCE_INTERVAL_SEC",
+                                            str(QUIESCENCE_INTERVAL_SEC))))
 
     ts = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     run_id = ts  # one RUN_ID for retrieve + all layers
@@ -1466,8 +1711,12 @@ def main(argv: list[str]) -> int:
     # 4) CLEAN-INGEST
     ingest_rep = clean_ingest(log_lines)
 
-    # 5) WORKER DRAIN
-    drain_rep = worker_drain(base_url, settle_sec, log_lines)
+    # 5) QUIESCENCE DRAIN (edge-graph freeze — D5 MUST #1)
+    drain_rep = quiescence_drain(
+        base_url, service_id, render_key, bundle, log_lines,
+        project_ids=list(OIDA_CORE_PROJECT_IDS.values()),
+        max_wait_sec=quiescence_max_wait, interval_sec=quiescence_interval,
+        floor_sec=settle_sec)
 
     # 6) RETRIEVE + LAYERS
     layers_rep = retrieve_and_layers(run_id, log_lines)
