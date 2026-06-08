@@ -38,6 +38,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import shutil
 import statistics
 import subprocess
@@ -59,6 +60,7 @@ from adapters.oida import (  # noqa: E402
     OIDA_CORE_PROJECT_IDS,
     _load_env,
     resolve_corpus_routing,
+    resolve_deploy,
 )
 import eval_common as ec  # noqa: E402
 
@@ -121,6 +123,7 @@ EXIT_EXPOSED_KEY = 4
 EXIT_INGEST = 5
 EXIT_LAYER = 6
 EXIT_PROD_RESET_BLOCKED = 7
+EXIT_STAGING_MISROUTE = 8
 
 
 # ---------------------------------------------------------------------------
@@ -200,9 +203,19 @@ def _run_script(script: str, args: list[str], log_lines: list[str],
     return (rc, captured_text). On check + nonzero rc the caller decides to abort."""
     cmd = [sys.executable, str(SCRIPTS / script), *args]
     pretty = "python experiments/scripts/" + script + " " + " ".join(args)
+    # Forward the parent's environment EXPLICITLY (= os.environ | the routing
+    # overrides main set after target resolution). Combined with _load_env now
+    # preferring os.environ, this makes the spawned 01_ingest/02_retrieve/03..07
+    # honor --target staging instead of silently re-reading the .env (prod)
+    # default — the STEP-1 misroute fix. The resolved base URL is logged per
+    # subprocess so a misroute is visible in the run record.
+    sub_env = os.environ.copy()
+    routed = sub_env.get("OIDA_CORE_BASE_URL", "(unset → .env default)")
     print(f"\n>>> {pretty}")
+    print(f"    [routing] OIDA_CORE_BASE_URL={routed}")
     log_lines.append(f"$ {pretty}")
-    proc = subprocess.Popen(cmd, cwd=str(REPO_ROOT), stdout=subprocess.PIPE,
+    log_lines.append(f"# subprocess routing OIDA_CORE_BASE_URL={routed}")
+    proc = subprocess.Popen(cmd, cwd=str(REPO_ROOT), env=sub_env, stdout=subprocess.PIPE,
                             stderr=subprocess.STDOUT, text=True, bufsize=1)
     out: list[str] = []
     assert proc.stdout is not None
@@ -1379,6 +1392,46 @@ def _prod_reset_blocked(target: str, skip_reset: bool, allow_prod_reset: bool) -
     return target == "prod" and not skip_reset and not allow_prod_reset
 
 
+def staging_write_blocked(target: str, intended_staging_url: str,
+                          resolved_base_url: str) -> bool:
+    """True iff a write-capable step under --target staging would hit a
+    NON-staging base URL (a routing regression).
+
+    Fail-closed invariant (overviewer requirement): **a `--target staging` run
+    can NEVER write to prod, even under a future routing regression** — a
+    misroute MUST abort, not silently hit prod. (prod writes are gated
+    separately by `_prod_reset_blocked`.) Pure predicate so it is unit-testable
+    without spawning anything — see test_staging_guard.py."""
+    if target != "staging":
+        return False
+    return resolved_base_url.rstrip("/") != intended_staging_url.rstrip("/")
+
+
+def _assert_staging_write_target(target: str, env_file: str, step: str) -> None:
+    """Re-resolve the base URL the SAME way the write subprocess will (via
+    `_load_env` + `resolve_deploy`, now os.environ-preferred) and ABORT LOUDLY
+    if it is not the canonical staging target. Called BEFORE every write-capable
+    step (RESET, INGEST) so a misroute fails closed instead of writing to prod."""
+    if target != "staging":
+        return
+    file_env = _load_env(Path(env_file))
+    intended = (file_env.get("OIDA_CORE_BASE_URL_STAGING") or STAGING_BASE_URL)
+    resolved, _admin = resolve_deploy(SYSTEM, file_env)
+    if staging_write_blocked(target, intended, resolved):
+        print(
+            "\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n"
+            f"!!! STAGING MISROUTE ABORT before {step}: --target staging, but the\n"
+            f"!!! write step resolves base_url={resolved!r}, NOT the staging target\n"
+            f"!!! {intended!r}. Refusing to write (FAIL-CLOSED — a --target staging\n"
+            "!!! run can NEVER write to prod). Fix the routing (os.environ ->\n"
+            "!!! subprocess; _load_env os.environ precedence) and retry.\n"
+            "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",
+            file=sys.stderr,
+        )
+        sys.exit(EXIT_STAGING_MISROUTE)
+    print(f"  [guard] {step}: --target staging resolves to {resolved} ✓ (staging)")
+
+
 def main(argv: list[str]) -> int:
     p = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     p.add_argument("--phase", required=True, help="phase id, e.g. P0-baseline")
@@ -1427,6 +1480,17 @@ def main(argv: list[str]) -> int:
     # secrets pulled into locals; NEVER printed.
     base_url = env.get("OIDA_CORE_BASE_URL", "https://oida-core.onrender.com")
     render_key = env.get("RENDER_API_KEY", "")
+    # Propagate the resolved routing to spawned subprocesses (01_ingest/
+    # 02_retrieve/03..07): they re-read OIDA_CORE_BASE_URL via _load_env, which
+    # now PREFERS os.environ over the .env file. Without this, --target staging
+    # left the subprocesses on the .env (prod) default while RESET/probe hit
+    # staging — the silent split that invalidated the STEP-1 demo
+    # (../oida-core/doc/findings/edge-freeze-step1-live-demo.md §3). Set for BOTH
+    # targets so the subprocess routing always matches the parent's intent.
+    os.environ["OIDA_CORE_BASE_URL"] = base_url
+    _admin_key = env.get("OIDA_CORE_ADMIN_KEY", "")
+    if _admin_key:
+        os.environ["OIDA_CORE_ADMIN_KEY"] = _admin_key
     settle_sec = (args.settle_sec if args.settle_sec is not None
                   else int(env.get("OIDA_CORE_SETTLE_SEC", "90")))
 
@@ -1458,12 +1522,16 @@ def main(argv: list[str]) -> int:
           f"name={db_infra.get('name')} (fetch_ok={db_infra.get('fetch_ok')})")
 
     # 2) RESET (+ exposed-key abort)
+    # FAIL-CLOSED: never let a --target staging run write to a non-staging target.
+    _assert_staging_write_target(args.target, args.env_file, "RESET")
     reset_rep = reset_bench(service_id, render_key, bundle, args.skip_reset)
 
     # 3) CACHE COLD (judge cache always; ingest reports only if a RESET ran)
     cache_rep = cache_cold(log_lines, args.skip_reset)
 
     # 4) CLEAN-INGEST
+    # FAIL-CLOSED: assert the ingest (a WRITE) resolves to staging before it runs.
+    _assert_staging_write_target(args.target, args.env_file, "INGEST")
     ingest_rep = clean_ingest(log_lines)
 
     # 5) WORKER DRAIN
