@@ -167,9 +167,15 @@ def main(argv: list[str]) -> int:
     _admin = env.get("OIDA_CORE_ADMIN_KEY", "")
     if _admin:
         os.environ["OIDA_CORE_ADMIN_KEY"] = _admin
-    floor = int(env.get("OIDA_CORE_SETTLE_SEC", str(rr.QUIESCENCE_FLOOR_SEC)))
-    max_wait = int(env.get("OIDA_CORE_QUIESCENCE_MAX_WAIT_SEC", str(rr.QUIESCENCE_MAX_WAIT_SEC)))
-    interval = int(env.get("OIDA_CORE_QUIESCENCE_INTERVAL_SEC", str(rr.QUIESCENCE_INTERVAL_SEC)))
+    # Tuning knobs: read os.environ FIRST (these are operational overrides, not
+    # .env secrets, and _load_env's precedence only covers keys already in the
+    # file — so a bare `export OIDA_CORE_QUIESCENCE_MAX_WAIT_SEC=…` must be read
+    # directly here or it is silently ignored).
+    def _knob(key: str, default: int) -> int:
+        return int(os.environ.get(key) or env.get(key) or default)
+    floor = _knob("OIDA_CORE_SETTLE_SEC", rr.QUIESCENCE_FLOOR_SEC)
+    max_wait = _knob("OIDA_CORE_QUIESCENCE_MAX_WAIT_SEC", rr.QUIESCENCE_MAX_WAIT_SEC)
+    interval = _knob("OIDA_CORE_QUIESCENCE_INTERVAL_SEC", rr.QUIESCENCE_INTERVAL_SEC)
 
     ts = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     bundle = rr.OUTPUT / "edge-freeze" / f"{args.corpus}-{ts}"
@@ -177,6 +183,7 @@ def main(argv: list[str]) -> int:
     log_lines: list[str] = [f"# edge_freeze_measure corpus={args.corpus} ts={ts} STAGING"]
 
     print(f"\n############ edge-freeze measure — corpus={args.corpus} ts={ts} (STAGING) ############")
+    print(f"  drain tuning: floor={floor}s max_wait={max_wait}s interval={interval}s")
     print(f"  base_url={base_url}  k={args.k}  within_run_only={args.within_run_only}")
 
     preflight_rep = rr.preflight(env, base_url, render_key)
