@@ -89,6 +89,7 @@ CORPUS_TO_PROJECT_SLUG: dict[str, str] = {
     "org-vc-vertexminds":        "default",
     "inv-mystery-redhood":       "default",
     "inv-ashford-mystery":       "default",
+    "anchor-oida-history":       "anchor",
 }
 
 # Registry of supported OIDA deploys. Each entry is `{ base_url_env,
@@ -153,6 +154,10 @@ OIDA_CORE_PROJECT_IDS: dict[str, str] = {
     "org-vc-vertexminds":        "oida-vertexminds",
     "inv-mystery-redhood":       "oida-redhood",
     "inv-ashford-mystery":       "oida-ashford",
+    # Phase-4 fresh pilot (D2 anchor) — its own project so the solver/pgvector scope
+    # only anchor's KOs. eureg/raglit added after anchor calibration + adjudication.
+    # (edge_freeze_measure's --corpus choices auto-widen from this map.)
+    "anchor-oida-history":       "oida-anchor",
 }
 
 
