@@ -205,8 +205,118 @@ def _cosine(a: list[float], b: list[float]) -> float:
 
 SHORT_COMMS = re.compile(r"email|slack|chat|sms|message|memo|note|comms?", re.I)
 
+# Engine-gate constants (Part 2)
+RECALL_KS = [10, 20, 50]
+JITTER = 1e-4  # measured solver-level raw-score jitter (edge-freeze findings)
+MARGIN_DESIGN = 1e-2  # R6.1 design target: signal margin >> jitter
 
-def compute_gates(corpus: str, embedder: Embedder | None) -> dict:
+
+def _mean(xs: list[float]) -> float | None:
+    xs = [x for x in xs if x is not None]
+    return round(sum(xs) / len(xs), 4) if xs else None
+
+
+def _load_run(run_dir: Path) -> dict:
+    """Load one retrieve run over a frozen graph: {qid: {doc_scores, sc}} from
+    queries.jsonl (rich: doc_scores + per-doc score_components) or runs.json."""
+    runs: dict = {}
+    qj = run_dir / "queries.jsonl"
+    if qj.exists():
+        for rec in _read_jsonl(qj):
+            runs[rec["qid"]] = {"doc_scores": rec.get("doc_scores") or {},
+                                "sc": rec.get("score_components") or {}}
+        return runs
+    rj = run_dir / "runs.json"
+    if rj.exists():
+        for qid, ds in json.loads(rj.read_text(encoding="utf-8")).items():
+            runs[qid] = {"doc_scores": ds, "sc": {}}
+    return runs
+
+
+def _ranked(doc_scores: dict) -> list[str]:
+    return [d for d, _ in sorted(doc_scores.items(), key=lambda x: -x[1])]
+
+
+def compute_engine_gates(run_dirs: list[Path], qrels: dict, temporal: dict,
+                         docs: dict, queries: dict) -> dict:
+    """R2.2 recall@k per class + R6 signal-margin/reorderings, from K retrieves
+    over a FROZEN graph (produced by the freeze harness). Read-only on the runs."""
+    runs = [(_load_run(rd), rd.name) for rd in run_dirs]
+    runs = [(r, n) for r, n in runs if r]
+    if not runs:
+        return {"ok": False, "reason": "no readable retrieve runs"}
+    primary = runs[0][0]
+
+    def is_short(qid: str) -> bool:
+        rel = {d for d, s in qrels.get(qid, {}).items() if s >= 1}
+        return any(SHORT_COMMS.search(d) or
+                   SHORT_COMMS.search((docs.get(d, {}).get("metadata") or {}).get("category", ""))
+                   for d in rel)
+
+    # ---- R2.2 recall@k per class (on the primary frozen-graph retrieve) ----
+    def recall_at(qid: str, k: int) -> float | None:
+        rel = {d for d, s in qrels.get(qid, {}).items() if s >= 1}
+        if not rel:
+            return None
+        topk = set(_ranked(primary.get(qid, {}).get("doc_scores", {}))[:k])
+        return len(topk & rel) / len(rel)
+
+    scored_qids = [q for q in primary if any(s >= 1 for s in qrels.get(q, {}).values())]
+    classes = {
+        "overall": scored_qids,
+        "short_comms": [q for q in scored_qids if is_short(q)],
+        "temporal": [q for q in scored_qids if q in temporal],
+    }
+    recall = {cls: {f"@{k}": _mean([recall_at(q, k) for q in qids]) for k in RECALL_KS}
+              for cls, qids in classes.items()}
+    recall_n = {cls: len(qids) for cls, qids in classes.items()}
+
+    # ---- R6.1 signal-margin on R1 contests (winner vs top competitor) ----
+    def margin(qid: str, field: str) -> float | None:
+        cur = set(temporal.get(qid, {}).get("gold_current_docs", []))
+        sc = primary.get(qid, {}).get("sc", {})
+        if not cur or not sc:
+            return None
+        def f(d):
+            v = (sc.get(d) or {}).get(field)
+            return float(v) if isinstance(v, (int, float)) else None
+        win = max((f(d) for d in cur if f(d) is not None), default=None)
+        comp = max((f(d) for d in sc if d not in cur and f(d) is not None), default=None)
+        return None if win is None or comp is None else win - comp
+
+    r1_contests = [q for q in temporal
+                   if temporal[q].get("gold_current_docs") and
+                   (temporal[q].get("gold_superseded_docs") or temporal[q].get("gold_should_not_retrieve"))]
+    r1_margins = [(q, margin(q, "recency_adjusted_score")) for q in r1_contests]
+    r1_margins = [(q, m) for q, m in r1_margins if m is not None]
+    knife = [q for q, m in r1_margins if abs(m) <= JITTER]
+    lost = [q for q, m in r1_margins if m < 0]
+
+    # ---- R6.2 reorderings across the K frozen-graph retrieves ----
+    def reorderings(qids: list[str]) -> int:
+        n = 0
+        for q in qids:
+            orders = {tuple(_ranked(r.get(q, {}).get("doc_scores", {}))) for r, _ in runs if q in r}
+            if len(orders) > 1:
+                n += 1
+        return n
+    reorder_overall = reorderings(scored_qids)
+    reorder_contests = reorderings(r1_contests)
+
+    return {
+        "ok": True, "k_retrieves": len(runs), "run_names": [n for _, n in runs],
+        "recall": recall, "recall_n": recall_n,
+        "r1_contests": len(r1_margins),
+        "margin_min": min((m for _, m in r1_margins), default=None),
+        "margin_median": (sorted(m for _, m in r1_margins)[len(r1_margins) // 2]
+                          if r1_margins else None),
+        "knife_edge": len(knife), "winner_lost": len(lost),
+        "reorder_overall": reorder_overall, "reorder_contests": reorder_contests,
+    }
+
+
+def compute_gates(corpus: str, embedder: Embedder | None,
+                  engine_runs: list[Path] | None = None) -> dict:
     cdir = CORPORA / corpus
     docs = {d["_id"]: d for d in _read_jsonl(cdir / "corpus.jsonl")}
     queries = {q["_id"]: q for q in _read_jsonl(cdir / "queries.jsonl")}
@@ -215,6 +325,7 @@ def compute_gates(corpus: str, embedder: Embedder | None) -> dict:
     superses = _read_ann("supersession_chains", corpus)
     contra = _read_ann("contra_sets", corpus)
     dates = {did: effective_date(d) for did, d in docs.items()}
+    eng = compute_engine_gates(engine_runs, qrels, temporal, docs, queries) if engine_runs else None
 
     gates: dict[str, dict] = {}
 
@@ -338,6 +449,20 @@ def compute_gates(corpus: str, embedder: Embedder | None) -> dict:
       "present (recall@50 = Part 2)", "PASS" if short_gold else "FAIL",
       "recall@50 reported in Part 2 (engine)")
 
+    # ---- R2.2 recall@k per class (engine, Part 2 — frozen-graph retrieve) ----
+    if eng and eng.get("ok"):
+        rc, rn = eng["recall"], eng["recall_n"]
+        ov, sh = rc["overall"], rc["short_comms"]
+        val = (f"overall R@10/20/50 = {ov['@10']}/{ov['@20']}/{ov['@50']} (n={rn['overall']}); "
+               f"short-comms R@50 = {sh['@50']} (n={rn['short_comms']})")
+        gap = (sh['@50'] is not None and ov['@50'] is not None and sh['@50'] < ov['@50'] - 0.1)
+        g("R2.2 recall@k per class", val, "recall@50 logged",
+          "MEASURED" + (" — short-comms gap → embedding/ingestion item" if gap else ""),
+          f"frozen-graph retrieve; K={eng['k_retrieves']} ({', '.join(eng['run_names'][:1])}…)")
+    else:
+        g("R2.2 recall@k per class", "PENDING", "recall@50 logged", "PENDING",
+          "engine gate — pass --engine-runs (K frozen-graph retrieves)")
+
     # ---- R3 authority-conflict pairs (needs authority_class tags) ----
     auth = [q for q in queries.values() if (q.get("metadata") or {}).get("authority_class")]
     if auth:
@@ -365,9 +490,20 @@ def compute_gates(corpus: str, embedder: Embedder | None) -> dict:
     g("R5 trap pairs", str(traps), ">= 80", "PASS" if traps >= 80 else "FAIL",
       "explicit-zero (query,doc) qrels")
 
-    # ---- R6 signal-margin / reorderings (Part 2, engine) ----
-    g("R6 signal-margin / reorderings", "PENDING", "design >= ~1e-2; 0 reorderings",
-      "PENDING", "engine gate — Part 2 via freeze/pilot harness (quiescence_drain + edge_freeze_measure)")
+    # ---- R6 signal-margin / reorderings (engine, Part 2 — frozen graph) ----
+    if eng and eng.get("ok"):
+        mm, nrc = eng["margin_min"], eng["r1_contests"]
+        val = (f"R1 contests={nrc}; margin_min={mm}; knife-edge(<={JITTER})={eng['knife_edge']}; "
+               f"winner-lost={eng['winner_lost']}; reorderings contest/overall="
+               f"{eng['reorder_contests']}/{eng['reorder_overall']} over K={eng['k_retrieves']}")
+        ok_reorder = eng["reorder_overall"] == 0
+        ok_margin = (mm is not None and mm >= MARGIN_DESIGN) if nrc else True
+        status = "PASS" if (ok_reorder and ok_margin) else ("REVIEW" if ok_reorder else "FAIL")
+        g("R6 signal-margin / reorderings", val, "design >= ~1e-2; 0 reorderings", status,
+          "0 reorderings ⇒ reproducible NDCG; any margin < design ⇒ widen the signal margin (re-author)")
+    else:
+        g("R6 signal-margin / reorderings", "PENDING", "design >= ~1e-2; 0 reorderings",
+          "PENDING", "engine gate — Part 2 via freeze/pilot harness (quiescence_drain + edge_freeze_measure)")
 
     # ---- gold human-reviewed ----
     g("gold human-reviewed", "n/a (burned fixture)", "sign-off recorded", "N/A",
@@ -390,7 +526,7 @@ def compute_gates(corpus: str, embedder: Embedder | None) -> dict:
 GATE_ORDER = [
     "R1.1 freshest-is-current rate", "R1.2 current-is-top-cosine rate",
     "R1.3 supersession cue present", "R1.4 temporal mix",
-    "R2.1 short-comms gold present", "R3 authority-conflict pairs",
+    "R2.1 short-comms gold present", "R2.2 recall@k per class", "R3 authority-conflict pairs",
     "R4 cross-doc contradiction pairs", "R5 trap pairs",
     "R6 signal-margin / reorderings", "gold human-reviewed",
 ]
@@ -421,7 +557,14 @@ def main(argv: list[str]) -> int:
     p.add_argument("--out", default=str(OUT_DEFAULT), help="per-corpus report dir (gitignored)")
     p.add_argument("--summary-out", default=None,
                    help="also write a combined cross-corpus §3 summary (e.g. a committed doc)")
+    p.add_argument("--engine-runs", default=None,
+                   help="comma-separated retrieve-run dirs (K retrieves over a FROZEN graph, "
+                        "from the freeze harness) to compute the engine gates R2.2 + R6. "
+                        "Applies to the corpus(es) processed — intended for a single corpus.")
     args = p.parse_args(argv)
+
+    engine_runs = ([Path(p) for p in args.engine_runs.split(",") if p.strip()]
+                   if args.engine_runs else None)
 
     corpora = args.corpora or sorted(
         d.name for d in CORPORA.iterdir() if d.is_dir() and (d / "corpus.jsonl").exists())
@@ -442,7 +585,7 @@ def main(argv: list[str]) -> int:
                      "Static gates (Part 1); R2.2/R6 are engine gates (Part 2).", ""]
     for corpus in corpora:
         print(f"\n=== {corpus} ===")
-        rep = compute_gates(corpus, embedder)
+        rep = compute_gates(corpus, embedder, engine_runs)
         md = render_md(rep)
         (out_dir / f"{corpus}.md").write_text(md, encoding="utf-8")
         (out_dir / f"{corpus}.json").write_text(json.dumps(rep, indent=2, default=str), encoding="utf-8")
