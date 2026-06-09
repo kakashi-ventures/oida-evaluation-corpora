@@ -8,6 +8,10 @@ node_modules/
 docs/oida-core/
 corpora/*/slices/
 
+# eureg-evolution gold (graded qrels answer-key + inline-gold builder) — private, never committed (mirrors raglit/anchor).
+corpora/eureg-evolution/qrels/
+corpora/eureg-evolution/_build_pilot.py
+
 # Internal experiment harness — narrow-tracked from 2026-06-01 (P0-prep).
 # Track ONLY scripts/ + adapters/ + the nested .gitignore + the Regression
 # Evidence-Bundle dir experiments/output/regression/; everything else under
