@@ -1,0 +1,48 @@
+{
+  "corpus": "anchor-oida-history",
+  "stage": "P4-S1 pilot",
+  "frozen_on": "2026-06-09",
+  "base_commit": "3a602b5",
+  "branch": "phase4/anchor-corpus",
+  "note": "Pre-registration freeze: hashes only (no labels). Gold (qrels + annotations) stays gitignored; this manifest pins it so any post-freeze edit is detectable. AI drafts, human IC decides; frozen before the run.",
+  "static_gates": {
+    "R1.1": "100% (4/4)",
+    "R1.2": "0% (0/6)",
+    "R1.3": "100% (5/5)",
+    "R1.4": "fresh50/stable25/distractor25 (n=8)",
+    "R2.1": "5 short-comms gold",
+    "R3": "2 (1:1; M unlocked=REVIEW)",
+    "R4": "3",
+    "R5": "82 traps"
+  },
+  "engine_gates_pending": {
+    "R2.2": "recall@k (frozen-graph retrieve)",
+    "R6": "signal-margin >= 1e-2 + 0 reorderings (R6.2)"
+  },
+  "files": {
+    "corpus.jsonl": {
+      "sha256": "f5e91b8b3fa42e67a74d03b5feb92afa01f883660b76c9a5fca4def97a32797e",
+      "bytes": 22746
+    },
+    "queries.jsonl": {
+      "sha256": "bb7f7ebe3c84680414c451271ef8650d8ce811ed2852ead851e0e4552cdd9e85",
+      "bytes": 2740
+    },
+    "qrels/test.tsv": {
+      "sha256": "0183430feff26cd858dc6f335f6a1a1b8e772ce6ed963770d269b60835255461",
+      "bytes": 4776
+    },
+    "annotations/temporal_queries.json": {
+      "sha256": "2cd4ded640d6ae3084bc223696acde2d92bbe095003771a44159f3cf35951683",
+      "bytes": 4107
+    },
+    "annotations/supersession_chains.json": {
+      "sha256": "1f9f644d4d8f8ebeab6260b5a59acb1e05d66ca8a1b603bf088ea733d50ca7a6",
+      "bytes": 1146
+    },
+    "annotations/contra_sets.json": {
+      "sha256": "a1cda41fcecde0aaeebac3a76ded0cf9243f4cd77cad51d05185b3857c9c5b3c",
+      "bytes": 1101
+    }
+  }
+}
