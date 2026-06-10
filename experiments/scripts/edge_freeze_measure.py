@@ -105,13 +105,14 @@ def _ndcg10(corpus: str, run_id: str, log_lines: list[str]) -> float | None:
 
 def _drain_one(corpus: str, base_url: str, service_id: str, render_key: str,
                bundle: Path, log_lines: list[str], floor: int, max_wait: int,
-               interval: int) -> dict:
+               interval: int, settle_polls: int, settle_residual_max: int) -> dict:
     """Quiescence-drain scoped to ONE corpus's project + snapshot its fingerprint."""
     proj = OIDA_CORE_PROJECT_IDS[corpus]
     return rr.quiescence_drain(
         base_url, service_id, render_key, bundle, log_lines,
         project_ids=[proj], max_wait_sec=max_wait, interval_sec=interval,
-        floor_sec=floor, project_filter=proj)
+        floor_sec=floor, settle_polls=settle_polls,
+        settle_residual_max=settle_residual_max, project_filter=proj)
 
 
 def _fingerprint_of(drain_rep: dict, corpus: str) -> dict | None:
@@ -176,6 +177,11 @@ def main(argv: list[str]) -> int:
     floor = _knob("OIDA_CORE_SETTLE_SEC", rr.QUIESCENCE_FLOOR_SEC)
     max_wait = _knob("OIDA_CORE_QUIESCENCE_MAX_WAIT_SEC", rr.QUIESCENCE_MAX_WAIT_SEC)
     interval = _knob("OIDA_CORE_QUIESCENCE_INTERVAL_SEC", rr.QUIESCENCE_INTERVAL_SEC)
+    # Settled-quiescence knobs (a wedged/orphaned edge-detection job pins queue>0
+    # forever; declare quiescence when the graph fingerprint is byte-stable across
+    # settle_polls probes with a small residual queue — see quiescence_drain).
+    settle_polls = _knob("OIDA_CORE_QUIESCENCE_SETTLE_POLLS", 4)
+    settle_residual_max = _knob("OIDA_CORE_QUIESCENCE_SETTLE_RESIDUAL_MAX", 8)
 
     ts = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     bundle = rr.OUTPUT / "edge-freeze" / f"{args.corpus}-{ts}"
@@ -183,7 +189,8 @@ def main(argv: list[str]) -> int:
     log_lines: list[str] = [f"# edge_freeze_measure corpus={args.corpus} ts={ts} STAGING"]
 
     print(f"\n############ edge-freeze measure — corpus={args.corpus} ts={ts} (STAGING) ############")
-    print(f"  drain tuning: floor={floor}s max_wait={max_wait}s interval={interval}s")
+    print(f"  drain tuning: floor={floor}s max_wait={max_wait}s interval={interval}s "
+          f"settle_polls={settle_polls} settle_residual_max={settle_residual_max}")
     print(f"  base_url={base_url}  k={args.k}  within_run_only={args.within_run_only}")
 
     preflight_rep = rr.preflight(env, base_url, render_key)
@@ -217,7 +224,8 @@ def main(argv: list[str]) -> int:
                 print("!!! ingest failed — ABORT")
                 return 1
         drain_rep = _drain_one(args.corpus, base_url, service_id, render_key,
-                               bundle, log_lines, floor, max_wait, interval)
+                               bundle, log_lines, floor, max_wait, interval,
+                               settle_polls, settle_residual_max)
         fp = _fingerprint_of(drain_rep, args.corpus)
 
         # D5 MUST #2 — edges MUST materialize on staging. If the clean-ingest

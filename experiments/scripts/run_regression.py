@@ -92,8 +92,21 @@ STAGING_BASE_URL = "https://oida-core-staging.onrender.com"
 STAGING_SERVICE_ID = "srv-d8glh4n7f7vs73etcbs0"
 STAGING_DB_ID = "dpg-d8glgo8g4nts739pvjl0-a"
 
+# Burned dev set — the 5 corpora this regression harness RESETs / ingests / scores.
+# Fresh corpora (anchor/eureg/raglit) are EXCLUDED here: they have their own
+# pre-registered runs (edge_freeze_measure for the anchor pilot). Including a fresh
+# corpus would (a) RESET-wipe a frozen pilot graph and (b) try to ingest corpus files
+# absent from this checkout. (`--corpora fresh` is not implemented — see main().)
+BURNED_CORPORA = [
+    "org-consulting-clearpath", "org-iot-fireglass", "org-vc-vertexminds",
+    "inv-mystery-redhood", "inv-ashford-mystery",
+]
+
 # RESET one-off job command (runs inside Render where DATABASE_URL is reachable).
-RESET_START_COMMAND = "RESET_BENCH_KOS=1 npx tsx scripts/seed-bench-projects.ts"
+# Scoped via BENCH_SEED_ONLY to the burned slugs so a fresh-corpus project
+# (e.g. oida-anchor) is NEVER wiped by a burned regression run.
+_BURNED_SLUGS = ",".join(OIDA_CORE_PROJECT_IDS[c].replace("oida-", "") for c in BURNED_CORPORA)
+RESET_START_COMMAND = f"RESET_BENCH_KOS=1 BENCH_SEED_ONLY={_BURNED_SLUGS} npx tsx scripts/seed-bench-projects.ts"
 
 # The seed script prints exactly this when NO new plaintext was minted (all bench
 # keys already existed) — the only SAFE outcome for a regression run.
@@ -148,7 +161,7 @@ REQUIRED_ENV_KEYS = [
 ]
 
 SYSTEM = "oida-core"
-ALL_CORPORA = list(OIDA_CORE_PROJECT_IDS.keys())  # the canonical 5, ordered
+ALL_CORPORA = [c for c in OIDA_CORE_PROJECT_IDS if c in set(BURNED_CORPORA)]  # burned 5 ONLY; fresh corpora (anchor/...) excluded — see BURNED_CORPORA above
 MICRO_PROBE_CORPUS = "org-consulting-clearpath"
 
 NDCG10_TOLERANCE = 0.005
@@ -801,7 +814,7 @@ def _read_ingest_report(corpus: str) -> dict:
 
 def clean_ingest(log_lines: list[str]) -> dict:
     print("\n===================== CLEAN-INGEST (oida-core, 5 corpora) =====================")
-    rc, _ = _run_script("01_ingest.py", ["--system", SYSTEM], log_lines)
+    rc, _ = _run_script("01_ingest.py", ["--system", SYSTEM, *ALL_CORPORA], log_lines)  # explicit burned-5 scope (subprocess else iterates the shared adapter map incl. oida-anchor)
     if rc != 0:
         print("!!! 01_ingest.py failed — ABORT")
         sys.exit(EXIT_INGEST)
@@ -924,7 +937,14 @@ def _project_snapshot_key(by_project: list | None) -> dict:
 def _frozen_graph_md(snap: dict) -> str:
     out = ["# frozen_graph.md — edge-graph freeze (D5 MUST #1)", ""]
     out.append(f"- quiescent: **{snap.get('quiescent')}**  "
-               f"(band_fallback: {snap.get('band_fallback')})")
+               f"(mode: {snap.get('quiescence_mode')}, "
+               f"wedged residual: {snap.get('queue_residual')}, "
+               f"band_fallback: {snap.get('band_fallback')})")
+    if snap.get("quiescence_mode") == "settled":
+        out.append(f"  - **SETTLED**: graph fingerprint byte-stable across the settle "
+                   f"window with {snap.get('queue_residual')} edge-detection job(s) "
+                   "WEDGED (orphaned, not mutating the graph). Sweeps ran on the "
+                   "settled graph; the snapshot is reproducible.")
     out.append(f"- elapsed: {snap.get('elapsed_sec')}s over {snap.get('iterations')} probe(s)")
     final = snap.get("final_probe") or {}
     totals = final.get("totals") or {}
@@ -954,6 +974,7 @@ def quiescence_drain(base_url: str, service_id: str, render_key: str,
                      bundle: Path, log_lines: list[str], *,
                      project_ids: list[str], max_wait_sec: int,
                      interval_sec: int, floor_sec: int,
+                     settle_polls: int = 4, settle_residual_max: int = 8,
                      project_filter: str = PROBE_PROJECT_FILTER,
                      run_sweeps: bool = True) -> dict:
     """Wait for TRUE edge-graph quiescence, then snapshot the frozen graph.
@@ -968,15 +989,20 @@ def quiescence_drain(base_url: str, service_id: str, render_key: str,
     into the bundle. On hard timeout -> band_fallback=True (the caller then
     reports a run-to-run variance band, never a bare point NDCG)."""
     print("\n===================== QUIESCENCE DRAIN (edge-graph freeze) =====================")
-    print("  Poll the READ-ONLY probe until queue==0 AND Edge+Contradiction counts/")
-    print("  fingerprints are stable across two probes — then snapshot the frozen graph.")
+    print("  Poll the READ-ONLY probe until the graph fingerprint stops moving:")
+    print("    DRAINED  = queue==0 + Edge/Contradiction fingerprint stable (2 probes), or")
+    print(f"    SETTLED  = fingerprint byte-stable across {settle_polls} probes with a wedged")
+    print(f"               residual queue (<= {settle_residual_max}) — then snapshot + sweep.")
     probe_cmd = _probe_start_command(project_filter)
     t0 = time.time()
     owner_id = _resolve_owner_id(service_id, render_key)
     history: list[dict] = []
-    last_key: dict | None = None
+    last_combo: tuple | None = None
+    stable_polls = 0
     quiescent = False
     band_fallback = False
+    quiescence_mode = "timeout_band"   # "drained" | "settled" | "timeout_band"
+    queue_residual = 0                 # wedged jobs at the moment we froze
 
     if floor_sec > 0:
         time.sleep(floor_sec)  # let the first wave of fire-and-forget writes land
@@ -994,20 +1020,48 @@ def quiescence_drain(base_url: str, service_id: str, render_key: str,
             totals = probe.get("totals", {})
             key = _project_snapshot_key(probe.get("by_project", []))
             queue_zero = bool(probe.get("queue_zero"))
-            stable = queue_zero and last_key is not None and key == last_key
+            # Combined fingerprint = graph (per-project Edge+Contradiction fps) AND
+            # queue depth. ANY movement — a draining queue OR a churning graph —
+            # changes it and resets the window, so we only declare quiescence when
+            # NOTHING has moved for the whole settle window.
+            combo = (key, qpi)
+            if last_combo is not None and combo == last_combo:
+                stable_polls += 1
+            else:
+                stable_polls = 1
+            last_combo = combo
+            # DRAINED: the clean case — queue truly empty + graph stable (2 polls).
+            drained = queue_zero and stable_polls >= 2
+            # SETTLED: the graph has stopped changing but a small residual queue is
+            # WEDGED (an orphaned edge-detection job that never completes and never
+            # mutates the graph) — queue==0 is then structurally unreachable. Require
+            # a LONGER zero-movement window (settle_polls) + a small residual so a
+            # real backlog (still draining → combo changes → counter resets) can
+            # never be mistaken for quiescence. The wedge is recorded honestly.
+            settled = (not queue_zero
+                       and qpi is not None and 0 < qpi <= settle_residual_max
+                       and stable_polls >= settle_polls)
+            stable = drained or settled
             history.append({"t": elapsed, "ok": True, "queue": q,
                             "queue_zero": queue_zero, "totals": totals,
+                            "stable_polls": stable_polls,
+                            "drained": drained, "settled": settled,
                             "stable_vs_prev": stable})
             print(f"  [{elapsed}s] queue(q+inflight)={qpi} edges={totals.get('edges')} "
                   f"contradictions={totals.get('contradictions')} "
-                  f"open={totals.get('open_contradictions')} stable={stable}")
+                  f"open={totals.get('open_contradictions')} "
+                  f"stable={stable} (polls={stable_polls}/{settle_polls} "
+                  f"drained={drained} settled={settled})")
             if stable:
                 quiescent = True
+                quiescence_mode = "drained" if drained else "settled"
+                queue_residual = 0 if drained else int(qpi or 0)
                 break
-            # reset the stability window if churn is still in progress
-            last_key = key if queue_zero else None
         if time.time() - t0 > max_wait_sec:
             band_fallback = True
+            quiescence_mode = "timeout_band"
+            queue_residual = int(((history[-1].get("queue") or {})
+                                  .get("queued_plus_inflight") or 0)) if history else 0
             print(f"  !!! quiescence not reached within {max_wait_sec}s — VARIANCE-BAND FALLBACK")
             break
         time.sleep(interval_sec)
@@ -1035,6 +1089,7 @@ def quiescence_drain(base_url: str, service_id: str, render_key: str,
 
     snapshot = {
         "quiescent": quiescent, "band_fallback": band_fallback,
+        "quiescence_mode": quiescence_mode, "queue_residual": queue_residual,
         "elapsed_sec": elapsed, "iterations": len(history),
         "final_probe": final, "queue_history": history, "sweeps": sweeps,
     }
@@ -1042,23 +1097,30 @@ def quiescence_drain(base_url: str, service_id: str, render_key: str,
         json.dumps(snapshot, indent=2), encoding="utf-8")
     (bundle / "frozen_graph.md").write_text(_frozen_graph_md(snapshot), encoding="utf-8")
 
-    label = ("edge-graph quiescence reached (queue==0 + stable Edge/Contradiction "
-             "fingerprints) — frozen graph snapshotted"
-             if quiescent else
-             "QUIESCENCE NOT REACHED within budget — variance-band fallback "
-             "(report a run-to-run band, never a bare point NDCG)")
+    if quiescent and quiescence_mode == "drained":
+        label = ("edge-graph quiescence reached (queue==0 + stable Edge/Contradiction "
+                 "fingerprints) — frozen graph snapshotted")
+    elif quiescent:  # settled
+        label = (f"edge-graph SETTLED (graph fingerprint stable across {settle_polls} "
+                 f"probes; {queue_residual} edge-detection job(s) WEDGED but not "
+                 "mutating the graph) — frozen graph snapshotted, sweeps ran")
+    else:
+        label = ("QUIESCENCE NOT REACHED within budget — variance-band fallback "
+                 "(report a run-to-run band, never a bare point NDCG)")
     rep = {
         # backward-compatible keys (consumed by _write_notes / run_manifest.json)
         "settle_sec_param": max_wait_sec, "settle_sec_actual": elapsed,
         "health_after": st_h, "health_ok": health_ok, "label": label,
         # new quiescence fields
         "quiescent": quiescent, "band_fallback": band_fallback,
+        "quiescence_mode": quiescence_mode, "queue_residual": queue_residual,
         "iterations": len(history), "sweeps": sweeps,
         "final_totals": (final or {}).get("totals"),
         "final_by_project": (final or {}).get("by_project"),
     }
     log_lines.append(
-        f"# quiescence drain: quiescent={quiescent} band_fallback={band_fallback} "
+        f"# quiescence drain: quiescent={quiescent} mode={quiescence_mode} "
+        f"residual={queue_residual} band_fallback={band_fallback} "
         f"elapsed={elapsed}s health={st_h} iters={len(history)}")
     print(f"  {label}")
     print(f"  elapsed={elapsed}s iters={len(history)} /health -> {st_h}")
@@ -1077,29 +1139,32 @@ def retrieve_and_layers(run_id: str, log_lines: list[str]) -> dict:
     print(f"\n===================== RETRIEVE + LAYERS (RUN_ID={run_id}) =====================")
     rep: dict = {"run_id": run_id, "steps": {}}
 
-    rc, _ = _run_script("02_retrieve.py", ["--system", SYSTEM, "--run-id", run_id], log_lines)
+    # All per-corpus subprocesses are scoped EXPLICITLY to the burned 5 (*ALL_CORPORA);
+    # without it they fall back to the shared adapter map (CORPUS_TO_PROJECT_SLUG), which
+    # now includes oida-anchor (PR #20) and would leak the fresh pilot into this run.
+    rc, _ = _run_script("02_retrieve.py", ["--system", SYSTEM, "--run-id", run_id, *ALL_CORPORA], log_lines)
     rep["steps"]["02_retrieve"] = rc
     if rc != 0:
         sys.exit(EXIT_LAYER)
 
     rc, _ = _run_script("03_eval_static_ir.py",
-                        ["--run-id", run_id, "--system", SYSTEM], log_lines)
+                        ["--run-id", run_id, "--system", SYSTEM, *ALL_CORPORA], log_lines)
     rep["steps"]["03_static_ir"] = rc
     if rc != 0:
         sys.exit(EXIT_LAYER)
 
-    rc, _ = _run_script("04_eval_adversarial.py", ["--system", SYSTEM], log_lines)
+    rc, _ = _run_script("04_eval_adversarial.py", ["--system", SYSTEM, *ALL_CORPORA], log_lines)
     rep["steps"]["04_adversarial"] = rc
 
     # 05 dry-run: headline (b) is judge-free, runs in both modes.
     rc, _ = _run_script("05_eval_stance_abstention.py",
-                        ["--dry-run", "--system", SYSTEM], log_lines)
+                        ["--dry-run", "--system", SYSTEM, *ALL_CORPORA], log_lines)
     rep["steps"]["05_stance_dry_run"] = rc
 
-    rc, _ = _run_script("06_eval_temporal.py", ["--system", SYSTEM], log_lines)
+    rc, _ = _run_script("06_eval_temporal.py", ["--system", SYSTEM, *ALL_CORPORA], log_lines)
     rep["steps"]["06_temporal"] = rc
 
-    rc, _ = _run_script("07_collect_telemetry.py", ["--system", SYSTEM], log_lines)
+    rc, _ = _run_script("07_collect_telemetry.py", ["--system", SYSTEM, *ALL_CORPORA], log_lines)
     rep["steps"]["07_telemetry"] = rc
     return rep
 
