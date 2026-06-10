@@ -1673,19 +1673,28 @@ def _write_notes(bundle: Path, drain_rep: dict) -> None:
 
 
 def _write_graph_composition(bundle: Path) -> None:
-    lines = [
-        "# graph_composition.md",
-        "",
-        "**STUB — Phase-1+.** Edges-by-type and the cross- vs intra-document edge",
-        "ratio are produced once Phase 1 builds the cross-document epistemic graph.",
-        "",
-        "Today (Phase 0) the OIDA graph is intra-document only: cross-document",
-        "`contradicts`/`supersedes` edges are NOT yet formed, so the cross-document",
-        "edge ratio is ~0 BY DESIGN. The adapter already retains the contradiction-edge",
-        "fields (P0-S6) so this section can be populated without re-plumbing once the",
-        "edges exist. No edge-composition claim is made for Phase 0.",
-    ]
-    (bundle / "graph_composition.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
+    """Real graph-attribution decomposition (GC/RR/CF, paper §5.1.4) per corpus,
+    + the aggregate F-2-ATTRIB gate (mean GC >= 0.60). Replaces the Phase-0 stub.
+    Graceful: a corpus with no data is noted, not fatal (the bundle still writes)."""
+    import graph_attribution as ga  # same scripts/ dir; SCRIPTS already on sys.path
+    sections = ["# graph_composition.md — attribution decomposition (GC/RR/CF)", ""]
+    gc_means: list[float] = []
+    for corpus in ALL_CORPORA:
+        try:
+            res = ga.compute_attribution(corpus, SYSTEM)
+            sections.append(ga.render_md(res))
+            gc = res["means"]["GC"]
+            if gc is not None:
+                gc_means.append(gc)
+        except Exception as e:  # noqa: BLE001 — never let attribution abort the bundle
+            sections.append(f"## {corpus}: attribution unavailable ({type(e).__name__}: {e})\n")
+    if gc_means:
+        agg = sum(gc_means) / len(gc_means)
+        verdict = "PASS" if agg >= ga.GC_FLOOR else "FAIL"
+        sections.insert(1, f"**F-2-ATTRIB across {len(gc_means)} corpora: mean GC = "
+                           f"{round(agg, 4)} → {verdict}** (floor {ga.GC_FLOOR}; below it, "
+                           "all downstream metrics are conditional on extraction quality).\n")
+    (bundle / "graph_composition.md").write_text("\n".join(sections) + "\n", encoding="utf-8")
 
 
 # ---------------------------------------------------------------------------
