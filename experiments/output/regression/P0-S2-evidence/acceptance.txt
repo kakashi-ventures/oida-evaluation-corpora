@@ -1,0 +1,11 @@
+ok: old clause removed
+ok: Status heading
+ok: degenerate-config
+ok: ISO date
+ok: do-not-cite
+ok: pending Phase-4
+ok: conjectured
+ok: strong quoted
+ok: refut quoted
+ok: null-vs-architecture
+ACCEPTANCE: PASS
