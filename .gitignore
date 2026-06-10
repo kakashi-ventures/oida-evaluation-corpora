@@ -32,5 +32,9 @@ experiments/systems/
 experiments/runs/
 experiments/reports/
 experiments/*.md
+# Pre-registration plans ARE committed (their integrity = a timestamped, immutable
+# commitment before the run; "Evidence: the committed plan diff" — roadmap P4-S2).
+# Methodology only (no gold/answer-key). Re-included AFTER the experiments/*.md deny.
+!experiments/EXPERIMENT_PLAN_v2.md
 /scripts/
 tobefixed/
