@@ -8,6 +8,12 @@ node_modules/
 docs/oida-core/
 corpora/*/slices/
 
+# Fresh Phase-4 corpus GOLD stays private until the pre-registered run (P4-S2).
+# Public (committed): corpus.jsonl + queries.jsonl + README.md + FREEZE.json (hashes only).
+# Gold (never committed): qrels relevance judgments + the local builder that embeds
+# them. Full gold also lives in experiments/annotations/ (ignored below).
+corpora/anchor-oida-history/qrels/
+corpora/anchor-oida-history/_build_pilot.py
 # eureg-evolution gold (graded qrels answer-key + inline-gold builder) — private, never committed (mirrors raglit/anchor).
 corpora/eureg-evolution/qrels/
 corpora/eureg-evolution/_build_pilot.py
@@ -36,5 +42,9 @@ experiments/systems/
 experiments/runs/
 experiments/reports/
 experiments/*.md
+# Pre-registration plans ARE committed (their integrity = a timestamped, immutable
+# commitment before the run; "Evidence: the committed plan diff" — roadmap P4-S2).
+# Methodology only (no gold/answer-key). Re-included AFTER the experiments/*.md deny.
+!experiments/EXPERIMENT_PLAN_v2.md
 /scripts/
 tobefixed/

@@ -1,0 +1,356 @@
+{
+  "$schema_version": "2",
+  "corpus_id": "org-consulting-clearpath",
+  "system": "oida-core",
+  "system_version": "angelica-db@d1cad80b",
+  "run_id": "20260604T072402Z",
+  "dataset_version": "v2.1.0",
+  "common_setup": {
+    "embedder": "openai/text-embedding-3-small",
+    "ingest_llm": "(OIDA deployed default)",
+    "stance_judge_llm": null,
+    "top_k_reported": [
+      1,
+      5,
+      10,
+      20
+    ],
+    "retrieve_top_k_used": 100,
+    "retrieve_v0_thresholds": {
+      "tauBind": 0.2,
+      "tauFallback": 0.1
+    }
+  },
+  "layer_1_static_ir": {
+    "ndcg": {
+      "1": 0.23076923076923078,
+      "5": 0.37827739370608904,
+      "10": 0.458634513770385,
+      "20": 0.4929348826920885
+    },
+    "recall": {
+      "5": 0.4108974358974359,
+      "10": 0.5987179487179486,
+      "100": 0.6974358974358974
+    },
+    "map": {
+      "10": 0.3408343508343509
+    },
+    "precision": {
+      "1": 0.38461538461538464,
+      "5": 0.31538461538461543
+    }
+  },
+  "layer_2_adversarial": {
+    "contradiction_recall_at_10": 0.75,
+    "mean_rank_binding": 2.8,
+    "superseded_above_rate": 0.0,
+    "trap_in_top_5": 0.6666666666666666,
+    "n_contradiction_queries": 4,
+    "n_supersession_queries": 5,
+    "n_trap_pairs": 3
+  },
+  "layer_3_stance_abstention": {
+    "stance_accuracy": null,
+    "stance_macro_f1": null,
+    "contradiction_recall": null,
+    "stance_coverage": null,
+    "epistemic_abstention_accuracy": null,
+    "false_commitment_rate": null,
+    "false_ignorance_rate": null,
+    "selective_stance_precision": null,
+    "abstention_commitment_balance": null,
+    "epistemic_risk_score": null,
+    "n_gold_nei": 0,
+    "n_false_commitments": 0,
+    "n_false_ignorance": 0,
+    "n_non_neutral_predictions": 0,
+    "stance_accuracy_status": "retired/diagnostic-only",
+    "stance_evidence_recall": {
+      "headline": true,
+      "proxy_label": "proxy (score-3, 28 stance_doc_ids missing)",
+      "ks": [
+        5,
+        10
+      ],
+      "n_sc_queries": 12,
+      "n_nei_excluded": 1,
+      "5": {
+        "stance_recall_any": 0.5,
+        "stance_recall_all": 0.4166666666666667,
+        "contra_all_sides": 0.3333333333333333,
+        "n_contra_with_sides": 3,
+        "per_query": {
+          "q01": {
+            "recall_any": 1.0,
+            "recall_all": 0.5,
+            "all_sides": null,
+            "hit": [
+              "05-meetings/meeting-005-final-presentation"
+            ]
+          },
+          "q03": {
+            "recall_any": 1.0,
+            "recall_all": 1.0,
+            "all_sides": 1.0,
+            "hit": [
+              "02-subject/observation-002-client-intake",
+              "02-subject/observation-002-v2-client-intake"
+            ]
+          },
+          "q04": {
+            "recall_any": 1.0,
+            "recall_all": 1.0,
+            "all_sides": null,
+            "hit": [
+              "05-meetings/meeting-005-final-presentation",
+              "07-documents/report-final"
+            ]
+          },
+          "q05": {
+            "recall_any": 1.0,
+            "recall_all": 0.5,
+            "all_sides": null,
+            "hit": [
+              "04-external-comms/email/email-external-011"
+            ]
+          },
+          "q06": {
+            "recall_any": 0.0,
+            "recall_all": 0.0,
+            "all_sides": null,
+            "hit": []
+          },
+          "q07": {
+            "recall_any": 0.0,
+            "recall_all": 0.0,
+            "all_sides": null,
+            "hit": []
+          },
+          "q08": {
+            "recall_any": 0.0,
+            "recall_all": 0.0,
+            "all_sides": null,
+            "hit": []
+          },
+          "q09": {
+            "recall_any": 1.0,
+            "recall_all": 1.0,
+            "all_sides": null,
+            "hit": [
+              "02-subject/observation-003-audit-workflow"
+            ]
+          },
+          "q10": {
+            "recall_any": 0.0,
+            "recall_all": 0.0,
+            "all_sides": null,
+            "hit": []
+          },
+          "q16": {
+            "recall_any": 0.0,
+            "recall_all": 0.0,
+            "all_sides": 0.0,
+            "hit": []
+          },
+          "q19": {
+            "recall_any": 0.0,
+            "recall_all": 0.0,
+            "all_sides": 0.0,
+            "hit": []
+          },
+          "q25": {
+            "recall_any": 1.0,
+            "recall_all": 1.0,
+            "all_sides": null,
+            "hit": [
+              "05-meetings/meeting-003-interim-review"
+            ]
+          }
+        }
+      },
+      "10": {
+        "stance_recall_any": 0.8333333333333334,
+        "stance_recall_all": 0.7083333333333334,
+        "contra_all_sides": 0.6666666666666666,
+        "n_contra_with_sides": 3,
+        "per_query": {
+          "q01": {
+            "recall_any": 1.0,
+            "recall_all": 0.5,
+            "all_sides": null,
+            "hit": [
+              "05-meetings/meeting-005-final-presentation"
+            ]
+          },
+          "q03": {
+            "recall_any": 1.0,
+            "recall_all": 1.0,
+            "all_sides": 1.0,
+            "hit": [
+              "02-subject/observation-002-client-intake",
+              "02-subject/observation-002-v2-client-intake"
+            ]
+          },
+          "q04": {
+            "recall_any": 1.0,
+            "recall_all": 1.0,
+            "all_sides": null,
+            "hit": [
+              "05-meetings/meeting-005-final-presentation",
+              "07-documents/report-final"
+            ]
+          },
+          "q05": {
+            "recall_any": 1.0,
+            "recall_all": 0.5,
+            "all_sides": null,
+            "hit": [
+              "04-external-comms/email/email-external-011"
+            ]
+          },
+          "q06": {
+            "recall_any": 1.0,
+            "recall_all": 1.0,
+            "all_sides": null,
+            "hit": [
+              "03-internal-comms/email/email-internal-003",
+              "03-internal-comms/email/email-internal-004"
+            ]
+          },
+          "q07": {
+            "recall_any": 0.0,
+            "recall_all": 0.0,
+            "all_sides": null,
+            "hit": []
+          },
+          "q08": {
+            "recall_any": 1.0,
+            "recall_all": 1.0,
+            "all_sides": null,
+            "hit": [
+              "03-internal-comms/email/email-internal-003"
+            ]
+          },
+          "q09": {
+            "recall_any": 1.0,
+            "recall_all": 1.0,
+            "all_sides": null,
+            "hit": [
+              "02-subject/observation-003-audit-workflow"
+            ]
+          },
+          "q10": {
+            "recall_any": 0.0,
+            "recall_all": 0.0,
+            "all_sides": null,
+            "hit": []
+          },
+          "q16": {
+            "recall_any": 1.0,
+            "recall_all": 0.5,
+            "all_sides": 0.0,
+            "hit": [
+              "02-subject/observation-005-knowledge-sharing"
+            ]
+          },
+          "q19": {
+            "recall_any": 1.0,
+            "recall_all": 1.0,
+            "all_sides": 1.0,
+            "hit": [
+              "05-meetings/meeting-005-final-presentation",
+              "07-documents/report-final"
+            ]
+          },
+          "q25": {
+            "recall_any": 1.0,
+            "recall_all": 1.0,
+            "all_sides": null,
+            "hit": [
+              "05-meetings/meeting-003-interim-review"
+            ]
+          }
+        }
+      }
+    },
+    "evidence_grounded_stance": {
+      "headline": false,
+      "status": "secondary; requires OPENAI_API_KEY; not run in gate",
+      "values": null
+    }
+  },
+  "layer_4_temporal": {
+    "cutoffs": [
+      "2025-09-30",
+      "2025-11-01",
+      "2025-12-15"
+    ],
+    "ndcg_at_10_per_cutoff": [
+      0.4622955526728202,
+      0.38592230842487146,
+      0.4190395212173215
+    ],
+    "temporal_ndcg_at_10_b0_similarity": 0.49711078000433095,
+    "temporal_ndcg_at_10_b2_full_oida": 0.43294333960263026,
+    "temporal_ndcg_lift_b2_minus_b0": -0.06416744040170069,
+    "current_state_accuracy_at_1": 0.2,
+    "current_state_accuracy_at_5": 0.7333333333333333,
+    "current_state_accuracy_at_10": 0.9333333333333333,
+    "superseded_leakage_at_10": 0.14615384615384616,
+    "temporal_ndcg_at_10": 0.43294333960263026,
+    "stable_knowledge_retention_at_10": 0.5,
+    "freshness_overbias_rate": 0.5,
+    "lifecycle_ranking_agreement": 0.6035215543412265,
+    "as_of_accuracy_at_10": null,
+    "decay_sensitivity_pairwise": null,
+    "reinforcement_lift_mean": null,
+    "n_current_state_queries": 15,
+    "n_stable_knowledge_queries": 4
+  },
+  "layer_5_practicality": {
+    "ingest_wall_clock_sec_per_doc_median": 6.360341374500422,
+    "retrieve_latency_ms_p50": 1737.9138329997659,
+    "retrieve_latency_ms_p95": 3022.2516669891775,
+    "retrieve_cost_usd_per_query_median": 0.0,
+    "ingest_cost_usd_total": null
+  },
+  "f_conditions": {
+    "F-TEMP-1": {
+      "passed": true,
+      "value": 0.9333333333333333,
+      "threshold": 0.8
+    },
+    "F-TEMP-2": {
+      "passed": false,
+      "value": 0.14615384615384616,
+      "threshold": 0.1
+    },
+    "F-TEMP-4": {
+      "passed": false,
+      "value": 0.5,
+      "threshold": 0.75
+    },
+    "F-TEMP-5": {
+      "passed": false,
+      "value": 0.5,
+      "threshold": 0.15
+    },
+    "F-TEMP-6": {
+      "passed": false,
+      "value": 0.6035215543412265,
+      "threshold": 0.7
+    },
+    "F-TEMP-7": {
+      "passed": false,
+      "value": -0.0642,
+      "threshold": 0.1,
+      "b2_full_oida": 0.4329,
+      "b0_similarity": 0.4971
+    }
+  },
+  "n_queries_total": 26,
+  "n_queries_with_gold": 26,
+  "n_queries_with_retrieved_docs": 26,
+  "notes": "Layer 1 only. Retrieve run used OIDA v0 (tauBind=0.2, tauFallback=0.1). top_k=100; Recall@100 is measurable (run reached top_k>=100). 0 queries returned empty subgraph from OIDA. Remediated run on the oida-core deploy: per-corpus project isolation (each corpus in its own project, not the shared default), widened server-side commit transaction window, and /health warm-up (tobefixed/REMEDIATION.md items A/C/E). This is the fair-conditions OIDA comparison surface; see experiments/EXPERIMENT_PLAN.md §1 (oida-core row)."
+}

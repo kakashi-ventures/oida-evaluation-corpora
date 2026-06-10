@@ -1,0 +1,13 @@
+{"_id": "q01", "text": "What retrieval mode was finally ratified for the Phase-4 run-1 test of the epistemic signals as the ranker?", "metadata": {"tests": "mode_evolution", "difficulty": "hard", "temporal_class": "freshness"}}
+{"_id": "q02", "text": "How was the edge-graph freeze ultimately achieved so ranking is reproducible, and what happened to the pin/reload option?", "metadata": {"tests": "edge_freeze_evolution", "difficulty": "hard", "temporal_class": "freshness"}}
+{"_id": "q03", "text": "Is aggregate NDCG@10 the headline success metric for Phase-4, or was that changed?", "metadata": {"tests": "success_metric_evolution", "difficulty": "medium", "temporal_class": "freshness"}}
+{"_id": "q04", "text": "Does contradiction-exposure enter the uncertainty aggregate via re-normalization or via a fixed weight?", "metadata": {"tests": "contradiction_aggregate_evolution", "difficulty": "hard", "temporal_class": "freshness"}}
+{"_id": "q05", "text": "What is the layer-ownership invariant between storage (EpistemicDB/AngelicaDB), the OIDA engine, Minerva, and the product (Vesta)?", "metadata": {"tests": "architecture_invariant_stable", "difficulty": "medium", "temporal_class": "stable"}}
+{"_id": "q06", "text": "Who holds final authority over the gold relevance labels — may the drafting model assign them itself?", "metadata": {"tests": "gold_protocol_stable", "difficulty": "medium", "temporal_class": "stable"}}
+{"_id": "q07", "text": "Is the regime term used as a ranking lever in Phase-4 run-1?", "metadata": {"tests": "regime_dropped_distractor", "difficulty": "hard", "temporal_class": "distractor"}}
+{"_id": "q08", "text": "What signals are in scope for Phase-4 run-1 — does it include the authority x relevance redesign?", "metadata": {"tests": "run1_scope_distractor", "difficulty": "hard", "temporal_class": "distractor"}}
+{"_id": "q09", "text": "Did the ingest pipeline materialize cross-document edges cleanly, or did edge-detection silently fail?", "metadata": {"tests": "ingest_clean_vs_failed", "difficulty": "hard"}}
+{"_id": "q10", "text": "Did the triggering run demonstrate OIDA's time/truth-aware strength?", "metadata": {"tests": "degenerate_run_claim", "difficulty": "medium"}}
+{"_id": "q11", "text": "Is the eval-main branch unchanged at commit b98dad6?", "metadata": {"tests": "eval_main_sha", "difficulty": "medium"}}
+{"_id": "q12", "text": "Which decision record carries the binding authority for the run-1 mode selection?", "metadata": {"tests": "authority_is_answer", "difficulty": "medium", "authority_class": "ii"}}
+{"_id": "q13", "text": "What is the resolved edge-freeze approach in effect today?", "metadata": {"tests": "authority_not_answer", "difficulty": "hard", "authority_class": "i"}}

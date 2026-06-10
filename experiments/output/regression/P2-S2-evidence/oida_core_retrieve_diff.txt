@@ -1,0 +1,95 @@
+diff --git a/src/server/routes/retrieve.ts b/src/server/routes/retrieve.ts
+index 10afb62..3f697c6 100644
+--- a/src/server/routes/retrieve.ts
++++ b/src/server/routes/retrieve.ts
+@@ -70,6 +70,10 @@ type KnowledgeObjectRow = {
+   status?: string | null
+   forgettingStatus?: string | null
+   temporalStatus?: string | null
++  // P2-S2: present at runtime (fetchKosByIds uses findMany with no `select`,
++  // so all columns are returned); absent from this TS type before P2-S2.
++  // Read-only here — surfaced as response metadata, never written or ranked on.
++  effectiveDate?: Date | null
+   actorId?: string | null
+   actor?: ActorRow | null
+   metadata?: unknown
+@@ -520,7 +524,67 @@ function isDecayedKo(ko: KnowledgeObjectRow): boolean {
+   return (ko.decayScore ?? 1) <= 0 || ko.temporalStatus === 'OBSOLETE'
+ }
+ 
+-function projectFullKo(
++/**
++ * P2-S2 — FALSIFICATION CONTRACT (expose-only; NO ranking change).
++ *
++ * WHAT IT MEASURES: four individually-inspectable, purely-additive per-KO
++ * components surfaced as response metadata so the eval harness can score them:
++ *   - decay                : recency-decay weight of this KO.
++ *   - salience             : decayed knowledge-score of this KO.
++ *   - freshness            : a lifecycle-ordinal recency in [0,1] (or null).
++ *   - supersession_penalty : the only v0-visible supersession signal.
++ *
++ * HOW COMPUTED (all from already-swept P2-S1 state; principled, NOT tuned):
++ *   - decay                ← ko.decayScore (passthrough; null when unset).
++ *   - salience             ← ko.kScore     (passthrough; null when unset).
++ *   - freshness            ← ko.temporalStatus ordinal:
++ *                            CURRENT→1.0, AGING→0.5, OBSOLETE→0.0;
++ *                            null / any unrecognized value → null.
++ *   - supersession_penalty ← ko.status === 'DEPRECATED' ? 1.0 : 0.0.
++ *                            SUPERSEDES sets the target status=DEPRECATED, which
++ *                            is NOT excluded by isDecayedKo/isArchivedKo, so a
++ *                            superseded KO still surfaces and is flaggable. May
++ *                            be sparse (1.0 only where such a KO surfaces).
++ *
++ * WHERE STORED: emitted on each per-KO object in `subgraph.kos` under a single
++ * additive `score_components` object (NOT as loose siblings — that would clobber
++ * the pre-existing per-KO `salience` salience-metadata field, which is the
++ * salience-routing object, not a number). The eval adapter (oida.py, eval
++ * roadmap/P2-S2) aggregates these to per-doc `score_components`; the harness
++ * persists them into queries.jsonl.
++ *
++ * WHAT BEHAVIOR CHANGES: none in ranking, and no existing key changes. The four
++ * live under a new `score_components` object only — kge_score /
++ * regime_adjusted_score / the ranked doc_scores, and the existing per-KO
++ * `salience` metadata object, are all untouched. Falsified if any of the four is
++ * constant across a swept corpus (decay/salience/freshness must vary;
++ * supersession_penalty present-but-sparse), or if their presence perturbs the
++ * ranked score.
++ */
++export function deriveScoreComponents(ko: KnowledgeObjectRow): {
++  freshness: number | null
++  decay: number | null
++  supersession_penalty: number
++  salience: number | null
++} {
++  const freshness =
++    ko.temporalStatus === 'CURRENT'
++      ? 1.0
++      : ko.temporalStatus === 'AGING'
++        ? 0.5
++        : ko.temporalStatus === 'OBSOLETE'
++          ? 0.0
++          : null
++
++  return {
++    freshness,
++    decay: ko.decayScore ?? null,
++    supersession_penalty: ko.status === 'DEPRECATED' ? 1.0 : 0.0,
++    salience: ko.kScore ?? null,
++  }
++}
++
++export function projectFullKo(
+   ko: KnowledgeObjectRow,
+   score: FullKoScore,
+   include: Set<string>,
+@@ -537,6 +601,10 @@ function projectFullKo(
+     producer_reliability: include.has('actor_reliability') ? base.producer_reliability : null,
+     kge_score: score.kgeScore,
+     ron_subgraph: score.ronSubgraph,
++    // P2-S2 additive components (see deriveScoreComponents contract above).
++    // Nested under a NEW `score_components` key — collision-free (does not touch
++    // the existing per-KO `salience` metadata object) and read-only for ranking.
++    score_components: deriveScoreComponents(ko),
+   }
+ }
+ 
