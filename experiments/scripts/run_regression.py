@@ -108,6 +108,17 @@ BURNED_CORPORA = [
 _BURNED_SLUGS = ",".join(OIDA_CORE_PROJECT_IDS[c].replace("oida-", "") for c in BURNED_CORPORA)
 RESET_START_COMMAND = f"RESET_BENCH_KOS=1 BENCH_SEED_ONLY={_BURNED_SLUGS} npx tsx scripts/seed-bench-projects.ts"
 
+
+def _reset_command(seed_only: str | None = None) -> str:
+    """Build the RESET one-off command, scoped via BENCH_SEED_ONLY to `seed_only`
+    (comma-joined slugs to wipe). None → the burned-5 default (run_regression).
+    edge_freeze_measure passes its single corpus slug so a fresh-corpus freeze
+    RESETs ONLY its own project. NEVER unscoped: an unscoped RESET wipes EVERY bench
+    project's KOs — incl. a concurrent run's or a frozen pilot's (the 2026-06-10
+    mid-run-wipe: an anchor freeze's RESET nuked a live burned regression)."""
+    scope = seed_only if seed_only is not None else _BURNED_SLUGS
+    return f"RESET_BENCH_KOS=1 BENCH_SEED_ONLY={scope} npx tsx scripts/seed-bench-projects.ts"
+
 # The seed script prints exactly this when NO new plaintext was minted (all bench
 # keys already existed) — the only SAFE outcome for a regression run.
 SAFE_NO_MINT_MARKER = "# All bench keys already existed; no new plaintext minted."
@@ -520,17 +531,22 @@ def _resolve_owner_id(service_id: str, render_key: str) -> str | None:
 
 
 def reset_bench(service_id: str, render_key: str, bundle: Path,
-                skip_reset: bool) -> dict:
-    """Fire + poll the RESET one-off job; enforce the exposed-key abort."""
+                skip_reset: bool, seed_only: str | None = None) -> dict:
+    """Fire + poll the RESET one-off job; enforce the exposed-key abort.
+
+    `seed_only` scopes which projects are wiped (BENCH_SEED_ONLY); None → burned-5.
+    Callers MUST pass their own scope so a RESET never wipes another run's KOs."""
     print("\n===================== RESET (Render one-off job) =====================")
-    rep: dict = {"skipped": skip_reset, "service_id": service_id}
+    start_command = _reset_command(seed_only)
+    rep: dict = {"skipped": skip_reset, "service_id": service_id,
+                 "start_command": start_command}
     if skip_reset:
         print("  --skip-reset set: NOT firing the RESET job (KOs left as-is).")
         rep["note"] = "skipped via --skip-reset"
         (bundle / "reset_job.md").write_text(_reset_md(rep), encoding="utf-8")
         return rep
 
-    body = json.dumps({"startCommand": RESET_START_COMMAND}).encode("utf-8")
+    body = json.dumps({"startCommand": start_command}).encode("utf-8")
     st, raw = _http("POST", f"{RENDER_API}/services/{service_id}/jobs",
                     headers=_render_headers(render_key), body=body, timeout=60)
     if st not in (200, 201):
@@ -649,7 +665,7 @@ def _reset_md(rep: dict) -> str:
         return "\n".join(out) + "\n"
     out.append(f"- job_id: `{rep.get('job_id')}`")
     out.append(f"- terminal status: **{rep.get('status')}**")
-    out.append(f"- startCommand: `{RESET_START_COMMAND}`")
+    out.append(f"- startCommand: `{rep.get('start_command', RESET_START_COMMAND)}`")
     out.append(f"- log source: `{rep.get('log_source')}`")
     out.append(f"- logs retrieved: {rep.get('logs_retrieved')}")
     out.append("")

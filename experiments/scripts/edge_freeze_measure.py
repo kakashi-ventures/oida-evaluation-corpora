@@ -204,13 +204,17 @@ def main(argv: list[str]) -> int:
     for i in range(k):
         first = i == 0
         print(f"\n========== INGEST {i + 1}/{k} ==========")
-        # RESET wipes ALL bench projects' KOs (seed-bench); honour --skip-reset on
-        # the FIRST iteration only (subsequent band iterations MUST re-ingest fresh).
+        # RESET this corpus's OWN project only (seed_only=<slug>) — NEVER the burned
+        # set or a concurrent run's projects (the 2026-06-10 mid-run-wipe: an anchor
+        # freeze's unscoped RESET nuked a live burned regression). honour --skip-reset
+        # on the FIRST iteration only (band iterations MUST re-ingest fresh).
         reset_skipped = args.skip_reset and first
+        _own_slug = OIDA_CORE_PROJECT_IDS[args.corpus].replace("oida-", "")
         # FAIL-CLOSED (eval#16): abort before any write if it would resolve
         # off-staging — a --target staging run can NEVER touch prod.
         rr._assert_staging_write_target("staging", args.env_file, "RESET")
-        rr.reset_bench(service_id, render_key, bundle, skip_reset=reset_skipped)
+        rr.reset_bench(service_id, render_key, bundle, skip_reset=reset_skipped,
+                       seed_only=_own_slug)
         # CACHE COLD — clear the local ingest reports so 01_ingest re-ingests from
         # EMPTY after the RESET. Without this, 01_ingest's resume-skip sees the
         # corpus "already committed" in the local report and writes 0 KOs → the
