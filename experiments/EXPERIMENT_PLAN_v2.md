@@ -1,6 +1,6 @@
 # EXPERIMENT_PLAN_v2 — Phase-4 pre-registration (P4-S2) · **LOCKED**
 
-**Status:** LOCKED pre-registration draft for overviewer review. **Δ thresholds are PLACEHOLDERS** to be filled from the **D3 pilot** variance/effect-size estimate — nothing else is open. **Do NOT run anything against this plan until the Δ are filled and the plan is signed.** Supersedes the Phase-4 portion of `experiments/EXPERIMENT_PLAN.md` (v1).
+**Status:** LOCKED pre-registration draft for overviewer review. **Δ thresholds are PLACEHOLDERS** to be filled from the **D3 pilot** variance/effect-size estimate; the only other open values are `[λ]` (declared at lock, §8) and the lock-time pins (§1: engine commit SHA; frozen-graph snapshot id at freeze) — nothing else is open. **Do NOT run anything against this plan until the Δ are filled and the plan is signed.** Supersedes the Phase-4 portion of `experiments/EXPERIMENT_PLAN.md` (v1).
 
 **Rev 2.1 — 2026-06-10, pre-lock amendments** (made while PR #19 is unmerged; the lock is the merge):
 run-1 scope corrected to **recency-only** per **DR-P4-001 §D-A** (contradiction stratum → descriptive-only,
@@ -15,7 +15,7 @@ the registered report shape; the **F-TEMP-1 comparator scope** made explicit (ve
 ## 0. What v2 re-registers, and why (the integrity reset)
 v1 pre-registered the Phase-4 hypotheses but two things invalidated it; v2 fixes both **before** any number is produced:
 1. **Mode drift (flagged, §6):** v1 §3 registered the **v1 probe** mode (`probe_v1:true, top_k=20`), but the adapter/run actually shipped **v0** (`regime_adjusted_score`, `tauBind=0.2/tauFallback=0.1` — v1 §6). The registered mode ≠ the run mode → the v1 pre-registration is **void**. v2 pins the mode + the exact scoring path + the engine commit SHA so the registered mode **is** the run mode.
-2. **Mis-scoped F-conditions:** v1's temporal/contradiction gates were absolute thresholds or vs-other-systems; Phase-3 showed the thesis is **query-conditional**, so v2 re-registers them as **per-stratum lifts of the signal over the signal-off baseline** (P0), with Δ from the pilot.
+2. **Mis-scoped F-conditions:** v1's temporal/contradiction gates were absolute thresholds or vs-other-systems; Phase-3 showed the thesis is **query-conditional**, so v2 re-registers the **temporal** gate as a **per-stratum lift of the signal over the signal-off baseline** (P0), with Δ from the pilot — and **retires the contradiction gate from run-1 entirely** (descriptive-only stratum, §4b: no contradiction signal is in the ranking path).
 
 ---
 
@@ -23,10 +23,10 @@ v1 pre-registered the Phase-4 hypotheses but two things invalidated it; v2 fixes
 **Test the epistemic/temporal signals AS the ranker** — NOT the broken v0 default (A), NOT the v1 probe path (C). Signals **modulate field/mass INSIDE the single KGE** — never a parallel ranker (invariant: **KGE = sole ranker**; P3-S2's additive `recency_adjusted_score` already complies). Ratified by Alberto (engine architecture).
 
 - **Run-1 (this pre-registration):** **recency-as-ranker ONLY** (`recency_adjusted_score`, P3-S2) — per **DR-P4-001 §D-A**. Gated stratum: **temporal** (gate: **F-TEMP-1**, §4). The **contradiction stratum is measured DESCRIPTIVE-ONLY** (§4b): no gate, no claim. The two contradiction mechanisms are distinct and only one is in the ranking path: the **`CONTRADICTS` edge graph** is consumed by the subgraph solver (**membership** — which docs enter the scored subgraph), while the **`contradictionExposure` scalar (P2-S4) was never integrated into ranking** — so run-1 has no contradiction ranker to gate.
-- **Contradiction lift-gate (deferred):** a gated F-2-CONTRA exists only if/when a contradiction signal actually enters the ranking path; it is re-registered then, in its own separately-scoped pre-registration with its own Δ — not in run-1.
+- **Contradiction lift-gate (deferred):** a gated F-2-CONTRA exists only if/when a contradiction signal actually enters the ranking path; it is re-registered then, in its own separately-scoped pre-registration with its own Δ — not in run-1. **Anti-leak rule (pre-registered NOW, DR-P4-001 §D-A.4):** the eventual F-2-CONTRA Δ comes **from the pilot, never from run-1's descriptive data** — otherwise the fresh corpus becomes "seen" for the contradiction stratum.
 - **Run-2 (appendix, separate pre-registration):** the **authority×relevance redesign** (finding #3, NOT yet built) on the **same** corpus. Stratum: **authority**. Gates: **F-AUTH-\*** — to be written with Alberto; **not folded into run-1** ("change one thing").
 
-**Pinned at run time (closes the v1 drift):** engine **commit SHA** (the prod-path **Postgres** engine on staging); the **`score_field`** carrying each signal; `tauBind/tauFallback`; `top_k`; the **frozen-graph snapshot id** (edge-freeze drain-to-quiescence — D5 #1). The run aborts if the deployed SHA ≠ the registered SHA.
+**Pinned (closes the v1 drift):** engine **commit SHA** (the prod-path **Postgres** engine on staging); the **`score_field`** carrying each signal; `tauBind/tauFallback`; `top_k`; the **frozen-graph snapshot id** (edge-freeze drain-to-quiescence — D5 #1). **Recording:** the engine commit SHA is written **into this plan at lock** — the value staging's `/health` serves at lock time; the frozen-graph snapshot id is recorded at the freeze, before any retrieval. The run aborts if the deployed SHA ≠ the registered SHA. **Re-lock rule:** any post-lock engine change **voids the lock** — a recorded public re-lock (old SHA → new SHA + reason, as a new plan commit) must precede any measured run; a silent edit never happens.
 
 ---
 
@@ -68,8 +68,11 @@ Registered report quantities for the contradiction stratum, computed on the same
 - **Membership effect (descriptive):** the contribution of `CONTRADICTS`-edge membership to subgraph
   composition — how often contradiction-set docs enter the scored subgraph vs comparable non-members.
 
-No F-condition, no Δ, and no claim attach to this stratum in run-1; the claim-wording template (§7)
-may not cite it as a proven signal. The gated version is deferred per §1.
+No F-condition, no Δ, and **no ranking-lift claim** attach to this stratum in run-1; the claim-wording
+template (§7) may not cite it as a proven **ranking** signal. What run-1 MAY still claim for
+contradictions is **structural, not ranking-lift** (DR-P4-001 §D-A.2): cross-document contradictions
+are detected, materialized, and reported in the response (P1-S8 + P2-S3) — a structural guarantee vs
+generic LLM retrieval. The gated version is deferred per §1, under the D-A.4 anti-leak rule.
 
 **Mapping vs v1 (so the drift is auditable):**
 - v1 **F-TEMP-1** (`CSA@10 ≥ 0.80`, absolute) and v1 **F-TEMP-7** (`TemporalNDCG@10 − B0 ≥ 0.10`, lift) → collapse into v2 **F-TEMP-1** = the **per-stratum recency lift vs B0** (the Δ is now pilot-derived, not the legacy 0.10). v1's absolute CSA@10 and F-TEMP-2/4/5/6 are **retained as reported diagnostics**, not the run-1 headline.
@@ -85,7 +88,7 @@ v1's `F-2-TRAP` used a **min-of-3** decision on **n=8** trap pairs → pure nois
 
 - **Metric:** `TrapInTop5_rate = #(query, trap_doc) with trap_doc in top-5 / #(query, trap_doc) pairs` (n ≥ 80).
 - **Interval:** a **95% Wilson** confidence interval on the rate (robust for proportions at this n; report the interval, not just the point).
-- **Gate (locked form):** **PASS iff the rate ≤ [τ_trap]** with the 95% CI reported; the **conservative variant** (register one, do not switch post-hoc) is **PASS iff the upper 95% CI bound ≤ [τ_trap]**. `[τ_trap]` is locked at authoring (pilot-informed); the **min-of-3 rule is retired**.
+- **Gate (locked form — THE registered rule for run-1, conservative variant):** **PASS iff the upper 95% Wilson CI bound ≤ [τ_trap]** — the CI is load-bearing in the decision, not decorative. The point rate is reported alongside; a point rate ≤ `[τ_trap]` whose upper bound exceeds `[τ_trap]` is a **FAIL**. Registered once, here — no switching post-hoc. `[τ_trap]` is locked at authoring (pilot-informed); the **min-of-3 rule is retired**.
 - **Per-trap-class breakdown (registered):** the same rate + 95% Wilson CI is also computed **per trap class** — **false-cue / superseded / round-up** — and reported next to the pooled rate. **The locked pass/fail verdict is the POOLED gate** (per-class n ≈ 25–30 at the floor is too small to gate honestly); a class whose CI **lower bound** exceeds `[τ_trap]` is flagged in the report as a **class-level trap failure** (mandatory to report, descriptive — not the headline gate).
 
 ---
@@ -99,14 +102,17 @@ v1's `F-2-TRAP` used a **min-of-3** decision on **n=8** trap pairs → pure nois
 
 ## 7. Integrity / discipline (binding)
 - **Do NOT adjust thresholds, Δ, strata, or metrics post-hoc.** The Δ are filled **once** from the D3 pilot, the plan is **signed**, then it is frozen.
-- **A failed pre-registered gate is a NULL RESULT** — recorded as such (the signal is demoted / not-promoted per §4), **never** re-tuned to pass. F-TEMP-1 is allowed to let recency *lose*.
+- **A failed pre-registered gate is a NULL RESULT** — recorded as such (recency demoted to a non-default diagnostic per §4; a trap failure reported as-is per §5), **never** re-tuned to pass. F-TEMP-1 is allowed to let recency *lose*.
 - **The corpus is frozen** (P4-S1, no post-hoc edits to make a gate pass) and **the gold stays private/gitignored** until this run.
 - **The graph is frozen** (edge-freeze drain-to-quiescence) and the run reports a **per-stratum verdict + per-stratum recall@{10,20,50} (R2.2) + aggregate NDCG + the K-ingest variance band**, never a bare point NDCG. Recall@{10,20,50} per stratum is part of the **registered report shape**, not an optional extra.
+- **Registered report shape — temporal sub-strata (D-C):** the temporal-stratum verdict is reported **including the R1.4 sub-strata** — freshness / stable / fresh-distractor (≈50/25/25) — next to each other, so a naive freshest-wins ranker is penalized visibly. Aggregate NDCG is reported, never the headline.
+- **Registered claim-wording template (D-C — locked here; the P4-S4 report may not deviate from its structure):**
+  > *"The pre-registered claim is conditional and stratified: the epistemic signals improve ranking on the strata they target, **given a corpus where the signal is informative** (R1.4-calibrated). Corpora were authored blind to engine outputs, but their design was informed by Phase-3 diagnostics on burned corpora and deliberately aligned to the engine's epistemic-class decay semantics (corpus-to-mechanism fitting, disclosed here, not tuning-to-output). What keeps this falsifiable: F-TEMP-1 tests recency against plain cosine with a Δ locked before the run; the 50/25/25 stable/distractor sub-strata penalize a naive freshest-wins ranker and are reported alongside the freshness sub-stratum; a failed gate is a null result."*
 - **Paired, self-comparison** (signal-on vs signal-off, same frozen graph) — isolates the signal from recall/embedding confounds.
 
 ---
 
-## 8. PLACEHOLDERS to fill from the D3 pilot (the only open values)
+## 8. PLACEHOLDERS — the only open values (each filled before lock; source per row)
 | placeholder | source | used by |
 |---|---|---|
 | `[PILOT-Δ_temporal]` | pilot variance + effect size on the temporal stratum | F-TEMP-1 |
@@ -114,6 +120,9 @@ v1's `F-2-TRAP` used a **min-of-3** decision on **n=8** trap pairs → pure nois
 | `[τ_trap]` | pilot trap-rejection rate (locked at authoring) | F-2-TRAP (pooled + per-class report) |
 | `T` (N/stratum) | pilot re-power (≥40–50/stratum floor) | §2/§3 power |
 | `K` (reorderings retrieves) | edge-freeze pilot (R6.2) | frozen-graph reproducibility check |
+
+The lock-time **pin values** (engine commit SHA; frozen-graph snapshot id) are recorded per §1 — they
+are pins asserted by the run, not gate parameters.
 
 ## 9. Out of scope (downstream)
 - **Run-2 `F-AUTH-*`** (authority×relevance) — separate pre-registration with Alberto.
