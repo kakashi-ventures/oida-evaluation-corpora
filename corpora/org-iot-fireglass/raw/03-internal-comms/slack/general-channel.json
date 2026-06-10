@@ -1,0 +1,214 @@
+{
+  "channel": {
+    "name": "#general",
+    "workspace": "Atlas Forge LLC",
+    "purpose": "Team announcements, coordination, and general discussion for FireGlass project",
+    "created": "2025-07-21"
+  },
+  "messages": [
+    {
+      "id": "msg-001",
+      "author": "Samir Osei",
+      "timestamp": "2025-07-22T08:30:00Z",
+      "text": "Welcome to the FireGlass project channel! This is where we coordinate team activities, announce meetings, and share project-wide updates. Let's build something great for Innovative Windows LLC.",
+      "thread_replies": [],
+      "reactions": [{"emoji": "wave", "count": 3}]
+    },
+    {
+      "id": "msg-002",
+      "author": "Samir Osei",
+      "timestamp": "2025-07-24T09:00:00Z",
+      "text": "Sprint 1 kickoff! Week of July 23-29. Focus: project setup, Prisma schema, basic auth, and Helion hardware integration begins. Daily standup at 9:30 AM CEST.",
+      "thread_replies": [],
+      "reactions": [{"emoji": "rocket", "count": 2}]
+    },
+    {
+      "id": "msg-003",
+      "author": "Clara Duval",
+      "timestamp": "2025-07-29T17:00:00Z",
+      "text": "Sprint 1 complete! Auth module is done, Prisma schema is solid, initial MQTT connection established. Great start, team!",
+      "thread_replies": [],
+      "reactions": [{"emoji": "tada", "count": 3}, {"emoji": "thumbsup", "count": 2}]
+    },
+    {
+      "id": "msg-004",
+      "author": "Samir Osei",
+      "timestamp": "2025-08-01T08:45:00Z",
+      "text": "Sprint 2 kickoff. This week we're tackling sensor ingestion and field test prep. John, can you finalize the Torino site setup?",
+      "thread_replies": [
+        {
+          "author": "John Smith",
+          "timestamp": "2025-08-01T09:15:00Z",
+          "text": "Yes, heading there Tuesday. Should have 2 sensors up and logging by Friday."
+        }
+      ],
+      "reactions": []
+    },
+    {
+      "id": "msg-005",
+      "author": "Samir Osei",
+      "timestamp": "2025-08-02T14:30:00Z",
+      "text": "Quick note: Clara and I will be in a design review with Alberto on Friday at 10 AM to discuss the dashboard direction. John, you're welcome to join if interested.",
+      "thread_replies": [],
+      "reactions": []
+    },
+    {
+      "id": "msg-006",
+      "author": "John Smith",
+      "timestamp": "2025-08-05T16:20:00Z",
+      "text": "I'm OOO next Thursday for a family appointment. Will be back Friday morning. Clara and Samir, you're on your own for site support that day.",
+      "thread_replies": [],
+      "reactions": [{"emoji": "ok_hand", "count": 2}]
+    },
+    {
+      "id": "msg-007",
+      "author": "Samir Osei",
+      "timestamp": "2025-08-08T09:00:00Z",
+      "text": "Sprint 2 wrap-up. Sensor ingestion is live, first field test is underway in Torino. We hit a few bumps with firmware docs but working around it. On track for MVP by October.",
+      "thread_replies": [],
+      "reactions": []
+    },
+    {
+      "id": "msg-008",
+      "author": "Clara Duval",
+      "timestamp": "2025-08-13T15:45:00Z",
+      "text": "Reminder: please update your time logs in the project tracker. August hours are due by EOD tomorrow.",
+      "thread_replies": [],
+      "reactions": [{"emoji": "clipboard", "count": 1}]
+    },
+    {
+      "id": "msg-009",
+      "author": "Samir Osei",
+      "timestamp": "2025-08-15T09:15:00Z",
+      "text": "Sprint 3 kickoff. Week of Aug 18-24. Dashboard MVP and offline sync handling. Also, Alberto's team asked for a mid-project status report by next Wednesday.",
+      "thread_replies": [],
+      "reactions": []
+    },
+    {
+      "id": "msg-010",
+      "author": "John Smith",
+      "timestamp": "2025-08-18T10:30:00Z",
+      "text": "Just installed 3 windows at the Milan site, sensors are reading clean. Humidity and temperature trends look great. Confidence is high.",
+      "thread_replies": [],
+      "reactions": [{"emoji": "star", "count": 3}]
+    },
+    {
+      "id": "msg-011",
+      "author": "Samir Osei",
+      "timestamp": "2025-08-22T16:00:00Z",
+      "text": "Status report to Alberto is done. Covered progress, blockers (firmware docs), and timeline. He's satisfied with the pace. Moving forward as planned.",
+      "thread_replies": [],
+      "reactions": []
+    },
+    {
+      "id": "msg-012",
+      "author": "Clara Duval",
+      "timestamp": "2025-08-29T09:00:00Z",
+      "text": "Sprint 4 kickoff. August is in the books. We're moving into the slower phase due to missing Helion docs, but we're adapting. Focus: resilience, error handling, and user testing prep.",
+      "thread_replies": [],
+      "reactions": []
+    },
+    {
+      "id": "msg-013",
+      "author": "Samir Osei",
+      "timestamp": "2025-09-02T14:20:00Z",
+      "text": "Alberto asked about the timeline again... He's wondering if we can ship by end of October. Told him yes, but we're tight. No scope creep, please.",
+      "thread_replies": [
+        {
+          "author": "Clara Duval",
+          "timestamp": "2025-09-02T14:50:00Z",
+          "text": "Understood. We're locked on features. Any changes come out of scope."
+        }
+      ],
+      "reactions": []
+    },
+    {
+      "id": "msg-014",
+      "author": "John Smith",
+      "timestamp": "2025-09-08T11:30:00Z",
+      "text": "I'm OOO Sept 15-17 for a conference. Back the 18th. Clara, you might need to do site checks solo that week.",
+      "thread_replies": [],
+      "reactions": [{"emoji": "ok_hand", "count": 1}]
+    },
+    {
+      "id": "msg-015",
+      "author": "Samir Osei",
+      "timestamp": "2025-09-12T09:00:00Z",
+      "text": "Sprint 5 kickoff. Sept 8-14. We're entering the home stretch. Quality over quantity. Stability first, features second. Let's focus on hardening what we have.",
+      "thread_replies": [],
+      "reactions": []
+    },
+    {
+      "id": "msg-016",
+      "author": "Clara Duval",
+      "timestamp": "2025-09-19T17:00:00Z",
+      "text": "Sprint 5 complete. Field testing is solid, dashboard is functional, no major blockers. We're on pace for MVP launch by October 22. Feeling good about this.",
+      "thread_replies": [],
+      "reactions": [{"emoji": "tada", "count": 2}]
+    },
+    {
+      "id": "msg-017",
+      "author": "Samir Osei",
+      "timestamp": "2025-09-26T09:00:00Z",
+      "text": "Sprint 6-9 consolidated timeline: Sept 26 - Oct 22. This is crunch time. We're running 2-week sprints to maximize velocity. Daily standups will be shorter but focused. Let's ship.",
+      "thread_replies": [],
+      "reactions": [{"emoji": "muscle", "count": 2}]
+    },
+    {
+      "id": "msg-018",
+      "author": "John Smith",
+      "timestamp": "2025-10-01T08:00:00Z",
+      "text": "Production sensors are holding up perfectly. All field sites (Torino, Verona, Milan) are stable. Ready for the final push.",
+      "thread_replies": [],
+      "reactions": [{"emoji": "rocket", "count": 2}]
+    },
+    {
+      "id": "msg-019",
+      "author": "Samir Osei",
+      "timestamp": "2025-10-08T09:30:00Z",
+      "text": "Alert from Alberto: Lucia (his assistant) will be the primary contact for any urgent client questions during the final phase. Copy her on important emails. She's in our workspace Slack now.",
+      "thread_replies": [],
+      "reactions": []
+    },
+    {
+      "id": "msg-020",
+      "author": "Clara Duval",
+      "timestamp": "2025-10-15T16:00:00Z",
+      "text": "Auth module shipped! Full CASL role-based access control is working. Roles: admin, technician, client. All tested and ready for production. Done! checked_checkmark",
+      "thread_replies": [],
+      "reactions": [{"emoji": "tada", "count": 4}, {"emoji": "clapping_hands", "count": 3}]
+    },
+    {
+      "id": "msg-021",
+      "author": "Samir Osei",
+      "timestamp": "2025-10-17T10:15:00Z",
+      "text": "Final production deployment happening this afternoon. If all goes well, we'll have the MVP live by evening. This is it, team.",
+      "thread_replies": [],
+      "reactions": []
+    },
+    {
+      "id": "msg-022",
+      "author": "John Smith",
+      "timestamp": "2025-10-18T19:30:00Z",
+      "text": "Production is live and stable. All 10 windows are online and publishing clean data. No errors, no drops. This is incredible!",
+      "thread_replies": [],
+      "reactions": [{"emoji": "rocket", "count": 5}, {"emoji": "tada", "count": 4}]
+    },
+    {
+      "id": "msg-023",
+      "author": "Samir Osei",
+      "timestamp": "2025-10-20T09:00:00Z",
+      "text": "FireGlass MVP launch confirmed! Demo with Alberto and Lucia is scheduled for Oct 23. Full handover documentation is complete. This is a win for the whole team.",
+      "thread_replies": [],
+      "reactions": [{"emoji": "tada", "count": 6}, {"emoji": "rocket", "count": 4}, {"emoji": "celebration", "count": 3}]
+    },
+    {
+      "id": "msg-024",
+      "author": "Clara Duval",
+      "timestamp": "2025-10-22T15:00:00Z",
+      "text": "Retrospective is scheduled for tomorrow at 10 AM. Come ready to discuss wins, challenges, and lessons learned over the past 15 weeks. Looking forward to it!",
+      "thread_replies": [],
+      "reactions": [{"emoji": "calendar", "count": 2}]
+    }
+  ]
+}

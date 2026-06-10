@@ -1,0 +1,74 @@
+# inv-ashford-mystery — Dataset Card
+
+**Family:** investigative · **Domain:** Multi-source reasoning / cross-incident pattern clustering
+
+## Scenario
+
+A multi-source investigative corpus designed to test whether a retrieval system can perform **cross-incident pattern clustering** while correctly isolating an outlier event that superficially appears to belong to the cluster.
+
+Four young men died in Ashford between July 1988 and October 1990. The corpus contains thirty heterogeneous sources distributed across the four cases plus three cross-cutting documents (a newspaper article, a false-lead clearance, and a noise document) and one false-lead witness statement.
+
+A system reading the corpus must:
+
+1. Identify the three deaths that share a recurring offender signature.
+2. Identify the one death that does not.
+3. Resist a high-circulation newspaper article that misframes all four as a single pattern.
+4. Resist a witness statement that places the serial offender's description near the outlier scene (the witness's own dating is internally contradicted).
+5. Resist a "photographer suspect" false lead with a verified alibi.
+
+The system must not name the serial offender personally — the corpus does not contain enough to do so. A well-calibrated answer says the offender is an unidentified male matching a recurring description.
+
+## Why it is challenging
+
+This corpus is a sibling of `inv-mystery-redhood` but addresses a different reasoning gap: Red Hood tests single-incident culprit identification with a single causal chain; Ashford tests **comparative reasoning across four distinct incidents** — three of which share a hidden signature and one of which does not.
+
+| Capability | How |
+|---|---|
+| Cross-incident clustering | Pattern markers are distributed across 5 dimensions and 6+ sources; no single source carries the full pattern |
+| Anti-pattern recognition | The outlier case has a coherent counter-signature: at-home, manual struggle, ligature not sedation, no theft, known associate, weak alibi |
+| Source-reliability gradient | Reliability priors range from 0.38 (unreliable witness) to 0.92 (administrative bulletin) — the highest-reliability source is also the most irrelevant |
+| Contradiction handling | Direct contradiction between two witnesses' accounts of the same alibi (Vail says ~6 hours at friend's place; friend says ~2 hours) |
+| False-lead resistance | Three deliberate false leads with different failure modes: misframing (newspaper), surface match with verified alibi (Pelham), surface match with self-contradicting witness (Kell) |
+| Noise rejection | A high-reliability county-fair bulletin with zero relevance to any case |
+| Bounded inference | The strongest physical link to the serial offender (a pawned camera under a fake ID) has its photocopy of the ID lost in a 1991 flood — the system should treat it as strong but not conclusive |
+
+## Contents
+
+| | |
+|---|---|
+| Documents | 30 (all Markdown) |
+| Queries | 6 (3 hard, 3 medium) |
+| Qrels | 13 graded judgments (0–3) |
+| Raw size | 120 KB |
+
+Each source carries a canonical header:
+
+```
+SOURCE_ID:
+SOURCE_TYPE:
+AUTHOR:
+RECIPIENT:
+TIMESTAMP:
+LOCATION:
+RELIABILITY_PRIOR:
+TEXT:
+```
+
+## Notes on design
+
+The signature here is distributed across at least six sources per dimension. The outlier case's anti-signature is also distributed (scene report, autopsy, detective's case note). A model that "solves" the puzzle by activating a serial-killer schema rather than by reasoning from the sources should fail to cite the specific evidential chain a well-grounded answer requires.
+
+The corpus deliberately does not include enough to identify the serial offender personally. A system that names a specific real or fictional individual is over-reaching the evidence.
+
+## Recognition-confound risk
+
+The Subject P signature in this corpus (Midwestern industrial setting, gay-bar lure, sedation, photography motif, soft-spoken white man) overlaps with a well-known historical case. A model that pattern-matches to that historical case rather than reasoning from sources is producing the right answer for the wrong reason. To probe this, the recommended evaluation includes:
+
+- Comparing model citations against the actual source distribution. A model reasoning from the corpus will cite specific source IDs and chain them through specific pattern dimensions. A model schema-activating will produce a fluent narrative that does not map back to source IDs.
+- Inverting one of the pattern markers in an ablation (e.g., swap rum-and-coke for whiskey-sour) and checking whether the model still produces the same identification — a model reasoning from corpus will update; a model schema-activating may not.
+
+This recognition-confound risk is the principal known weakness of this corpus and should be foregrounded when reporting results.
+
+## Provenance & format
+
+The 30 sources live in `raw/` as `source_*.md`; `corpus.jsonl` is derived from `raw/`. See [`../../docs/format.md`](../../docs/format.md) and [`../../docs/relevance-guidelines.md`](../../docs/relevance-guidelines.md). This is a fictional scenario.

@@ -1,0 +1,548 @@
+{
+  "channel": {
+    "name": "#dev-backend",
+    "workspace": "Atlas Forge LLC",
+    "purpose": "FireGlass development discussion and technical coordination",
+    "created": "2025-07-22"
+  },
+  "messages": [
+    {
+      "id": "msg-001",
+      "author": "Samir Osei",
+      "timestamp": "2025-07-23T09:15:00Z",
+      "text": "Welcome to #dev-backend! This is our hub for all technical discussions on FireGlass. Let's keep comms clear and decisions documented. We're shipping smart fire-resistant windows, folks.",
+      "thread_replies": [],
+      "reactions": [{"emoji": "thumbsup", "count": 3}]
+    },
+    {
+      "id": "msg-002",
+      "author": "Clara Duval",
+      "timestamp": "2025-07-23T10:42:00Z",
+      "text": "Prisma schema is looking clean! Just finished the initial Window, Sensor, and User models. Password hashing is in place. Should we start with NextAuth.js or roll our own JWT flow?",
+      "thread_replies": [
+        {
+          "author": "Samir Osei",
+          "timestamp": "2025-07-23T11:05:00Z",
+          "text": "NextAuth.js adds bloat for our use case. Let's go lightweight: Prisma for user records, jsonwebtoken for signing, bcryptjs for hashing. Clara, can you draft the auth middleware?"
+        },
+        {
+          "author": "Clara Duval",
+          "timestamp": "2025-07-23T11:18:00Z",
+          "text": "Done. Just pushed auth-flow branch. POST /api/auth/login validates against Prisma, returns JWT. Refresh token logic is in the /refresh endpoint."
+        },
+        {
+          "author": "Samir Osei",
+          "timestamp": "2025-07-23T11:25:00Z",
+          "text": "Excellent. Reviewing now. One thing: let's use CASL for role-based access control from day one. Don't want to refactor permissions later."
+        }
+      ],
+      "reactions": [{"emoji": "rocket", "count": 2}]
+    },
+    {
+      "id": "msg-003",
+      "author": "John Smith",
+      "timestamp": "2025-07-25T14:30:00Z",
+      "text": "Hey team, just got the Helion sensor hardware. They're tiny! Connecting them to the HelionLink gateway now. Looking at the MQTT protocol docs.",
+      "thread_replies": [],
+      "reactions": [{"emoji": "wave", "count": 2}]
+    },
+    {
+      "id": "msg-004",
+      "author": "Samir Osei",
+      "timestamp": "2025-07-26T08:45:00Z",
+      "text": "Architecture question for the team: should we stream sensor readings over WebSockets (event-driven, real-time) or poll the backend every N seconds? WebSockets are more elegant but polling is simpler to debug.",
+      "thread_replies": [
+        {
+          "author": "Clara Duval",
+          "timestamp": "2025-07-26T09:12:00Z",
+          "text": "I'd lean polling. Every 5-10 seconds per sensor. With 50+ windows maybe, that's manageable. WebSockets add complexity with reconnect logic, fallbacks, etc."
+        },
+        {
+          "author": "Samir Osei",
+          "timestamp": "2025-07-26T09:35:00Z",
+          "text": "Fair point. But we want real-time alerts if a sensor fails or temp spikes. Polling on a 10s interval might miss critical events. What if we do event-driven via MQTT broker?"
+        },
+        {
+          "author": "Clara Duval",
+          "timestamp": "2025-07-26T09:50:00Z",
+          "text": "Then we're subscribing to every sensor topic in the backend, batching writes to Postgres. That's the proper solution, yes. MQTT > polling."
+        }
+      ],
+      "reactions": [{"emoji": "thinking_face", "count": 1}]
+    },
+    {
+      "id": "msg-005",
+      "author": "Clara Duval",
+      "timestamp": "2025-07-28T15:20:00Z",
+      "text": "First auth test passed! Created a test user, logged in, got a JWT with correct claims. The /api/protected endpoint rejects invalid tokens. We're ready for CRUD endpoints.",
+      "thread_replies": [],
+      "reactions": [{"emoji": "tada", "count": 4}, {"emoji": "thumbsup", "count": 2}]
+    },
+    {
+      "id": "msg-006",
+      "author": "Samir Osei",
+      "timestamp": "2025-08-01T07:30:00Z",
+      "text": "Sprint 2 kickoff. This week: finish Window CRUD, start sensor reading models. Clara, I want you on the sensor schema. John, let's get one sensor talking MQTT by EOW.",
+      "thread_replies": [],
+      "reactions": []
+    },
+    {
+      "id": "msg-007",
+      "author": "John Smith",
+      "timestamp": "2025-08-03T16:45:00Z",
+      "text": "Ran into a problem. Helion sensors are publishing readings to MQTT, but the firmware version is v1.8 and I only have docs for v2.0. Some fields don't match. Anyone have the v1.8 docs or know who at the vendor has them?",
+      "thread_replies": [
+        {
+          "author": "Samir Osei",
+          "timestamp": "2025-08-03T17:05:00Z",
+          "text": "That's frustrating. Alberto's team ordered v1.8 it seems. Let me ask the vendor for backward-compatible docs. In the meantime, can you reverse-engineer the actual MQTT payloads? What fields are you seeing?"
+        },
+        {
+          "author": "John Smith",
+          "timestamp": "2025-08-03T17:20:00Z",
+          "text": "temperature_c, humidity_pct, device_battery_pct, device_id, timestamp. That's it. The v2.0 docs mention fire_risk_score and location_gps but we're not seeing those."
+        }
+      ],
+      "reactions": []
+    },
+    {
+      "id": "msg-008",
+      "author": "Clara Duval",
+      "timestamp": "2025-08-05T09:15:00Z",
+      "text": "Sensor schema is up. Storing device_id, temperature, humidity, battery_pct, and a raw_payload JSONB field for future fields. But yeah, the battery_pct is weird — it's always 100 on every reading. Even after 24 hours. Something's off.",
+      "thread_replies": [
+        {
+          "author": "John Smith",
+          "timestamp": "2025-08-05T09:35:00Z",
+          "text": "Same here in the field. I thought maybe it's a firmware quirk? Or not implemented in v1.8? Either way, we can't rely on it for alerting."
+        },
+        {
+          "author": "Samir Osei",
+          "timestamp": "2025-08-05T10:02:00Z",
+          "text": "Add a TODO comment in the code. Log issue #23. We'll revisit when we get the firmware docs. For now, ignore battery readings."
+        }
+      ],
+      "reactions": [{"emoji": "warning", "count": 1}]
+    },
+    {
+      "id": "msg-009",
+      "author": "Clara Duval",
+      "timestamp": "2025-08-07T18:55:00Z",
+      "text": "MQTT subscriber is working! Receiving sensor payloads on the fire-glass/sensor/+ topics. Writing to Postgres every 10 seconds. Tests are green.",
+      "thread_replies": [],
+      "reactions": [{"emoji": "rocket", "count": 3}]
+    },
+    {
+      "id": "msg-010",
+      "author": "Samir Osei",
+      "timestamp": "2025-08-09T14:20:00Z",
+      "text": "Code review: PR #47 (CASL permissions). Logic looks solid but the rules are too permissive. Field technicians shouldn't be able to edit window metadata, only read sensor data. Let me suggest changes.",
+      "thread_replies": [
+        {
+          "author": "Clara Duval",
+          "timestamp": "2025-08-09T14:45:00Z",
+          "text": "Good catch. I was being lazy with role hierarchy. Fixed it. User roles: admin (full access), technician (sensor data read-only + readings create), client (dashboard read-only). Better?"
+        },
+        {
+          "author": "Samir Osei",
+          "timestamp": "2025-08-09T15:10:00Z",
+          "text": "Perfect. Merging now."
+        }
+      ],
+      "reactions": []
+    },
+    {
+      "id": "msg-011",
+      "author": "John Smith",
+      "timestamp": "2025-08-11T08:30:00Z",
+      "text": "Field test starting this week. Installing two Helion units at the Torino showroom. I'll document the setup process. Questions: should I be logging raw MQTT to a file for debugging later?",
+      "thread_replies": [
+        {
+          "author": "Samir Osei",
+          "timestamp": "2025-08-11T08:50:00Z",
+          "text": "Yes, good idea. Use a simple MQTT logging tool or just tail the broker logs. We need raw data to compare against what we're storing in Postgres."
+        }
+      ],
+      "reactions": []
+    },
+    {
+      "id": "msg-012",
+      "author": "Clara Duval",
+      "timestamp": "2025-08-13T11:05:00Z",
+      "text": "Who changed the MQTT topic prefix? Our code is subscribing to fire-glass/sensor/+ but I just saw a message on fireglass/sensor/+ in the logs. Which is it? Our docs say fire-glass/ with a hyphen.",
+      "thread_replies": [
+        {
+          "author": "Samir Osei",
+          "timestamp": "2025-08-13T11:25:00Z",
+          "text": "That's the HelionLink gateway default. I think John had to tweak it on the hardware config. John, which did you end up using?"
+        },
+        {
+          "author": "John Smith",
+          "timestamp": "2025-08-13T13:10:00Z",
+          "text": "Sorry, I used the gateway's default: fireglass/ without the hyphen. I assumed that was our standard. We need to pick one and stick with it. I can reconfigure."
+        },
+        {
+          "author": "Samir Osei",
+          "timestamp": "2025-08-13T13:30:00Z",
+          "text": "Let's use fire-glass/ with hyphen. It matches our naming convention everywhere else. John, can you update the HelionLink config?"
+        }
+      ],
+      "reactions": [{"emoji": "point_right", "count": 1}]
+    },
+    {
+      "id": "msg-013",
+      "author": "Clara Duval",
+      "timestamp": "2025-08-15T17:20:00Z",
+      "text": "Ran into a bug. When two sensors publish readings at the same millisecond, we're getting duplicate rows in the sensor_readings table. Race condition in the subscriber logic. Investigating...",
+      "thread_replies": [
+        {
+          "author": "Samir Osei",
+          "timestamp": "2025-08-15T17:45:00Z",
+          "text": "Use a unique constraint on (device_id, timestamp) and let Postgres reject duplicates, or better: implement idempotency. What MQTT publisher message ID are you using?"
+        },
+        {
+          "author": "Clara Duval",
+          "timestamp": "2025-08-15T18:15:00Z",
+          "text": "Good point. Helion sensors include a sequence_num field that I missed. Using that + device_id as a composite key now. Dedup logic in place. Test passed."
+        }
+      ],
+      "reactions": [{"emoji": "bug", "count": 1}]
+    },
+    {
+      "id": "msg-014",
+      "author": "Samir Osei",
+      "timestamp": "2025-08-18T07:00:00Z",
+      "text": "Sprint 3 summary: We're behind on IoT docs but moving fast otherwise. Sensor ingestion is stable. Next: offline sync, dashboard MVP, and more field testing. John, how are the Torino sensors performing?",
+      "thread_replies": [
+        {
+          "author": "John Smith",
+          "timestamp": "2025-08-18T14:30:00Z",
+          "text": "Looking good! Readings are consistent. But I'm getting intermittent MQTT connection drops when the network is congested. Device reconnects automatically but we're losing ~5 minute chunks of data."
+        },
+        {
+          "author": "Samir Osei",
+          "timestamp": "2025-08-18T15:00:00Z",
+          "text": "That's a problem for the dashboard. We need to surface offline gaps. Add a status field to Window: online/offline/unknown. Update it based on sensor heartbeat."
+        }
+      ],
+      "reactions": []
+    },
+    {
+      "id": "msg-015",
+      "author": "Clara Duval",
+      "timestamp": "2025-08-20T10:45:00Z",
+      "text": "Offline sync logic is tricky. If a sensor reconnects after 30 mins offline, should we backfill missing readings from a local cache? Or just accept the gap?",
+      "thread_replies": [
+        {
+          "author": "Samir Osei",
+          "timestamp": "2025-08-20T11:20:00Z",
+          "text": "Accept the gap for MVP. Backfill adds complexity and we need to validate against stale data anyway. Just log the event and alert the user."
+        }
+      ],
+      "reactions": [{"emoji": "ok_hand", "count": 1}]
+    },
+    {
+      "id": "msg-016",
+      "author": "Samir Osei",
+      "timestamp": "2025-08-22T09:30:00Z",
+      "text": "Quick check: everyone reviewed the dashboard wireframes on Confluence? See the updated wireframes: [link expired]",
+      "thread_replies": [],
+      "reactions": []
+    },
+    {
+      "id": "msg-017",
+      "author": "Clara Duval",
+      "timestamp": "2025-08-23T14:15:00Z",
+      "text": "Starting the dashboard UI layer. Using React hooks and Tremor for charts. Real-time data via polling the /api/windows endpoint every 10s. Good enough for MVP?",
+      "thread_replies": [
+        {
+          "author": "Samir Osei",
+          "timestamp": "2025-08-23T14:45:00Z",
+          "text": "Fine for now. But plan for WebSocket upgrade later. Right now, let's ship."
+        }
+      ],
+      "reactions": []
+    },
+    {
+      "id": "msg-018",
+      "author": "John Smith",
+      "timestamp": "2025-08-25T16:00:00Z",
+      "text": "Installed 3 more windows at the Verona site. All sensors connected, readings look solid. No more drops since we improved the WiFi coverage. Pretty happy with this.",
+      "thread_replies": [],
+      "reactions": [{"emoji": "thumbsup", "count": 3}]
+    },
+    {
+      "id": "msg-019",
+      "author": "Clara Duval",
+      "timestamp": "2025-08-28T19:35:00Z",
+      "text": "Coffee machine is broken again. Someone fill a ticket with maintenance?",
+      "thread_replies": [
+        {
+          "author": "Samir Osei",
+          "timestamp": "2025-08-28T19:40:00Z",
+          "text": "Done. They're coming tomorrow."
+        }
+      ],
+      "reactions": [{"emoji": "coffee", "count": 2}]
+    },
+    {
+      "id": "msg-020",
+      "author": "Samir Osei",
+      "timestamp": "2025-09-01T08:15:00Z",
+      "text": "Sprint 4 start. We're hitting the slow weeks. IoT docs are still missing, but we're working around it. Focus: stabilize what we have, improve error handling, and prep for user testing.",
+      "thread_replies": [],
+      "reactions": []
+    },
+    {
+      "id": "msg-021",
+      "author": "Clara Duval",
+      "timestamp": "2025-09-03T11:20:00Z",
+      "text": "Question for the team: should API responses use snake_case or camelCase? I see we're inconsistent. Some endpoints return temp_c, others return temperatureC. Let's decide now before it gets worse.",
+      "thread_replies": [
+        {
+          "author": "Samir Osei",
+          "timestamp": "2025-09-03T12:00:00Z",
+          "text": "Good question. camelCase is more JS-idiomatic. But Postgres and Prisma lean snake_case. I don't have a strong opinion. What do others think?"
+        },
+        {
+          "author": "John Smith",
+          "timestamp": "2025-09-03T14:30:00Z",
+          "text": "Doesn't matter for my work, but API consistency is important for the client dashboard."
+        },
+        {
+          "author": "Clara Duval",
+          "timestamp": "2025-09-03T15:45:00Z",
+          "text": "Let's just pick camelCase and add a middleware to convert Prisma output. I'll do that mapping."
+        },
+        {
+          "author": "Samir Osei",
+          "timestamp": "2025-09-03T16:10:00Z",
+          "text": "Sounds good. Actually, you know what, let me think about this more. Maybe snake_case is clearer for the JSON spec..."
+        }
+      ],
+      "reactions": [{"emoji": "shrug", "count": 2}]
+    },
+    {
+      "id": "msg-022",
+      "author": "Samir Osei",
+      "timestamp": "2025-09-05T07:50:00Z",
+      "text": "Has anyone actually read the Helion v2.3 docs? Oh wait, we still don't have them. Vendor keeps saying 'next week'. Frustrating.",
+      "thread_replies": [],
+      "reactions": [{"emoji": "face_with_rolling_eyes", "count": 2}]
+    },
+    {
+      "id": "msg-023",
+      "author": "Clara Duval",
+      "timestamp": "2025-09-08T13:25:00Z",
+      "text": "Dashboard MVP is mostly done. I'm testing with the Torino + Verona data. Temperature trends look good. Need to add error states for offline windows.",
+      "thread_replies": [],
+      "reactions": [{"emoji": "tada", "count": 2}]
+    },
+    {
+      "id": "msg-024",
+      "author": "Samir Osei",
+      "timestamp": "2025-09-10T10:40:00Z",
+      "text": "Question: do we have the MQTT simulator working? I want to test alert logic without waiting for real sensor data. Clara, didn't you build /tools/mqtt-simulator.ts?",
+      "thread_replies": [
+        {
+          "author": "Clara Duval",
+          "timestamp": "2025-09-10T11:05:00Z",
+          "text": "It's in the repo. Just run `npm run mqtt:sim` and it'll publish test data to the broker."
+        },
+        {
+          "author": "Samir Osei",
+          "timestamp": "2025-09-10T11:30:00Z",
+          "text": "Can't find it. Searched the whole tools/ directory. Are you sure it's committed?"
+        },
+        {
+          "author": "Clara Duval",
+          "timestamp": "2025-09-10T12:00:00Z",
+          "text": "Hmm, let me check. Maybe I forgot to commit it? I'll rebuild it real quick."
+        }
+      ],
+      "reactions": []
+    },
+    {
+      "id": "msg-025",
+      "author": "John Smith",
+      "timestamp": "2025-09-12T15:50:00Z",
+      "text": "Weird readings from the Verona site this morning. Temperature spiked to 78°C for ~2 minutes then dropped back to normal. One sensor only. Did anyone push a bad firmware or config?",
+      "thread_replies": [
+        {
+          "author": "Samir Osei",
+          "timestamp": "2025-09-12T16:20:00Z",
+          "text": "No changes on our side. Check the raw MQTT logs you're capturing. Could be sensor glitch, could be solar heating of the device itself."
+        },
+        {
+          "author": "John Smith",
+          "timestamp": "2025-09-12T17:00:00Z",
+          "text": "Looked at the logs. It's real MQTT data. Only that one sensor. Might be a hardware issue or sensor is positioned in direct sunlight. I'll move it."
+        }
+      ],
+      "reactions": []
+    },
+    {
+      "id": "msg-026",
+      "author": "Clara Duval",
+      "timestamp": "2025-09-15T09:20:00Z",
+      "text": "Alert system is up. POST /api/alerts with window_id, alert_type, and message. Storing in DB. Dashboard queries the alerts table. Basic but functional.",
+      "thread_replies": [
+        {
+          "author": "Samir Osei",
+          "timestamp": "2025-09-15T10:00:00Z",
+          "text": "Good. Next: persist alert history and add filtering. But for MVP, this works. How's the database performance? Any slow queries?"
+        },
+        {
+          "author": "Clara Duval",
+          "timestamp": "2025-09-15T10:30:00Z",
+          "text": "Added indexes on window_id and timestamp. Query times are sub-100ms. We're good."
+        }
+      ],
+      "reactions": []
+    },
+    {
+      "id": "msg-027",
+      "author": "Samir Osei",
+      "timestamp": "2025-09-18T08:00:00Z",
+      "text": "Sprint 5 retrospective: We're climbing back out of the IoT doc hole. Field testing is solid. One major gap: we need better error recovery for network failures. Next sprint: resilience improvements and pre-launch prep.",
+      "thread_replies": [],
+      "reactions": []
+    },
+    {
+      "id": "msg-028",
+      "author": "Clara Duval",
+      "timestamp": "2025-09-20T14:35:00Z",
+      "text": "Staging is down again. Supabase connection pool hit the limit. We're maxing out with ~50 concurrent sensor writes + dashboard queries. Need to scale.",
+      "thread_replies": [
+        {
+          "author": "Samir Osei",
+          "timestamp": "2025-09-20T15:05:00Z",
+          "text": "How many connections in the pool? Let me check the Supabase dashboard. In the meantime, can you optimize the sensor ingestion? Batch writes?"
+        },
+        {
+          "author": "Clara Duval",
+          "timestamp": "2025-09-20T15:45:00Z",
+          "text": "Pool is 10 (default). I'll bump it to 20. Also switching sensor writes to use an insert-many pattern instead of one-by-one. Should help."
+        }
+      ],
+      "reactions": [{"emoji": "fire", "count": 1}]
+    },
+    {
+      "id": "msg-029",
+      "author": "Samir Osei",
+      "timestamp": "2025-09-22T23:15:00Z",
+      "text": "Late night debugging. Connection pool is stabilizing. Batched writes are working. Added monitoring to catch spikes early. We need to address the sensor reading dedup before it bites us in prod though.",
+      "thread_replies": [],
+      "reactions": [{"emoji": "owl", "count": 1}]
+    },
+    {
+      "id": "msg-030",
+      "author": "John Smith",
+      "timestamp": "2025-09-25T09:00:00Z",
+      "text": "Good news: installed 5 more windows at the Milan site. All sensors are reading clean, no drops, no spikes. This is our most stable deployment yet.",
+      "thread_replies": [],
+      "reactions": [{"emoji": "star", "count": 2}]
+    },
+    {
+      "id": "msg-031",
+      "author": "Clara Duval",
+      "timestamp": "2025-09-28T11:10:00Z",
+      "text": "Switching to full sprint mode now. October is crunch time. Dashboard MVP is locked. Focus is bug fixes, performance, and hardening error handling. Who's on the dedup issue?",
+      "thread_replies": [
+        {
+          "author": "Samir Osei",
+          "timestamp": "2025-09-28T11:40:00Z",
+          "text": "I'll take it. The sequence_num + device_id dedup is good but we need to log and alert on duplicates. If we're seeing them in prod, that's a sign of a bigger problem."
+        }
+      ],
+      "reactions": []
+    },
+    {
+      "id": "msg-032",
+      "author": "Samir Osei",
+      "timestamp": "2025-10-02T20:30:00Z",
+      "text": "Pulled an all-nighter. Dedup issue is fixed. Added comprehensive logging so we catch any future duplicates. Also improved the error stack trace handling... (15 more lines) but basically, we're more resilient now.",
+      "edited": true,
+      "thread_replies": [],
+      "reactions": [{"emoji": "coffee", "count": 2}]
+    },
+    {
+      "id": "msg-033",
+      "author": "Clara Duval",
+      "timestamp": "2025-10-05T13:20:00Z",
+      "text": "Testing the updated sensor ingestion pipeline. Everything is stable. Response times are better. Ready for staging deployment.",
+      "thread_replies": [],
+      "reactions": [{"emoji": "rocket", "count": 2}]
+    },
+    {
+      "id": "msg-034",
+      "author": "John Smith",
+      "timestamp": "2025-10-08T10:00:00Z",
+      "text": "Just installed 3 windows at the Milan site, sensors are reading clean. Humidity tracking is spot on. This is looking production-ready.",
+      "thread_replies": [],
+      "reactions": [{"emoji": "tada", "count": 3}]
+    },
+    {
+      "id": "msg-035",
+      "author": "Samir Osei",
+      "timestamp": "2025-10-10T09:45:00Z",
+      "text": "Sprint 9 kickoff. We're in the home stretch. Final polish, documentation, and handover prep. Alberto's team wants to go live in 2 weeks. Let's make it happen.",
+      "thread_replies": [],
+      "reactions": [{"emoji": "muscle", "count": 2}]
+    },
+    {
+      "id": "msg-036",
+      "author": "Clara Duval",
+      "timestamp": "2025-10-12T16:25:00Z",
+      "text": "Dashboard is fully tested and locked for release. All major features: real-time sensor data, alert history, window status, offline detection. Ready for client demo.",
+      "thread_replies": [],
+      "reactions": [{"emoji": "checkmark", "count": 3}]
+    },
+    {
+      "id": "msg-037",
+      "author": "Samir Osei",
+      "timestamp": "2025-10-14T08:10:00Z",
+      "text": "One final code review sweep. PR #89 (performance optimizations), PR #91 (error handling), PR #93 (logging improvements). All critical path items. Reviewing now.",
+      "thread_replies": [
+        {
+          "author": "Clara Duval",
+          "timestamp": "2025-10-14T09:00:00Z",
+          "text": "All tests pass. Ready when you are."
+        }
+      ],
+      "reactions": []
+    },
+    {
+      "id": "msg-038",
+      "author": "Samir Osei",
+      "timestamp": "2025-10-16T07:00:00Z",
+      "text": "Merged everything. Building the production release now. Deployment to Supabase happens this afternoon. If this goes smoothly, we're in great shape for the Alberto demo next week.",
+      "thread_replies": [],
+      "reactions": [{"emoji": "crossed_fingers", "count": 2}]
+    },
+    {
+      "id": "msg-039",
+      "author": "John Smith",
+      "timestamp": "2025-10-18T14:00:00Z",
+      "text": "Production sensors are running rock solid. All 10 windows online, readings coming in clean every 10 seconds. No drops, no anomalies. We did it!",
+      "thread_replies": [],
+      "reactions": [{"emoji": "tada", "count": 4}, {"emoji": "party_popper", "count": 2}]
+    },
+    {
+      "id": "msg-040",
+      "author": "Clara Duval",
+      "timestamp": "2025-10-20T11:30:00Z",
+      "text": "Handover documentation is almost done. API reference, deployment guide, sensor calibration docs, troubleshooting guide. Everything is in the repo wiki.",
+      "thread_replies": [],
+      "reactions": []
+    },
+    {
+      "id": "msg-041",
+      "author": "Samir Osei",
+      "timestamp": "2025-10-22T09:00:00Z",
+      "text": "FireGlass MVP is officially live. All sensors are online, dashboard is responsive, alerts are working. This has been an incredible sprint cycle. Huge thanks to Clara and John. Let's do a proper retrospective on Friday.",
+      "thread_replies": [],
+      "reactions": [{"emoji": "tada", "count": 5}, {"emoji": "rocket", "count": 3}]
+    }
+  ]
+}

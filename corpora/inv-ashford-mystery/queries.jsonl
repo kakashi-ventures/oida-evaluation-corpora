@@ -1,0 +1,6 @@
+{"_id": "q01", "text": "Which of the four deaths (Reyes, Webb, Halbert, or Marsh) does not fit the pattern of the other three, and why?", "metadata": {"tests": "victim_clustering", "difficulty": "hard"}}
+{"_id": "q02", "text": "Identify the victim whose death has a distinct causal pattern compared to the others.", "metadata": {"tests": "outlier_identification", "difficulty": "hard"}}
+{"_id": "q03", "text": "What evidence suggests a recurring signature across multiple deaths?", "metadata": {"tests": "pattern_recognition", "difficulty": "medium"}}
+{"_id": "q04", "text": "Describe the distinct characteristics that make the outlier victim's death different from the others.", "metadata": {"tests": "pattern_differentiation", "difficulty": "hard"}}
+{"_id": "q05", "text": "Is the newspaper article's framing of all four deaths as a single pattern justified by the evidence?", "metadata": {"tests": "false_lead_rejection", "difficulty": "medium"}}
+{"_id": "q06", "text": "What is the relationship between victim isolation and the likelihood of being targeted?", "metadata": {"tests": "victimology_analysis", "difficulty": "medium"}}

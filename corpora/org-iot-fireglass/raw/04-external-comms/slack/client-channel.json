@@ -1,0 +1,300 @@
+{
+  "channel": {
+    "name": "#fireglass-project",
+    "workspace": "Slack Connect",
+    "purpose": "Client-facing project channel for FireGlass CRM/IoT platform development. Coordination between Atlas Forge LLC (vendor) and Innovative Windows LLC (client).",
+    "created": "2025-07-28T10:15:00Z",
+    "topic": "FireGlass smart fire-resistant windows platform - 15-17 week engagement"
+  },
+  "messages": [
+    {
+      "id": "msg_001",
+      "author": "Samir Osei (Atlas Forge)",
+      "timestamp": "2025-07-28T14:30:00Z",
+      "text": "Welcome to the FireGlass project channel! 🚀 This is our central hub for coordination between Atlas Forge and Innovative Windows. Looking forward to delivering an amazing product. Contract kicks off today—let's make this a great partnership.",
+      "thread_replies": [],
+      "reactions": ["🙌", "🔥"]
+    },
+    {
+      "id": "msg_002",
+      "author": "Alberto Neri (Innovative Windows)",
+      "timestamp": "2025-07-28T15:45:00Z",
+      "text": "Great to have this set up! Lucia and I are excited to get started. As you know, Argus Safety Group certification compliance is critical for us—that needs to be a north star throughout development. Looking forward to seeing the initial architecture review.",
+      "thread_replies": [],
+      "reactions": ["👍"]
+    },
+    {
+      "id": "msg_003",
+      "author": "Lucia Ferretti (Innovative Windows)",
+      "timestamp": "2025-07-28T16:20:00Z",
+      "text": "Hi team! I'll be handling most of the coordination on our end. A few questions upfront: (1) What's the cadence for sprint reviews? (2) Do we need credentials for the Supabase instance early on? (3) Can you share the initial tech stack documentation?",
+      "thread_replies": [],
+      "reactions": []
+    },
+    {
+      "id": "msg_004",
+      "author": "Samir Osei (Atlas Forge)",
+      "timestamp": "2025-07-29T09:00:00Z",
+      "text": "Great questions, Lucia. Biweekly sprint demos on Fridays at 10am CET—works for you? We'll set up Supabase credentials by end of week. Tech stack doc incoming by EOD tomorrow. Clara (dev) and John (field tech) will be joining from our side as needed.",
+      "thread_replies": [],
+      "reactions": ["✅"]
+    },
+    {
+      "id": "msg_005",
+      "author": "Alberto Neri (Innovative Windows)",
+      "timestamp": "2025-08-08T11:15:00Z",
+      "text": "First demo is looking solid, Samir! The sensor dashboard prototype is impressive. One request—can we get CSV export functionality for the sensor data? We'll need that for compliance reports and Argus Safety Group documentation.",
+      "thread_replies": [
+        {
+          "author": "Samir Osei (Atlas Forge)",
+          "timestamp": "2025-08-08T13:45:00Z",
+          "text": "Noted! CSV export is definitely doable. I'll add it to Sprint 2 backlog. Will that timeline work for your reporting needs?"
+        },
+        {
+          "author": "Alberto Neri (Innovative Windows)",
+          "timestamp": "2025-08-08T14:20:00Z",
+          "text": "Yes, Sprint 2 works. This is a key feature for the reporting module—lots of our customers will rely on this."
+        }
+      ],
+      "reactions": []
+    },
+    {
+      "id": "msg_006",
+      "author": "Samir Osei (Atlas Forge)",
+      "timestamp": "2025-08-15T10:00:00Z",
+      "text": "Sprint 1 Summary: ✅ Architecture finalized ✅ Sensor dashboard MVP complete ✅ MQTT broker integration in progress ⏳ Next: CSV export, Helion sensor integration. Demo Friday at 10am—ready to roll.",
+      "thread_replies": [],
+      "reactions": ["🎯"]
+    },
+    {
+      "id": "msg_007",
+      "author": "Lucia Ferretti (Innovative Windows)",
+      "timestamp": "2025-08-20T09:30:00Z",
+      "text": "Samir, can you confirm the demo time for this Friday? Also, I've uploaded the site floor plans here: https://drive.google.com/drive/folders/1a2b3c4d5e6f7g8h9i0j (you should have access). These will be important for field testing.",
+      "thread_replies": [],
+      "reactions": []
+    },
+    {
+      "id": "msg_008",
+      "author": "Samir Osei (Atlas Forge)",
+      "timestamp": "2025-08-20T10:15:00Z",
+      "text": "10am CET works—John will be joining to discuss field testing prep. Thanks for the floor plans, Lucia. We'll review this week and map out sensor placement strategy.",
+      "thread_replies": [],
+      "reactions": ["👍"]
+    },
+    {
+      "id": "msg_009",
+      "author": "John Smith (Atlas Forge)",
+      "timestamp": "2025-08-29T14:00:00Z",
+      "text": "Quick update from the field: I've scoped out the first test site (Building A, Stuttgart facility). Space is ready for sensor installation. Waiting on the Helion documentation from your end, Samir—we can't finalize the sensor config without it.",
+      "thread_replies": [],
+      "reactions": []
+    },
+    {
+      "id": "msg_010",
+      "author": "Samir Osei (Atlas Forge)",
+      "timestamp": "2025-08-29T15:45:00Z",
+      "text": "Yeah, we're still waiting on Helion to send the sensor integration docs. This is blocking Sprint 3. I've escalated internally and reached out to their PM directly. Should have something by end of next week.",
+      "thread_replies": [
+        {
+          "author": "Alberto Neri (Innovative Windows)",
+          "timestamp": "2025-08-29T16:20:00Z",
+          "text": "This is concerning. Do we need to activate our contact there to speed this up? I have a relationship with their CTO from a conference last year."
+        },
+        {
+          "author": "Samir Osei (Atlas Forge)",
+          "timestamp": "2025-08-29T16:45:00Z",
+          "text": "That would be helpful, Alberto. If you could reach out, that might unblock us. Thanks."
+        }
+      ],
+      "reactions": []
+    },
+    {
+      "id": "msg_011",
+      "author": "Alberto Neri (Innovative Windows)",
+      "timestamp": "2025-09-02T10:30:00Z",
+      "text": "I reached out to my contact at Helion yesterday. They're sending the integration docs this week. Should help us get back on track.",
+      "thread_replies": [],
+      "reactions": ["🙏", "✅"]
+    },
+    {
+      "id": "msg_012",
+      "author": "Samir Osei (Atlas Forge)",
+      "timestamp": "2025-09-05T11:00:00Z",
+      "text": "Sprint 2 demo is ready, but we're at a crossroads. Helion docs arrived, but they're incomplete—missing the MQTT packet structure we need. We can either (a) work around it with assumptions, (b) wait another week for clarification, or (c) start with basic sensor read functionality. Thoughts?",
+      "thread_replies": [
+        {
+          "author": "Alberto Neri (Innovative Windows)",
+          "timestamp": "2025-09-05T12:15:00Z",
+          "text": "Option (c) makes sense. We need to keep momentum. Once we have the full docs, we can refactor. How does that impact the timeline?"
+        },
+        {
+          "author": "Samir Osei (Atlas Forge)",
+          "timestamp": "2025-09-05T12:45:00Z",
+          "text": "We'll recover that time in week 8. Should be fine for the 15-17 week window."
+        }
+      ],
+      "reactions": []
+    },
+    {
+      "id": "msg_013",
+      "author": "Clara Duval (Atlas Forge)",
+      "timestamp": "2025-09-12T09:00:00Z",
+      "text": "CSV export is live in the reporting module. You can now download sensor data in date ranges. Would love feedback from your team on the output format—does it match what you need for Argus Safety Group reports?",
+      "thread_replies": [],
+      "reactions": []
+    },
+    {
+      "id": "msg_014",
+      "author": "Alberto Neri (Innovative Windows)",
+      "timestamp": "2025-09-12T15:30:00Z",
+      "text": "Tested the export this morning—looks good! One small thing: can the graphs also show weekly averages in addition to daily? That would be helpful for trend analysis in our compliance documentation.",
+      "thread_replies": [
+        {
+          "author": "Clara Duval (Atlas Forge)",
+          "timestamp": "2025-09-12T16:00:00Z",
+          "text": "Adding that to the backlog. Should be quick—couple days max."
+        }
+      ],
+      "reactions": []
+    },
+    {
+      "id": "msg_015",
+      "author": "John Smith (Atlas Forge)",
+      "timestamp": "2025-09-18T13:15:00Z",
+      "text": "Good news: Building A sensor installation complete. First data coming through now. The system is detecting temperature and humidity variations as expected. Ready to move to Building B next week if Lucia can arrange site access?",
+      "thread_replies": [],
+      "reactions": ["🎉"]
+    },
+    {
+      "id": "msg_016",
+      "author": "Lucia Ferretti (Innovative Windows)",
+      "timestamp": "2025-09-18T14:00:00Z",
+      "text": "Great, John! Building B access is confirmed for Sept 23. I'll send you the key card code and the facility manager's number. One thing—can you confirm the Helion sensor calibration process for our compliance team?",
+      "thread_replies": [],
+      "reactions": []
+    },
+    {
+      "id": "msg_017",
+      "author": "Samir Osei (Atlas Forge)",
+      "timestamp": "2025-09-22T10:30:00Z",
+      "text": "Sprint 4 update: We're recovering well from the Helion delays. Dashboard refinements underway, field data is flowing smoothly. Also—I noticed Alberto's earlier message about the mobile app. Just to clarify: FireGlass is a responsive PWA, not a native iOS/Android app. The web interface works across all devices. Does that align with your expectations?",
+      "thread_replies": [
+        {
+          "author": "Alberto Neri (Innovative Windows)",
+          "timestamp": "2025-09-22T11:45:00Z",
+          "text": "Right, yes, PWA. We discussed this in the proposal we signed. That should be fine for our use case. Our field teams will access via tablets mostly."
+        }
+      ],
+      "reactions": []
+    },
+    {
+      "id": "msg_018",
+      "author": "John Smith (Atlas Forge)",
+      "timestamp": "2025-09-25T16:45:00Z",
+      "text": "Building B installation wrapped up. Data quality looks excellent. Comparing the two sites now—sensor readings are consistent. Ready to discuss UAT scope with the team. When should we schedule that?",
+      "thread_replies": [],
+      "reactions": []
+    },
+    {
+      "id": "msg_019",
+      "author": "Lucia Ferretti (Innovative Windows)",
+      "timestamp": "2025-09-26T09:15:00Z",
+      "text": "Great call yesterday with the Helion team! They've confirmed full compatibility with our sensor configuration. Samir, does this unblock anything else on your end? Also, UAT scope—let's discuss Friday's demo and plan a full UAT schedule for weeks 12-14.",
+      "thread_replies": [],
+      "reactions": []
+    },
+    {
+      "id": "msg_020",
+      "author": "Alberto Neri (Innovative Windows)",
+      "timestamp": "2025-10-03T10:00:00Z",
+      "text": "The dashboard looks great! Really impressed with how the reporting module is shaping up. This is exactly what we envisioned for Argus Safety Group compliance. But one more thing—can the graphs show weekly averages too? I think I mentioned this before.",
+      "thread_replies": [
+        {
+          "author": "Clara Duval (Atlas Forge)",
+          "timestamp": "2025-10-03T10:45:00Z",
+          "text": "Already done, Alberto! Released in last week's build. Check the graph settings dropdown—there's a 'View by' toggle for daily/weekly/monthly."
+        },
+        {
+          "author": "Alberto Neri (Innovative Windows)",
+          "timestamp": "2025-10-03T11:20:00Z",
+          "text": "Perfect! My apologies for the duplicate request—must have missed it. This is exactly what we need."
+        }
+      ],
+      "reactions": ["✅"]
+    },
+    {
+      "id": "msg_021",
+      "author": "Samir Osei (Atlas Forge)",
+      "timestamp": "2025-10-10T14:00:00Z",
+      "text": "UAT Planning Summary:\n• Dates: Oct 28 - Nov 15 (Weeks 12-14)\n• Scope: Full end-to-end testing across both field sites\n• Deliverables: Sensor accuracy validation, reporting compliance check, edge case testing\n• Sign-off: Alberto's team + Argus Safety Group internal review\nDoes this timeline work?",
+      "thread_replies": [
+        {
+          "author": "Alberto Neri (Innovative Windows)",
+          "timestamp": "2025-10-10T15:30:00Z",
+          "text": "Perfect. Lucia will coordinate our internal team schedule. One ask: can we have early access to the reporting module so our compliance team can review before official UAT?"
+        },
+        {
+          "author": "Samir Osei (Atlas Forge)",
+          "timestamp": "2025-10-10T16:00:00Z",
+          "text": "Already on it. We'll spin up a staging environment for you by end of week."
+        }
+      ],
+      "reactions": ["🎯"]
+    },
+    {
+      "id": "msg_022",
+      "author": "Clara Duval (Atlas Forge)",
+      "timestamp": "2025-10-17T11:30:00Z",
+      "text": "Staging environment is ready: https://staging-fireglass.atlasforge.dev. Login credentials sent to Lucia separately. Feel free to start poking around. We've synced all production sensor data from both field sites.",
+      "thread_replies": [],
+      "reactions": []
+    },
+    {
+      "id": "msg_023",
+      "author": "Lucia Ferretti (Innovative Windows)",
+      "timestamp": "2025-10-18T09:00:00Z",
+      "text": "Got the staging access, thanks Clara. Our compliance team is running through the reporting workflows now. Preliminary feedback: looks solid. We'll have detailed notes by Monday.",
+      "thread_replies": [],
+      "reactions": ["👍"]
+    },
+    {
+      "id": "msg_024",
+      "author": "Alberto Neri (Innovative Windows)",
+      "timestamp": "2025-10-24T16:15:00Z",
+      "text": "Pre-UAT review is complete. Team is satisfied with the reporting module structure and Argus Safety Group compliance alignment. A few minor tweaks needed (Lucia will send the detailed list), but we're green to proceed with formal UAT starting next week. Excellent work, Samir's team!",
+      "thread_replies": [
+        {
+          "author": "Samir Osei (Atlas Forge)",
+          "timestamp": "2025-10-24T17:00:00Z",
+          "text": "Thanks, Alberto! We're ready. We'll incorporate the minor tweaks early next week and have everything polished for the formal UAT kickoff on Oct 28."
+        }
+      ],
+      "reactions": ["🙌"]
+    },
+    {
+      "id": "msg_025",
+      "author": "John Smith (Atlas Forge)",
+      "timestamp": "2025-10-28T08:30:00Z",
+      "text": "UAT Day 1: All systems operational in both field locations. Data collection running smoothly. Ready for your team's formal validation testing. Testing checklist received—we'll support the validation process throughout.",
+      "thread_replies": [],
+      "reactions": ["🚀"]
+    },
+    {
+      "id": "msg_026",
+      "author": "Lucia Ferretti (Innovative Windows)",
+      "timestamp": "2025-10-28T10:00:00Z",
+      "text": "UAT commencing. Our QA team is online and running the test scenarios. Will report blockers immediately if any arise. Thanks for the smooth handoff, team!",
+      "thread_replies": [],
+      "reactions": ["✅"]
+    },
+    {
+      "id": "msg_027",
+      "author": "Alberto Neri (Innovative Windows)",
+      "timestamp": "2025-11-07T15:45:00Z",
+      "text": "UAT is progressing well. A couple of minor bugs caught and fixed quickly. Reporting module is tracking perfectly for our Argus Safety Group submission. We're on track for go-live in November. This has been a great partnership—looking forward to the final phase.",
+      "thread_replies": [],
+      "reactions": ["🎯", "🙏"]
+    }
+  ]
+}

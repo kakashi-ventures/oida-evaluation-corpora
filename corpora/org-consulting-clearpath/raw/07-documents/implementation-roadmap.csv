@@ -1,0 +1,37 @@
+phase,recommendation_id,recommendation_title,priority,estimated_effort_person_weeks,dependencies,target_start,target_end,owner_suggested,status,notes
+Quick Wins,P1.1a,Develop onboarding playbook,P1,1.5,None,Jan 6 2026,Jan 17 2026,Head of Operations,Pending,Document current process; identify gaps; create step-by-step playbook
+Quick Wins,P1.1b,Implement tool provisioning checklist,P1,0.5,None,Jan 6 2026,Jan 10 2026,IT/Admin,Pending,Create automated or tracked checklist for VPN; email; systems access
+Quick Wins,P1.1c,Create onboarding curriculum and knowledge base,P1,2,P1.3,Jan 20 2026,Feb 14 2026,Head of Operations + Senior Staff,Pending,Develop structured onboarding program; assign mentors; create documentation
+Quick Wins,P1.1d,Establish onboarding SLA and communication,P1,0.5,P1.1a,Jan 20 2026,Jan 24 2026,CEO,Pending,Communicate 3-4 week target to team; establish tracking
+Quick Wins,P1.2a,Document audit procedures by regulatory domain,P1,2,None,Jan 6 2026,Jan 31 2026,Senior Auditors,Pending,GDPR; ISO; NIS2; DORA; CSRD procedures
+Quick Wins,P1.2b,Create audit templates and checklists,P1,1.5,P1.2a,Feb 1 2026,Feb 21 2026,Senior Auditors,Pending,Standard templates for findings; recommendations; quality checks
+Quick Wins,P1.2c,Establish audit quality control gate,P1,1,P1.2b,Feb 1 2026,Feb 14 2026,Head of Operations,Pending,Peer review requirement before client delivery
+Quick Wins,P1.3a,Inventory existing documentation,P1,1,None,Jan 6 2026,Jan 17 2026,Admin + Senior Staff,Pending,Audit what documentation exists; where stored; condition
+Quick Wins,P1.3b,Migrate to centralized document repository,P1,1.5,P1.3a,Jan 20 2026,Feb 7 2026,IT + Admin,Pending,Requires data not currently available — see §3.2 of final report. Set up shared drive or wiki; establish index
+Quick Wins,P1.3c,Establish knowledge documentation governance,P1,0.5,P1.3b,Feb 10 2026,Feb 17 2026,Head of Operations,Pending,Document owners; update schedules; quality standards
+Quick Wins,P1.4a,Document project intake and scoping process,P1,1,None,Jan 6 2026,Jan 17 2026,Head of Operations,Pending,Map current intake steps; identify best practices
+Quick Wins,P1.4b,Create intake checklist and scoping template,P1,1,P1.4a,Jan 20 2026,Jan 31 2026,Project Managers,Pending,Required scope documentation; sign-off procedure
+Quick Wins,P1.4c,Establish intake SLA and escalation process,P1,0.5,P1.4b,Feb 1 2026,Feb 7 2026,Head of Operations,Pending,Define timeline; establish escalation for ambiguous scope
+Structural Changes,P2.1a,Evaluate knowledge management platforms,P2,2,None,Feb 10 2026,Feb 28 2026,CTO,Pending,Compare Confluence; SharePoint; custom solutions
+Structural Changes,P2.1b,Implement knowledge management system,P2,3,P2.1a,Mar 3 2026,Mar 28 2026,CTO + IT Partner,Pending,Setup; configuration; user training
+Structural Changes,P2.1c,Migrate regulatory and process documentation,P2,2,P2.1b,Mar 31 2026,Apr 18 2026,Senior Staff + Admin,Pending,Move content from drives/email; establish search/taxonomy
+Structural Changes,P2.2a,Assess current systems and integration needs,P2,2,None,Feb 10 2026,Feb 28 2026,CTO + Finance Manager,Pending,Map current tools; identify data flows; define integration requirements
+Structural Changes,P2.2b,Design system integration architecture,P2,2,P2.2a,Mar 3 2026,Mar 17 2026,CTO + External IT Consultant,Pending,API design; data synchronization approach; migration plan
+Structural Changes,P2.2c,Implement system integrations,P2,4,P2.2b,Mar 20 2026,Apr 28 2026,CTO + External IT Partner,Pending,Build integrations or platform migration; testing; validation
+Structural Changes,P2.3a,Evaluate account provisioning tools,P2,1,None,Feb 10 2026,Feb 21 2026,CTO + IT,Pending,Review tools; develop build vs. buy decision
+Structural Changes,P2.3b,Implement provisioning automation,P2,2,P2.3a,Mar 1 2026,Mar 21 2026,CTO + IT,Pending,Reduce tool setup time from 3-7 days to 1-2 days
+Structural Changes,P2.4a,Design organizational structure for 150-200 employees,P2,2,None,Feb 10 2026,Feb 28 2026,CEO + Marcus Webb (external),Pending,Define roles; reporting structure; management levels
+Structural Changes,P2.4b,Develop management training program,P2,2,P2.4a,Mar 1 2026,Apr 4 2026,CEO + HR Advisor,Pending,Leadership development; delegation; feedback skills
+Structural Changes,P2.4c,Communicate organizational changes,P2,1,P2.4b,Apr 7 2026,Apr 18 2026,CEO + Head of Operations,Pending,Town hall; 1:1 conversations; address concerns
+Advanced Capability,P3.1a,Evaluate AI-assisted compliance tools,P3,2,None,Mar 1 2026,Mar 28 2026,CTO + Senior Staff,Pending,Research emerging tools; assess fit for ClearPath
+Advanced Capability,P3.1b,Pilot AI-assisted audit report generation,P3,2,P3.1a,Apr 1 2026,Apr 25 2026,Senior Auditors + CTO,Pending,Pilot with 3-5 audits; establish quality control; gather feedback
+Advanced Capability,P3.1c,Establish AI governance and standards,P3,1,P3.1b,Apr 28 2026,May 9 2026,CEO + CTO,Pending,Guidelines for AI use; quality checks; transparency
+Advanced Capability,P3.2a,Evaluate continuous compliance monitoring platforms,P3,1.5,None,Mar 1 2026,Mar 21 2026,CTO + Senior Staff,Pending,Research vendors; assess capability and cost
+Advanced Capability,P3.2b,Pilot continuous monitoring with subset of clients,P3,2,P3.2a,Apr 1 2026,Apr 25 2026,Senior Staff + Client Success,Pending,Select 2-3 pilot clients; test platform; gather feedback
+Advanced Capability,P3.2c,Develop service offering and pricing,P3,1.5,P3.2b,Apr 28 2026,May 16 2026,CEO + Sales,Pending,Define service; pricing; go-to-market approach
+Advanced Capability,P3.3a,Analyze audit data for efficiency opportunities,P3,1.5,P1.2c,Mar 1 2026,Mar 21 2026,CTO + Senior Auditors,Pending,Identify high-variance; low-complexity audits; audit patterns
+Advanced Capability,P3.3b,Develop junior staff training for independent audit delivery,P3,2,P3.3a,Mar 22 2026,Apr 18 2026,Senior Auditors,Pending,Create curriculum; assign mentors; track progress
+Advanced Capability,P3.3c,Implement audit assignment optimization,P3,1,P3.3b,Apr 21 2026,May 2 2026,Project Managers + CTO,Pending,Algorithm or tool to optimize workload by staff capability
+Advanced Capability,P3.4a,Formalize sales and business development process,P3,1.5,None,Feb 1 2026,Feb 21 2026,CEO + Sales Lead,Pending,Document sales process; lead sources; qualification criteria
+Advanced Capability,P3.4b,Develop vertical market strategy,P3,2,P3.4a,Feb 22 2026,Mar 21 2026,CEO + Marketing Lead,Pending,Select 2-3 focus sectors; develop differentiation; messaging
+Advanced Capability,P3.4c,Create thought leadership and market content,P3,2,P3.4b,Mar 22 2026,Apr 18 2026,Senior Staff + Marketing,Pending,Blog; case studies; webinars; whitepapers

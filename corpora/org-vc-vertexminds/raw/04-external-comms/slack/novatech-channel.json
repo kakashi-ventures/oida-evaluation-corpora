@@ -1,0 +1,116 @@
+[
+  {
+    "ts": "1731597600",
+    "user": "daniel.reeves",
+    "username": "Daniel Reeves",
+    "text": "Welcome to the NovaTech deal channel! This is our coordination space for onboarding and closing. Let's make this smooth. 🚀"
+  },
+  {
+    "ts": "1731598200",
+    "user": "tomas.herrera",
+    "username": "Tomás Herrera",
+    "text": "Great to have you here Marco and Yara. I'll be coordinating on the logistics side. First step: we need to schedule the legal review call with our counsel."
+  },
+  {
+    "ts": "1731605400",
+    "user": "marco.bianchi",
+    "username": "Marco Bianchi",
+    "text": "Grazie both! Really excited to be working with Vertex Minds. What documents should we have ready for the legal team?"
+  },
+  {
+    "ts": "1731605800",
+    "user": "daniel.reeves",
+    "username": "Daniel Reeves",
+    "text": "Standard items: incorporation docs, cap table, any existing IP assignments, employee agreements. Tomás can send the checklist. We'll also need proof of insurance."
+  },
+  {
+    "ts": "1731609000",
+    "user": "tomas.herrera",
+    "username": "Tomás Herrera",
+    "text": "Sending the full doc list now via email. Timeline: legal review next Wednesday (Nov 19th) at 14:00 CET. Does that work for both of you?"
+  },
+  {
+    "ts": "1731609400",
+    "user": "marco.bianchi",
+    "username": "Marco Bianchi",
+    "text": "Nov 19 at 14:00 works perfectly. Yara and I will both be on the call."
+  },
+  {
+    "ts": "1731685200",
+    "user": "yara.osman",
+    "username": "Yara Osman",
+    "text": "Quick question: does Vertex Minds offer data infrastructure support for scaling LLM deployments? We're considering moving some inference to your cloud, but wanted to confirm what's available."
+  },
+  {
+    "ts": "1731685800",
+    "user": "daniel.reeves",
+    "username": "Daniel Reeves",
+    "text": "Good question. We don't manage infrastructure directly, but we have strong relationships with compute partners (Lambda, Crusoe, others). Happy to make intros if that helps. Let's discuss post-close."
+  },
+  {
+    "ts": "1731686400",
+    "user": "tomas.herrera",
+    "username": "Tomás Herrera",
+    "text": "We can also connect you with our Technical Due Diligence contact if you want a third-party review of your deployment strategy. Some of our other portfolio companies have found that valuable."
+  },
+  {
+    "ts": "1731752400",
+    "user": "tomas.herrera",
+    "username": "Tomás Herrera",
+    "text": "Just confirming: we're still on for legal review tomorrow at 14:00 CET with Marco and Yara. Sent the Zoom link to both of you."
+  },
+  {
+    "ts": "1731752800",
+    "user": "marco.bianchi",
+    "username": "Marco Bianchi",
+    "text": "All set. Prof. Caruso replied to my email and is available if you want to do reference check calls this week. Just need dates."
+  },
+  {
+    "ts": "1731753200",
+    "user": "daniel.reeves",
+    "username": "Daniel Reeves",
+    "text": "Excellent. Thursday or Friday work for us. Tomás will coordinate the exact time. We'll keep it brief — 20 minutes max."
+  },
+  {
+    "ts": "1731838800",
+    "user": "tomas.herrera",
+    "username": "Tomás Herrera",
+    "text": "Post-legal-review: we're on track for signature by Nov 22. Fund will hit your account by Nov 24. Any blockers or issues we should know about?"
+  },
+  {
+    "ts": "1731839200",
+    "user": "yara.osman",
+    "username": "Yara Osman",
+    "text": "Legal review went smoothly. Minor comment on the IP assignment clause from our side, but nothing substantial. Marco will send via email."
+  },
+  {
+    "ts": "1731839400",
+    "user": "marco.bianchi",
+    "username": "Marco Bianchi",
+    "text": "One last thing: onboarding to your portfolio network. What's the cadence for founder office hours, portfolio syncs, etc?"
+  },
+  {
+    "ts": "1731839800",
+    "user": "daniel.reeves",
+    "username": "Daniel Reeves",
+    "text": "Monthly portfolio founder dinners (first Tuesday of each month), optional office hours (Thursdays), and ad-hoc support from Tomás. We'll send a full schedule post-close."
+  },
+  {
+    "ts": "1731925200",
+    "user": "tomas.herrera",
+    "username": "Tomás Herrera",
+    "text": "SIGNED! Docs are now with our legal team for final processing. We'll have funds to you by EOD tomorrow. Congrats team NovaTech! 🎉"
+  },
+  {
+    "ts": "1731925600",
+    "user": "marco.bianchi",
+    "username": "Marco Bianchi",
+    "text": "This is incredible! Thank you all for such a smooth, professional process. Can't wait to build with you."
+  },
+  {
+    "ts": "1731926000",
+    "user": "yara.osman",
+    "username": "Yara Osman",
+    "text": "Absolutely. Grazie Vertex Minds team. Let's ship something amazing together."
+  }
+]

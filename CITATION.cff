@@ -1,0 +1,28 @@
+cff-version: 1.2.0
+title: "OIDA Benchmark Corpora: A Resource for Evaluating Epistemic Retrieval in Organizations"
+message: "If you use these corpora, please cite our paper."
+type: dataset
+version: 2.1.0
+date-released: 2026-05-28
+authors:
+  - family-names: Bottino
+    given-names: Federico
+    affiliation: "Kakashi Ventures Accelerator (KVA)"
+  - family-names: Ferrero
+    given-names: Carlo
+    affiliation: "Kakashi Ventures Accelerator (KVA)"
+  - family-names: Dosio
+    given-names: Nicholas
+    affiliation: "Kakashi Ventures Accelerator (KVA)"
+  - family-names: Beneventano
+    given-names: Pierfrancesco
+    affiliation: "Massachusetts Institute of Technology"
+license: CC-BY-4.0
+repository-code: "https://github.com/kakashi-ventures/oida-benchmark-corpora"
+keywords:
+  - organizational-ai
+  - RAG-evaluation
+  - retrieval-benchmark
+  - BEIR
+  - knowledge-management
+  - adversarial-retrieval
