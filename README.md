@@ -10,11 +10,11 @@ Companion data for the paper:
 
 ## Abstract
 
-Most retrieval benchmarks reward *topical* relevance: did the system find documents about the right subject? Organizational knowledge work needs more. It needs the ability to distinguish a binding decision from a discarded hypothesis, surface the contradiction between two teams' assessments, and recognize which questions are still open. The OIDA Benchmark Corpora is a heterogeneous, BEIR-style retrieval benchmark built to measure exactly this. Five corpora — three synthetic-but-realistic organizational knowledge bases and two investigative multi-source reasoning cases — share one uniform `corpus / queries / qrels` layout, with queries deliberately constructed around contradictions, evolving decisions, open questions, and topically-similar traps.
+Most retrieval benchmarks reward *topical* relevance: did the system find documents about the right subject? Organizational knowledge work needs more. It needs the ability to distinguish a binding decision from a discarded hypothesis, surface the contradiction between two teams' assessments, and recognize which questions are still open. The OIDA Benchmark Corpora is a heterogeneous, BEIR-style retrieval benchmark built to measure exactly this. Six corpora — three synthetic-but-realistic organizational knowledge bases, two investigative multi-source reasoning cases, and one multi-channel office-communication case — share one uniform `corpus / queries / qrels` layout, with queries deliberately constructed around contradictions, evolving decisions, open questions, and topically-similar traps.
 
 ## Datasets
 
-Following [BEIR](https://github.com/beir-cellar/beir), every dataset is a sibling folder under `corpora/` with an identical shape. The family is encoded in the slug prefix (`org-*`, `inv-*`).
+Following [BEIR](https://github.com/beir-cellar/beir), every dataset is a sibling folder under `corpora/` with an identical shape. The family is encoded in the slug prefix (`org-*`, `inv-*`); `office-threads`, added in v2.2.0, forms its own communication family.
 
 | Dataset | Family | Domain | Docs | Queries | Qrels |
 |---|---|---|---|---|---|
@@ -23,6 +23,7 @@ Following [BEIR](https://github.com/beir-cellar/beir), every dataset is a siblin
 | [`org-vc-vertexminds`](corpora/org-vc-vertexminds) | organizational | Venture capital | 77 | 20 | 89 |
 | [`inv-mystery-redhood`](corpora/inv-mystery-redhood) | investigative | Multi-source reasoning | 30 | 8 | 51 |
 | [`inv-ashford-mystery`](corpora/inv-ashford-mystery) | investigative | Cross-incident reasoning | 30 | 6 | 13 |
+| [`office-threads`](corpora/office-threads) | communication | Office comms / multi-channel threads | 29 | 9 | 40 |
 
 `org-consulting-clearpath` ("ClearPath") is the primary corpus referenced in the paper (Section 4.2).
 
@@ -77,7 +78,7 @@ CHANGELOG.md                  # dataset versioning
 docs/
   format.md                   # the corpus/queries/qrels contract
   relevance-guidelines.md     # how qrels grades were assigned
-corpora/                      # the five datasets (see table above)
+corpora/                      # the six datasets (see table above)
 ```
 
 ## Citation
@@ -95,4 +96,4 @@ corpora/                      # the five datasets (see table above)
 
 Licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) — share and adapt with attribution. See [`LICENSE`](LICENSE).
 
-All organizational corpora are synthetic; any resemblance to real companies is coincidental. The investigative corpora (`inv-mystery-redhood`, `inv-ashford-mystery`) are fictional scenarios.
+All organizational corpora are synthetic; any resemblance to real companies is coincidental. The investigative corpora (`inv-mystery-redhood`, `inv-ashford-mystery`) and the communication corpus (`office-threads`) are fictional scenarios.

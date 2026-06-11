@@ -1,0 +1,9 @@
+{"_id": "q01", "text": "A che ora parte il treno mercoledì?", "metadata": {"tests": "information_gap_detection", "difficulty": "hard"}}
+{"_id": "q02", "text": "Perché Sara non ha i ticket restaurant?", "metadata": {"tests": "multi_hop_inference", "difficulty": "medium"}}
+{"_id": "q03", "text": "Quando è stato mandato l'invito al meeting sui regolamenti?", "metadata": {"tests": "contradiction_detection", "difficulty": "medium"}}
+{"_id": "q04", "text": "Tommaso si è connesso alla call sui regolamenti?", "metadata": {"tests": "contradiction_detection", "difficulty": "medium"}}
+{"_id": "q05", "text": "Dove si svolge la riunione con Rossi?", "metadata": {"tests": "information_asymmetry", "difficulty": "hard"}}
+{"_id": "q06", "text": "Abbiamo una data certa o presunta dell'invio del file a Paola?", "metadata": {"tests": "temporal_inference", "difficulty": "hard"}}
+{"_id": "q07", "text": "Laura è in copia alla mail contratti?", "metadata": {"tests": "claim_verification", "difficulty": "easy"}}
+{"_id": "q08", "text": "Quando viene effettuata la call sui regolamenti?", "metadata": {"tests": "temporal_inference", "difficulty": "hard"}}
+{"_id": "q09", "text": "Il 1 maggio NVA è chiusa?", "metadata": {"tests": "plausible_inference", "difficulty": "hard"}}

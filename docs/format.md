@@ -93,6 +93,7 @@ queries on `metadata.query_time` at the chosen cutoff.
 ## `raw/` — provenance
 
 The untouched source documents. Organizational corpora keep the 8-category tree
-(`01-scope` … `08-agenda`); the investigative corpus is flat (`source_*.md`).
+(`01-scope` … `08-agenda`); the investigative and communication corpora are flat
+(`source_*.md`).
 `corpus.jsonl` is generated from here, so `raw/` is the source of truth and the
 build is reproducible.

@@ -4,6 +4,16 @@ Dataset versioning for the OIDA Benchmark Corpora. This tracks the benchmark
 *contents*; versions follow [Semantic Versioning](https://semver.org/), where a
 MAJOR bump signals a backward-incompatible change to ids, schema, or judgments.
 
+## [2.2.0] — 2026-06-11
+
+Additive release: one new dataset.
+
+### Added
+- `corpora/office-threads` — a third corpus family (communication): one week of
+  multi-channel Italian office communications (email, WhatsApp, Slack, calendar
+  invites, attachments) centred on a single protagonist. 29 documents, 9 queries,
+  40 graded judgments, flat `raw/source_*.md` provenance, dataset card.
+
 ## [2.1.0] — 2026-05-28
 
 Additive release: optional temporal metadata for time-aware evaluation.
