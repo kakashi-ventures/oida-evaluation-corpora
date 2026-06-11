@@ -4,7 +4,6 @@ AUTHOR: Marta Bellandi
 RECIPIENT: Dr. Tommaso Grevi
 TIMESTAMP: 1842-10-12T18:30:00
 LOCATION: Old Mill Cottage
-RELIABILITY_PRIOR: 0.80
 
 TEXT:
 Tommaso,
