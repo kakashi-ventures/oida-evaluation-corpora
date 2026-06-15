@@ -1,0 +1,9 @@
+SOURCE_ID: source_0000430_dist_witness-statement
+SOURCE_TYPE: witness_statement
+AUTHOR: Marta the weaver
+RECIPIENT: Municipal Guard
+TIMESTAMP: 1842-03-27T17:52:36
+LOCATION: the Salt Track
+
+TEXT:
+I saw a low silhouette near the Salt Track before the the noon bell. I thought it a man in a cloak. It moved off toward the hills. I cannot say it had anything to do with the Bellandi matter. (event observed about 17:12; recorded at 17:52.)

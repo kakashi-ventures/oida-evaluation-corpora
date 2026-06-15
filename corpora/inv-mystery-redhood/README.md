@@ -41,4 +41,26 @@ Each `corpus.jsonl` `_id` equals the native `source_id` (filename without extens
 
 ## Provenance & format
 
-The 30 sources live in `raw/` as `source_*.md`; `corpus.jsonl` is derived from `raw/`. See [`../../docs/format.md`](../../docs/format.md) and [`../../docs/relevance-guidelines.md`](../../docs/relevance-guidelines.md). This is a fictional scenario.
+The 30 canonical sources live in `raw_toy_sized/` as `source_*.md`; `corpus.jsonl` is derived from `raw_toy_sized/`. (This corpus uses a per-tier `raw_<tier>_sized/` layout to host the scaled stress tiers below.) This is a fictional scenario.
+
+## Scaled stress tiers
+
+The 30-document toy case is extended into larger "needle-in-a-haystack" tiers that keep the **same 30 canonical sources verbatim** (the gold in `qrels/test.tsv` references only those) while growing the surrounding haystack. Each larger tier adds:
+
+- **distractors** — high-similarity, epistemically-disqualified traps (other canids/dark shapes in other places/dates, other debt quarrels, entity collisions like a *different* "Marta"/"Bruno", other honey/tincture parcels, other "rough voice" anecdotes) that a similarity retriever pulls but an epistemically-grounded system should reject;
+- **noise** — pure off-topic, era-coherent village paperwork (markets, weather, school, recipes, taxes, harvest).
+
+Noise share rises with size (cap ~57%), distractors grow in number, and all timestamps stay internally coherent (retrospective reports carry `TIMESTAMP ≥ event time`; notices precede their announced event).
+
+| Tier | Folder / archive | Documents | Noise | Distractors | Format |
+|---|---|---|---|---|---|
+| toy | `raw_toy_sized/` | 30 | — | — | `.md` (in Git) |
+| medium | `raw_medium_sized/` | 300 | 25% | 35% | `.md` (in Git) |
+| big | `raw_big_sized/` | 3,000 | 35% | 40% | `.md` (in Git) |
+| very big | `raw_very_big_sized.tar.zst` | 30,000 | 45% | 42% | LFS archive |
+| huge | `raw_huge_sized.tar.zst` | 300,000 | 52% | 43% | LFS archive |
+| very huge | `raw_very_huge_sized.tar.zst` | 3,000,000 | 57% | 42% | LFS archive (JSONL) |
+
+The three largest tiers are shipped as Git-LFS `*.tar.zst` archives (and mirrored as a HuggingFace dataset); their extracted folders are git-ignored. Extract with `zstd -dc <file>.tar.zst | tar -xf -`.
+
+All tiers are reproducible byte-for-byte via [`_generator/gen_redhood.py`](_generator/gen_redhood.py) (`python3 _generator/gen_redhood.py <tier>`); per-tier composition manifests live in `_generator/manifests/`.
