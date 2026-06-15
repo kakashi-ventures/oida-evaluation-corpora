@@ -1,0 +1,26 @@
+{
+  "tier": "very_big",
+  "folder": "raw_very big_sized",
+  "total_documents": 30000,
+  "composition": {
+    "canonical": 30,
+    "dist": 12600,
+    "noise": 13500,
+    "ctx": 3870
+  },
+  "fractions": {
+    "noise_pct": 45.0,
+    "distractor_pct": 42.0,
+    "context_pct": 12.9,
+    "canonical_pct": 0.1
+  },
+  "timestamp_range": {
+    "min": "1839-01-01T20:59:45",
+    "max": "1842-12-28T21:08:21"
+  },
+  "output_mode": "md_flat",
+  "shard_size": null,
+  "num_shards": null,
+  "seed": 20261015,
+  "note": "canonical source_001..source_030 copied verbatim from raw_toy_sized; qrels/test.tsv references only the canonical ids."
+}
