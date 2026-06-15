@@ -1,0 +1,10 @@
+SOURCE_ID: source_0000199_ctx_administrative-record
+SOURCE_TYPE: administrative_record
+AUTHOR: Village Clerk
+RECIPIENT: Municipal Archive
+TIMESTAMP: 1842-10-03T11:37:19
+LOCATION: Council House
+RELIABILITY_PRIOR: 0.82
+
+TEXT:
+Routine ledger entry: lamp oil and rope issued for the week. Signed and filed in order. (event observed about 06:37; recorded at 11:37.)

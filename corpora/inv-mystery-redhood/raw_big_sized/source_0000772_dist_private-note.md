@@ -1,0 +1,10 @@
+SOURCE_ID: source_0000772_dist_private-note
+SOURCE_TYPE: private_note
+AUTHOR: Clara Vieri the elder
+RECIPIENT: Matteo Donati
+TIMESTAMP: 1842-11-26T13:05:17
+LOCATION: Birch Crossing
+RELIABILITY_PRIOR: 0.71
+
+TEXT:
+Mended the fence by the birch crossing and cleared the ditch. The fog there is bad after midday. Left a marker so the carts keep to the firm side.

@@ -1,0 +1,10 @@
+SOURCE_ID: source_0002551_dist_administrative-record
+SOURCE_TYPE: administrative_record
+AUTHOR: Bridge Toll Keeper
+RECIPIENT: Municipal Archive
+TIMESTAMP: 1842-09-05T23:54:59
+LOCATION: Stone Bridge
+RELIABILITY_PRIOR: 0.8
+
+TEXT:
+Renata Sciarra crossed with two cloth bundles. Toll paid in copper. Entry time approximate; line smudged. Routine traffic. (event observed about 21:54; recorded at 23:54.)

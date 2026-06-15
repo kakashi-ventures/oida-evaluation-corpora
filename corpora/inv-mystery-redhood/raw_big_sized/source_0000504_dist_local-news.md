@@ -1,0 +1,10 @@
+SOURCE_ID: source_0000504_dist_local-news
+SOURCE_TYPE: local_news
+AUTHOR: Valdombra Gazette
+RECIPIENT: Public
+TIMESTAMP: 1842-11-25T17:37:21
+LOCATION: Valdombra
+RELIABILITY_PRIOR: 0.51
+
+TEXT:
+Elders again recall the Northwood beast of years past, when a stray mastiff was blamed for losses near Sant'Eligio. Old tales, no proof, and nothing tying them to present events.

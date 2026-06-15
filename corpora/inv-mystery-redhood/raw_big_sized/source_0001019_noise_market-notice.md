@@ -1,0 +1,10 @@
+SOURCE_ID: source_0001019_noise_market-notice
+SOURCE_TYPE: market_notice
+AUTHOR: Harvest Committee
+RECIPIENT: Public
+TIMESTAMP: 1842-01-28T17:30:13
+LOCATION: Village Square
+RELIABILITY_PRIOR: 0.85
+
+TEXT:
+Harvest preparations continue. Carts of beeswax will gather at dawn. Hands are needed for the threshing floor.

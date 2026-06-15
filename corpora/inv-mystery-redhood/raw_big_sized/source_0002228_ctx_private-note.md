@@ -1,0 +1,10 @@
+SOURCE_ID: source_0002228_ctx_private-note
+SOURCE_TYPE: private_note
+AUTHOR: Clara Vieri
+RECIPIENT: Personal Papers
+TIMESTAMP: 1842-11-16T21:51:29
+LOCATION: Council House
+RELIABILITY_PRIOR: 0.69
+
+TEXT:
+A plain note of the day's errands near Council House: bread, oil, a word with the baker. Nothing to remark.

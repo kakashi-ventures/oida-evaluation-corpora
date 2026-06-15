@@ -1,0 +1,10 @@
+SOURCE_ID: source_0001883_noise_parish-notice
+SOURCE_TYPE: parish_notice
+AUTHOR: Parish Office
+RECIPIENT: Public Notice Board
+TIMESTAMP: 1842-09-04T12:49:10
+LOCATION: Chapel Road
+RELIABILITY_PRIOR: 0.89
+
+TEXT:
+A blessing of the harvest will be held after services. The fountain repairs near the square are nearly complete.

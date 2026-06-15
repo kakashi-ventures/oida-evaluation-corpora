@@ -1,0 +1,10 @@
+SOURCE_ID: source_0001266_dist_private-note
+SOURCE_TYPE: private_note
+AUTHOR: Clara Vieri
+RECIPIENT: Ada Vieri
+TIMESTAMP: 1842-04-12T14:01:24
+LOCATION: Chapel Road
+RELIABILITY_PRIOR: 0.71
+
+TEXT:
+Marta asked for thyme and honey again; her cough lingers. Clara will carry the small things over when she can. An ordinary errand, nothing more.

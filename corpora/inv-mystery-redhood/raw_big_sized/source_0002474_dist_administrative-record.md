@@ -1,0 +1,10 @@
+SOURCE_ID: source_0002474_dist_administrative-record
+SOURCE_TYPE: administrative_record
+AUTHOR: Village Clerk
+RECIPIENT: Municipal Archive
+TIMESTAMP: 1842-09-16T15:51:48
+LOCATION: Roccaverde
+RELIABILITY_PRIOR: 0.88
+
+TEXT:
+Bruno Marchi of Roccaverde registered for the autumn grain allotment. Not to be confused with the Bellandi household; different parish, different person.

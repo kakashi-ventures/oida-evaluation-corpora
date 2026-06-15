@@ -5,3 +5,10 @@ __pycache__/
 *.pyc
 .venv/
 node_modules/
+
+# Large generated corpus tiers (inv-mystery-redhood): shipped as LFS *.tar.zst
+# archives (and on HuggingFace). The extracted multi-file folders stay local —
+# they regenerate deterministically via _generator/gen_redhood.py.
+corpora/inv-mystery-redhood/raw_very big_sized/
+corpora/inv-mystery-redhood/raw_huge_sized/
+corpora/inv-mystery-redhood/raw_very huge_sized/
